@@ -11,8 +11,8 @@
 */
 
 /*
-Package "compiler" provides an implementation of a compiler that can be used to
-compile types defined using Bali Document Notation™.
+Package "assembler" provides an implementation of an assembler that can be used
+to assemble compiled type methods into bytecode.
 
 For detailed documentation on this package refer to the wiki:
   - https://github.com/bali-nebula/go-type-compiler/wiki
@@ -26,11 +26,10 @@ be developed and used seamlessly since the interface declarations only depend on
 other interfaces and intrinsic types—and the class implementations only depend
 on interfaces, not on each other.
 */
-package compiler
+package assembler
 
 import (
 	not "github.com/bali-nebula/go-document-notation/v3"
-	rep "github.com/bali-nebula/go-document-repository/v3"
 )
 
 // TYPE DECLARATIONS
@@ -40,33 +39,28 @@ import (
 // CLASS DECLARATIONS
 
 /*
-TypeCompilerClassLike is a class interface that declares the complete set of
+TypeAssemblerClassLike is a class interface that declares the complete set of
 class constructors, constants and functions that must be supported by each
-concrete type-compiler-like class.
+concrete type-assembler-like class.
 */
-type TypeCompilerClassLike interface {
+type TypeAssemblerClassLike interface {
 	// Constructor Methods
-	TypeCompiler(
-		repository rep.DocumentRepositoryLike,
-	) TypeCompilerLike
+	TypeAssembler() TypeAssemblerLike
 }
 
 // INSTANCE DECLARATIONS
 
 /*
-TypeCompilerLike is an instance interface that declares the complete set of
+TypeAssemblerLike is an instance interface that declares the complete set of
 principal, attribute and aspect methods that must be supported by each instance
-of a concrete type-compiler-like class.
+of a concrete type-assembler-like class.
 */
-type TypeCompilerLike interface {
+type TypeAssemblerLike interface {
 	// Principal Methods
-	GetClass() TypeCompilerClassLike
-	CompileType(
+	GetClass() TypeAssemblerClassLike
+	AssembleType(
 		document not.DocumentLike,
 	)
-
-	// Attribute Methods
-	GetRepository() rep.DocumentRepositoryLike
 
 	// Aspect Interfaces
 	not.Methodical

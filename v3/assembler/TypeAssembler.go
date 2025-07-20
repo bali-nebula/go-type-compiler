@@ -10,35 +10,27 @@
 ................................................................................
 */
 
-package compiler
+package assembler
 
 import (
 	not "github.com/bali-nebula/go-document-notation/v3"
-	rep "github.com/bali-nebula/go-document-repository/v3"
 	fra "github.com/craterdog/go-component-framework/v7"
-	uti "github.com/craterdog/go-missing-utilities/v7"
 )
 
 // CLASS INTERFACE
 
 // Access Function
 
-func TypeCompilerClass() TypeCompilerClassLike {
-	return typeCompilerClass()
+func TypeAssemblerClass() TypeAssemblerClassLike {
+	return typeAssemblerClass()
 }
 
 // Constructor Methods
 
-func (c *typeCompilerClass_) TypeCompiler(
-	repository rep.DocumentRepositoryLike,
-) TypeCompilerLike {
-	if uti.IsUndefined(repository) {
-		panic("The \"repository\" attribute is required by this class.")
-	}
-	var instance = &typeCompiler_{
+func (c *typeAssemblerClass_) TypeAssembler() TypeAssemblerLike {
+	var instance = &typeAssembler_{
 		// Initialize the instance attributes.
-		repository_: repository,
-		literals_:   fra.List[not.EntityLike](),
+		literals_: fra.List[not.EntityLike](),
 
 		// Initialize the inherited aspects.
 		Methodical: not.Processor(),
@@ -55,14 +47,13 @@ func (c *typeCompilerClass_) TypeCompiler(
 
 // Principal Methods
 
-func (v *typeCompiler_) GetClass() TypeCompilerClassLike {
-	return typeCompilerClass()
+func (v *typeAssembler_) GetClass() TypeAssemblerClassLike {
+	return typeAssemblerClass()
 }
 
-func (v *typeCompiler_) CompileType(
+func (v *typeAssembler_) AssembleType(
 	document not.DocumentLike,
 ) {
-	v.cleanType(document)
 	var component = document.GetComponent()
 	var collection = component.GetAny().(not.CollectionLike)
 	var attributes = collection.GetAny().(not.AttributesLike)
@@ -73,165 +64,160 @@ func (v *typeCompiler_) CompileType(
 		var key = association.GetPrimitive().GetAny().(string)
 		if key == "$methods" {
 			var methods = association.GetDocument()
-			v.compileMethods(methods)
+			v.assembleMethods(methods)
 		}
 	}
-	v.addLiterals(associations)
 }
 
 // Attribute Methods
 
-func (v *typeCompiler_) GetRepository() rep.DocumentRepositoryLike {
-	return v.repository_
-}
-
 // Methodical Methods
 
-func (v *typeCompiler_) ProcessAngle(
+func (v *typeAssembler_) ProcessAngle(
 	angle string,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessBinary(
+func (v *typeAssembler_) ProcessBinary(
 	binary string,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessBoolean(
+func (v *typeAssembler_) ProcessBoolean(
 	boolean string,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessBytecode(
+func (v *typeAssembler_) ProcessBytecode(
 	bytecode string,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessComment(
+func (v *typeAssembler_) ProcessComment(
 	comment string,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessDelimiter(
+func (v *typeAssembler_) ProcessDelimiter(
 	delimiter string,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessDuration(
+func (v *typeAssembler_) ProcessDuration(
 	duration string,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessGlyph(
+func (v *typeAssembler_) ProcessGlyph(
 	glyph string,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessIdentifier(
+func (v *typeAssembler_) ProcessIdentifier(
 	identifier string,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessMoment(
+func (v *typeAssembler_) ProcessMoment(
 	moment string,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessName(
+func (v *typeAssembler_) ProcessName(
 	name string,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessNarrative(
+func (v *typeAssembler_) ProcessNarrative(
 	narrative string,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessNewline(
+func (v *typeAssembler_) ProcessNewline(
 	newline string,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessNote(
+func (v *typeAssembler_) ProcessNote(
 	note string,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessNumber(
+func (v *typeAssembler_) ProcessNumber(
 	number string,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessPattern(
+func (v *typeAssembler_) ProcessPattern(
 	pattern string,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessPercentage(
+func (v *typeAssembler_) ProcessPercentage(
 	percentage string,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessProbability(
+func (v *typeAssembler_) ProcessProbability(
 	probability string,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessQuote(
+func (v *typeAssembler_) ProcessQuote(
 	quote string,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessResource(
+func (v *typeAssembler_) ProcessResource(
 	resource string,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessSpace(
+func (v *typeAssembler_) ProcessSpace(
 	space string,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessSymbol(
+func (v *typeAssembler_) ProcessSymbol(
 	symbol string,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessTag(
+func (v *typeAssembler_) ProcessTag(
 	tag string,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessVersion(
+func (v *typeAssembler_) ProcessVersion(
 	version string,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessAcceptClause(
+func (v *typeAssembler_) PreprocessAcceptClause(
 	acceptClause not.AcceptClauseLike,
 	index_ uint,
 	count_ uint,
@@ -239,7 +225,7 @@ func (v *typeCompiler_) PreprocessAcceptClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessAcceptClause(
+func (v *typeAssembler_) PostprocessAcceptClause(
 	acceptClause not.AcceptClauseLike,
 	index_ uint,
 	count_ uint,
@@ -247,14 +233,14 @@ func (v *typeCompiler_) PostprocessAcceptClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessAcceptClauseSlot(
+func (v *typeAssembler_) ProcessAcceptClauseSlot(
 	acceptClause not.AcceptClauseLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessActionInduction(
+func (v *typeAssembler_) PreprocessActionInduction(
 	actionInduction not.ActionInductionLike,
 	index_ uint,
 	count_ uint,
@@ -262,7 +248,7 @@ func (v *typeCompiler_) PreprocessActionInduction(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessActionInduction(
+func (v *typeAssembler_) PostprocessActionInduction(
 	actionInduction not.ActionInductionLike,
 	index_ uint,
 	count_ uint,
@@ -270,14 +256,14 @@ func (v *typeCompiler_) PostprocessActionInduction(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessActionInductionSlot(
+func (v *typeAssembler_) ProcessActionInductionSlot(
 	actionInduction not.ActionInductionLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessAnnotation(
+func (v *typeAssembler_) PreprocessAnnotation(
 	annotation not.AnnotationLike,
 	index_ uint,
 	count_ uint,
@@ -285,7 +271,7 @@ func (v *typeCompiler_) PreprocessAnnotation(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessAnnotation(
+func (v *typeAssembler_) PostprocessAnnotation(
 	annotation not.AnnotationLike,
 	index_ uint,
 	count_ uint,
@@ -293,14 +279,14 @@ func (v *typeCompiler_) PostprocessAnnotation(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessAnnotationSlot(
+func (v *typeAssembler_) ProcessAnnotationSlot(
 	annotation not.AnnotationLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessArgument(
+func (v *typeAssembler_) PreprocessArgument(
 	argument not.ArgumentLike,
 	index_ uint,
 	count_ uint,
@@ -308,7 +294,7 @@ func (v *typeCompiler_) PreprocessArgument(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessArgument(
+func (v *typeAssembler_) PostprocessArgument(
 	argument not.ArgumentLike,
 	index_ uint,
 	count_ uint,
@@ -316,14 +302,14 @@ func (v *typeCompiler_) PostprocessArgument(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessArgumentSlot(
+func (v *typeAssembler_) ProcessArgumentSlot(
 	argument not.ArgumentLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessArithmeticOperator(
+func (v *typeAssembler_) PreprocessArithmeticOperator(
 	arithmeticOperator not.ArithmeticOperatorLike,
 	index_ uint,
 	count_ uint,
@@ -331,7 +317,7 @@ func (v *typeCompiler_) PreprocessArithmeticOperator(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessArithmeticOperator(
+func (v *typeAssembler_) PostprocessArithmeticOperator(
 	arithmeticOperator not.ArithmeticOperatorLike,
 	index_ uint,
 	count_ uint,
@@ -339,14 +325,14 @@ func (v *typeCompiler_) PostprocessArithmeticOperator(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessArithmeticOperatorSlot(
+func (v *typeAssembler_) ProcessArithmeticOperatorSlot(
 	arithmeticOperator not.ArithmeticOperatorLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessAssignment(
+func (v *typeAssembler_) PreprocessAssignment(
 	assignment not.AssignmentLike,
 	index_ uint,
 	count_ uint,
@@ -354,7 +340,7 @@ func (v *typeCompiler_) PreprocessAssignment(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessAssignment(
+func (v *typeAssembler_) PostprocessAssignment(
 	assignment not.AssignmentLike,
 	index_ uint,
 	count_ uint,
@@ -362,14 +348,14 @@ func (v *typeCompiler_) PostprocessAssignment(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessAssignmentSlot(
+func (v *typeAssembler_) ProcessAssignmentSlot(
 	assignment not.AssignmentLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessAssociation(
+func (v *typeAssembler_) PreprocessAssociation(
 	association not.AssociationLike,
 	index_ uint,
 	count_ uint,
@@ -377,7 +363,7 @@ func (v *typeCompiler_) PreprocessAssociation(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessAssociation(
+func (v *typeAssembler_) PostprocessAssociation(
 	association not.AssociationLike,
 	index_ uint,
 	count_ uint,
@@ -385,14 +371,14 @@ func (v *typeCompiler_) PostprocessAssociation(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessAssociationSlot(
+func (v *typeAssembler_) ProcessAssociationSlot(
 	association not.AssociationLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessAtLevel(
+func (v *typeAssembler_) PreprocessAtLevel(
 	atLevel not.AtLevelLike,
 	index_ uint,
 	count_ uint,
@@ -400,7 +386,7 @@ func (v *typeCompiler_) PreprocessAtLevel(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessAtLevel(
+func (v *typeAssembler_) PostprocessAtLevel(
 	atLevel not.AtLevelLike,
 	index_ uint,
 	count_ uint,
@@ -408,14 +394,14 @@ func (v *typeCompiler_) PostprocessAtLevel(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessAtLevelSlot(
+func (v *typeAssembler_) ProcessAtLevelSlot(
 	atLevel not.AtLevelLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessAttributes(
+func (v *typeAssembler_) PreprocessAttributes(
 	attributes not.AttributesLike,
 	index_ uint,
 	count_ uint,
@@ -423,7 +409,7 @@ func (v *typeCompiler_) PreprocessAttributes(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessAttributes(
+func (v *typeAssembler_) PostprocessAttributes(
 	attributes not.AttributesLike,
 	index_ uint,
 	count_ uint,
@@ -431,14 +417,14 @@ func (v *typeCompiler_) PostprocessAttributes(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessAttributesSlot(
+func (v *typeAssembler_) ProcessAttributesSlot(
 	attributes not.AttributesLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessBag(
+func (v *typeAssembler_) PreprocessBag(
 	bag not.BagLike,
 	index_ uint,
 	count_ uint,
@@ -446,7 +432,7 @@ func (v *typeCompiler_) PreprocessBag(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessBag(
+func (v *typeAssembler_) PostprocessBag(
 	bag not.BagLike,
 	index_ uint,
 	count_ uint,
@@ -454,14 +440,14 @@ func (v *typeCompiler_) PostprocessBag(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessBagSlot(
+func (v *typeAssembler_) ProcessBagSlot(
 	bag not.BagLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessBra(
+func (v *typeAssembler_) PreprocessBra(
 	bra not.BraLike,
 	index_ uint,
 	count_ uint,
@@ -469,7 +455,7 @@ func (v *typeCompiler_) PreprocessBra(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessBra(
+func (v *typeAssembler_) PostprocessBra(
 	bra not.BraLike,
 	index_ uint,
 	count_ uint,
@@ -477,14 +463,14 @@ func (v *typeCompiler_) PostprocessBra(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessBraSlot(
+func (v *typeAssembler_) ProcessBraSlot(
 	bra not.BraLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessBreakClause(
+func (v *typeAssembler_) PreprocessBreakClause(
 	breakClause not.BreakClauseLike,
 	index_ uint,
 	count_ uint,
@@ -492,7 +478,7 @@ func (v *typeCompiler_) PreprocessBreakClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessBreakClause(
+func (v *typeAssembler_) PostprocessBreakClause(
 	breakClause not.BreakClauseLike,
 	index_ uint,
 	count_ uint,
@@ -500,14 +486,14 @@ func (v *typeCompiler_) PostprocessBreakClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessBreakClauseSlot(
+func (v *typeAssembler_) ProcessBreakClauseSlot(
 	breakClause not.BreakClauseLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessCheckoutClause(
+func (v *typeAssembler_) PreprocessCheckoutClause(
 	checkoutClause not.CheckoutClauseLike,
 	index_ uint,
 	count_ uint,
@@ -515,7 +501,7 @@ func (v *typeCompiler_) PreprocessCheckoutClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessCheckoutClause(
+func (v *typeAssembler_) PostprocessCheckoutClause(
 	checkoutClause not.CheckoutClauseLike,
 	index_ uint,
 	count_ uint,
@@ -523,14 +509,14 @@ func (v *typeCompiler_) PostprocessCheckoutClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessCheckoutClauseSlot(
+func (v *typeAssembler_) ProcessCheckoutClauseSlot(
 	checkoutClause not.CheckoutClauseLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessCited(
+func (v *typeAssembler_) PreprocessCited(
 	cited not.CitedLike,
 	index_ uint,
 	count_ uint,
@@ -538,7 +524,7 @@ func (v *typeCompiler_) PreprocessCited(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessCited(
+func (v *typeAssembler_) PostprocessCited(
 	cited not.CitedLike,
 	index_ uint,
 	count_ uint,
@@ -546,14 +532,14 @@ func (v *typeCompiler_) PostprocessCited(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessCitedSlot(
+func (v *typeAssembler_) ProcessCitedSlot(
 	cited not.CitedLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessCollection(
+func (v *typeAssembler_) PreprocessCollection(
 	collection not.CollectionLike,
 	index_ uint,
 	count_ uint,
@@ -561,7 +547,7 @@ func (v *typeCompiler_) PreprocessCollection(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessCollection(
+func (v *typeAssembler_) PostprocessCollection(
 	collection not.CollectionLike,
 	index_ uint,
 	count_ uint,
@@ -569,14 +555,14 @@ func (v *typeCompiler_) PostprocessCollection(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessCollectionSlot(
+func (v *typeAssembler_) ProcessCollectionSlot(
 	collection not.CollectionLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessComparisonOperator(
+func (v *typeAssembler_) PreprocessComparisonOperator(
 	comparisonOperator not.ComparisonOperatorLike,
 	index_ uint,
 	count_ uint,
@@ -584,7 +570,7 @@ func (v *typeCompiler_) PreprocessComparisonOperator(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessComparisonOperator(
+func (v *typeAssembler_) PostprocessComparisonOperator(
 	comparisonOperator not.ComparisonOperatorLike,
 	index_ uint,
 	count_ uint,
@@ -592,14 +578,14 @@ func (v *typeCompiler_) PostprocessComparisonOperator(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessComparisonOperatorSlot(
+func (v *typeAssembler_) ProcessComparisonOperatorSlot(
 	comparisonOperator not.ComparisonOperatorLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessComplement(
+func (v *typeAssembler_) PreprocessComplement(
 	complement not.ComplementLike,
 	index_ uint,
 	count_ uint,
@@ -607,7 +593,7 @@ func (v *typeCompiler_) PreprocessComplement(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessComplement(
+func (v *typeAssembler_) PostprocessComplement(
 	complement not.ComplementLike,
 	index_ uint,
 	count_ uint,
@@ -615,14 +601,14 @@ func (v *typeCompiler_) PostprocessComplement(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessComplementSlot(
+func (v *typeAssembler_) ProcessComplementSlot(
 	complement not.ComplementLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessComponent(
+func (v *typeAssembler_) PreprocessComponent(
 	component not.ComponentLike,
 	index_ uint,
 	count_ uint,
@@ -630,7 +616,7 @@ func (v *typeCompiler_) PreprocessComponent(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessComponent(
+func (v *typeAssembler_) PostprocessComponent(
 	component not.ComponentLike,
 	index_ uint,
 	count_ uint,
@@ -638,14 +624,14 @@ func (v *typeCompiler_) PostprocessComponent(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessComponentSlot(
+func (v *typeAssembler_) ProcessComponentSlot(
 	component not.ComponentLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessCondition(
+func (v *typeAssembler_) PreprocessCondition(
 	condition not.ConditionLike,
 	index_ uint,
 	count_ uint,
@@ -653,7 +639,7 @@ func (v *typeCompiler_) PreprocessCondition(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessCondition(
+func (v *typeAssembler_) PostprocessCondition(
 	condition not.ConditionLike,
 	index_ uint,
 	count_ uint,
@@ -661,14 +647,14 @@ func (v *typeCompiler_) PostprocessCondition(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessConditionSlot(
+func (v *typeAssembler_) ProcessConditionSlot(
 	condition not.ConditionLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessContinueClause(
+func (v *typeAssembler_) PreprocessContinueClause(
 	continueClause not.ContinueClauseLike,
 	index_ uint,
 	count_ uint,
@@ -676,7 +662,7 @@ func (v *typeCompiler_) PreprocessContinueClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessContinueClause(
+func (v *typeAssembler_) PostprocessContinueClause(
 	continueClause not.ContinueClauseLike,
 	index_ uint,
 	count_ uint,
@@ -684,14 +670,14 @@ func (v *typeCompiler_) PostprocessContinueClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessContinueClauseSlot(
+func (v *typeAssembler_) ProcessContinueClauseSlot(
 	continueClause not.ContinueClauseLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessDiscardClause(
+func (v *typeAssembler_) PreprocessDiscardClause(
 	discardClause not.DiscardClauseLike,
 	index_ uint,
 	count_ uint,
@@ -699,7 +685,7 @@ func (v *typeCompiler_) PreprocessDiscardClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessDiscardClause(
+func (v *typeAssembler_) PostprocessDiscardClause(
 	discardClause not.DiscardClauseLike,
 	index_ uint,
 	count_ uint,
@@ -707,14 +693,14 @@ func (v *typeCompiler_) PostprocessDiscardClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessDiscardClauseSlot(
+func (v *typeAssembler_) ProcessDiscardClauseSlot(
 	discardClause not.DiscardClauseLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessDoClause(
+func (v *typeAssembler_) PreprocessDoClause(
 	doClause not.DoClauseLike,
 	index_ uint,
 	count_ uint,
@@ -722,7 +708,7 @@ func (v *typeCompiler_) PreprocessDoClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessDoClause(
+func (v *typeAssembler_) PostprocessDoClause(
 	doClause not.DoClauseLike,
 	index_ uint,
 	count_ uint,
@@ -730,14 +716,14 @@ func (v *typeCompiler_) PostprocessDoClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessDoClauseSlot(
+func (v *typeAssembler_) ProcessDoClauseSlot(
 	doClause not.DoClauseLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessDocument(
+func (v *typeAssembler_) PreprocessDocument(
 	document not.DocumentLike,
 	index_ uint,
 	count_ uint,
@@ -745,7 +731,7 @@ func (v *typeCompiler_) PreprocessDocument(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessDocument(
+func (v *typeAssembler_) PostprocessDocument(
 	document not.DocumentLike,
 	index_ uint,
 	count_ uint,
@@ -753,14 +739,14 @@ func (v *typeCompiler_) PostprocessDocument(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessDocumentSlot(
+func (v *typeAssembler_) ProcessDocumentSlot(
 	document not.DocumentLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessDraft(
+func (v *typeAssembler_) PreprocessDraft(
 	draft not.DraftLike,
 	index_ uint,
 	count_ uint,
@@ -768,7 +754,7 @@ func (v *typeCompiler_) PreprocessDraft(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessDraft(
+func (v *typeAssembler_) PostprocessDraft(
 	draft not.DraftLike,
 	index_ uint,
 	count_ uint,
@@ -776,14 +762,14 @@ func (v *typeCompiler_) PostprocessDraft(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessDraftSlot(
+func (v *typeAssembler_) ProcessDraftSlot(
 	draft not.DraftLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessElement(
+func (v *typeAssembler_) PreprocessElement(
 	element not.ElementLike,
 	index_ uint,
 	count_ uint,
@@ -791,7 +777,7 @@ func (v *typeCompiler_) PreprocessElement(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessElement(
+func (v *typeAssembler_) PostprocessElement(
 	element not.ElementLike,
 	index_ uint,
 	count_ uint,
@@ -799,14 +785,14 @@ func (v *typeCompiler_) PostprocessElement(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessElementSlot(
+func (v *typeAssembler_) ProcessElementSlot(
 	element not.ElementLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessEmpty(
+func (v *typeAssembler_) PreprocessEmpty(
 	empty not.EmptyLike,
 	index_ uint,
 	count_ uint,
@@ -814,7 +800,7 @@ func (v *typeCompiler_) PreprocessEmpty(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessEmpty(
+func (v *typeAssembler_) PostprocessEmpty(
 	empty not.EmptyLike,
 	index_ uint,
 	count_ uint,
@@ -822,14 +808,14 @@ func (v *typeCompiler_) PostprocessEmpty(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessEmptySlot(
+func (v *typeAssembler_) ProcessEmptySlot(
 	empty not.EmptyLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessEntity(
+func (v *typeAssembler_) PreprocessEntity(
 	entity not.EntityLike,
 	index_ uint,
 	count_ uint,
@@ -837,7 +823,7 @@ func (v *typeCompiler_) PreprocessEntity(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessEntity(
+func (v *typeAssembler_) PostprocessEntity(
 	entity not.EntityLike,
 	index_ uint,
 	count_ uint,
@@ -845,14 +831,14 @@ func (v *typeCompiler_) PostprocessEntity(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessEntitySlot(
+func (v *typeAssembler_) ProcessEntitySlot(
 	entity not.EntityLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessEvent(
+func (v *typeAssembler_) PreprocessEvent(
 	event not.EventLike,
 	index_ uint,
 	count_ uint,
@@ -860,7 +846,7 @@ func (v *typeCompiler_) PreprocessEvent(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessEvent(
+func (v *typeAssembler_) PostprocessEvent(
 	event not.EventLike,
 	index_ uint,
 	count_ uint,
@@ -868,14 +854,14 @@ func (v *typeCompiler_) PostprocessEvent(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessEventSlot(
+func (v *typeAssembler_) ProcessEventSlot(
 	event not.EventLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessException(
+func (v *typeAssembler_) PreprocessException(
 	exception not.ExceptionLike,
 	index_ uint,
 	count_ uint,
@@ -883,7 +869,7 @@ func (v *typeCompiler_) PreprocessException(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessException(
+func (v *typeAssembler_) PostprocessException(
 	exception not.ExceptionLike,
 	index_ uint,
 	count_ uint,
@@ -891,14 +877,14 @@ func (v *typeCompiler_) PostprocessException(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessExceptionSlot(
+func (v *typeAssembler_) ProcessExceptionSlot(
 	exception not.ExceptionLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessExpression(
+func (v *typeAssembler_) PreprocessExpression(
 	expression not.ExpressionLike,
 	index_ uint,
 	count_ uint,
@@ -906,7 +892,7 @@ func (v *typeCompiler_) PreprocessExpression(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessExpression(
+func (v *typeAssembler_) PostprocessExpression(
 	expression not.ExpressionLike,
 	index_ uint,
 	count_ uint,
@@ -914,14 +900,14 @@ func (v *typeCompiler_) PostprocessExpression(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessExpressionSlot(
+func (v *typeAssembler_) ProcessExpressionSlot(
 	expression not.ExpressionLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessFailure(
+func (v *typeAssembler_) PreprocessFailure(
 	failure not.FailureLike,
 	index_ uint,
 	count_ uint,
@@ -929,7 +915,7 @@ func (v *typeCompiler_) PreprocessFailure(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessFailure(
+func (v *typeAssembler_) PostprocessFailure(
 	failure not.FailureLike,
 	index_ uint,
 	count_ uint,
@@ -937,14 +923,14 @@ func (v *typeCompiler_) PostprocessFailure(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessFailureSlot(
+func (v *typeAssembler_) ProcessFailureSlot(
 	failure not.FailureLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessFlowControl(
+func (v *typeAssembler_) PreprocessFlowControl(
 	flowControl not.FlowControlLike,
 	index_ uint,
 	count_ uint,
@@ -952,7 +938,7 @@ func (v *typeCompiler_) PreprocessFlowControl(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessFlowControl(
+func (v *typeAssembler_) PostprocessFlowControl(
 	flowControl not.FlowControlLike,
 	index_ uint,
 	count_ uint,
@@ -960,14 +946,14 @@ func (v *typeCompiler_) PostprocessFlowControl(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessFlowControlSlot(
+func (v *typeAssembler_) ProcessFlowControlSlot(
 	flowControl not.FlowControlLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessFunction(
+func (v *typeAssembler_) PreprocessFunction(
 	function not.FunctionLike,
 	index_ uint,
 	count_ uint,
@@ -975,7 +961,7 @@ func (v *typeCompiler_) PreprocessFunction(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessFunction(
+func (v *typeAssembler_) PostprocessFunction(
 	function not.FunctionLike,
 	index_ uint,
 	count_ uint,
@@ -983,14 +969,14 @@ func (v *typeCompiler_) PostprocessFunction(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessFunctionSlot(
+func (v *typeAssembler_) ProcessFunctionSlot(
 	function not.FunctionLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessIfClause(
+func (v *typeAssembler_) PreprocessIfClause(
 	ifClause not.IfClauseLike,
 	index_ uint,
 	count_ uint,
@@ -998,7 +984,7 @@ func (v *typeCompiler_) PreprocessIfClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessIfClause(
+func (v *typeAssembler_) PostprocessIfClause(
 	ifClause not.IfClauseLike,
 	index_ uint,
 	count_ uint,
@@ -1006,14 +992,14 @@ func (v *typeCompiler_) PostprocessIfClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessIfClauseSlot(
+func (v *typeAssembler_) ProcessIfClauseSlot(
 	ifClause not.IfClauseLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessIndex(
+func (v *typeAssembler_) PreprocessIndex(
 	index not.IndexLike,
 	index_ uint,
 	count_ uint,
@@ -1021,7 +1007,7 @@ func (v *typeCompiler_) PreprocessIndex(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessIndex(
+func (v *typeAssembler_) PostprocessIndex(
 	index not.IndexLike,
 	index_ uint,
 	count_ uint,
@@ -1029,14 +1015,14 @@ func (v *typeCompiler_) PostprocessIndex(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessIndexSlot(
+func (v *typeAssembler_) ProcessIndexSlot(
 	index not.IndexLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessIndirect(
+func (v *typeAssembler_) PreprocessIndirect(
 	indirect not.IndirectLike,
 	index_ uint,
 	count_ uint,
@@ -1044,7 +1030,7 @@ func (v *typeCompiler_) PreprocessIndirect(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessIndirect(
+func (v *typeAssembler_) PostprocessIndirect(
 	indirect not.IndirectLike,
 	index_ uint,
 	count_ uint,
@@ -1052,14 +1038,14 @@ func (v *typeCompiler_) PostprocessIndirect(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessIndirectSlot(
+func (v *typeAssembler_) ProcessIndirectSlot(
 	indirect not.IndirectLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessInverse(
+func (v *typeAssembler_) PreprocessInverse(
 	inverse not.InverseLike,
 	index_ uint,
 	count_ uint,
@@ -1067,7 +1053,7 @@ func (v *typeCompiler_) PreprocessInverse(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessInverse(
+func (v *typeAssembler_) PostprocessInverse(
 	inverse not.InverseLike,
 	index_ uint,
 	count_ uint,
@@ -1075,14 +1061,14 @@ func (v *typeCompiler_) PostprocessInverse(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessInverseSlot(
+func (v *typeAssembler_) ProcessInverseSlot(
 	inverse not.InverseLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessInversion(
+func (v *typeAssembler_) PreprocessInversion(
 	inversion not.InversionLike,
 	index_ uint,
 	count_ uint,
@@ -1090,7 +1076,7 @@ func (v *typeCompiler_) PreprocessInversion(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessInversion(
+func (v *typeAssembler_) PostprocessInversion(
 	inversion not.InversionLike,
 	index_ uint,
 	count_ uint,
@@ -1098,14 +1084,14 @@ func (v *typeCompiler_) PostprocessInversion(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessInversionSlot(
+func (v *typeAssembler_) ProcessInversionSlot(
 	inversion not.InversionLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessInvocation(
+func (v *typeAssembler_) PreprocessInvocation(
 	invocation not.InvocationLike,
 	index_ uint,
 	count_ uint,
@@ -1113,7 +1099,7 @@ func (v *typeCompiler_) PreprocessInvocation(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessInvocation(
+func (v *typeAssembler_) PostprocessInvocation(
 	invocation not.InvocationLike,
 	index_ uint,
 	count_ uint,
@@ -1121,14 +1107,14 @@ func (v *typeCompiler_) PostprocessInvocation(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessInvocationSlot(
+func (v *typeAssembler_) ProcessInvocationSlot(
 	invocation not.InvocationLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessInvoke(
+func (v *typeAssembler_) PreprocessInvoke(
 	invoke not.InvokeLike,
 	index_ uint,
 	count_ uint,
@@ -1136,7 +1122,7 @@ func (v *typeCompiler_) PreprocessInvoke(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessInvoke(
+func (v *typeAssembler_) PostprocessInvoke(
 	invoke not.InvokeLike,
 	index_ uint,
 	count_ uint,
@@ -1144,14 +1130,14 @@ func (v *typeCompiler_) PostprocessInvoke(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessInvokeSlot(
+func (v *typeAssembler_) ProcessInvokeSlot(
 	invoke not.InvokeLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessItems(
+func (v *typeAssembler_) PreprocessItems(
 	items not.ItemsLike,
 	index_ uint,
 	count_ uint,
@@ -1159,7 +1145,7 @@ func (v *typeCompiler_) PreprocessItems(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessItems(
+func (v *typeAssembler_) PostprocessItems(
 	items not.ItemsLike,
 	index_ uint,
 	count_ uint,
@@ -1167,14 +1153,14 @@ func (v *typeCompiler_) PostprocessItems(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessItemsSlot(
+func (v *typeAssembler_) ProcessItemsSlot(
 	items not.ItemsLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessKet(
+func (v *typeAssembler_) PreprocessKet(
 	ket not.KetLike,
 	index_ uint,
 	count_ uint,
@@ -1182,7 +1168,7 @@ func (v *typeCompiler_) PreprocessKet(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessKet(
+func (v *typeAssembler_) PostprocessKet(
 	ket not.KetLike,
 	index_ uint,
 	count_ uint,
@@ -1190,14 +1176,14 @@ func (v *typeCompiler_) PostprocessKet(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessKetSlot(
+func (v *typeAssembler_) ProcessKetSlot(
 	ket not.KetLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessLetClause(
+func (v *typeAssembler_) PreprocessLetClause(
 	letClause not.LetClauseLike,
 	index_ uint,
 	count_ uint,
@@ -1205,7 +1191,7 @@ func (v *typeCompiler_) PreprocessLetClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessLetClause(
+func (v *typeAssembler_) PostprocessLetClause(
 	letClause not.LetClauseLike,
 	index_ uint,
 	count_ uint,
@@ -1213,14 +1199,14 @@ func (v *typeCompiler_) PostprocessLetClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessLetClauseSlot(
+func (v *typeAssembler_) ProcessLetClauseSlot(
 	letClause not.LetClauseLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessLexicalOperator(
+func (v *typeAssembler_) PreprocessLexicalOperator(
 	lexicalOperator not.LexicalOperatorLike,
 	index_ uint,
 	count_ uint,
@@ -1228,7 +1214,7 @@ func (v *typeCompiler_) PreprocessLexicalOperator(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessLexicalOperator(
+func (v *typeAssembler_) PostprocessLexicalOperator(
 	lexicalOperator not.LexicalOperatorLike,
 	index_ uint,
 	count_ uint,
@@ -1236,14 +1222,14 @@ func (v *typeCompiler_) PostprocessLexicalOperator(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessLexicalOperatorSlot(
+func (v *typeAssembler_) ProcessLexicalOperatorSlot(
 	lexicalOperator not.LexicalOperatorLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessLine(
+func (v *typeAssembler_) PreprocessLine(
 	line not.LineLike,
 	index_ uint,
 	count_ uint,
@@ -1251,7 +1237,7 @@ func (v *typeCompiler_) PreprocessLine(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessLine(
+func (v *typeAssembler_) PostprocessLine(
 	line not.LineLike,
 	index_ uint,
 	count_ uint,
@@ -1259,14 +1245,14 @@ func (v *typeCompiler_) PostprocessLine(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessLineSlot(
+func (v *typeAssembler_) ProcessLineSlot(
 	line not.LineLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessLogical(
+func (v *typeAssembler_) PreprocessLogical(
 	logical not.LogicalLike,
 	index_ uint,
 	count_ uint,
@@ -1274,7 +1260,7 @@ func (v *typeCompiler_) PreprocessLogical(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessLogical(
+func (v *typeAssembler_) PostprocessLogical(
 	logical not.LogicalLike,
 	index_ uint,
 	count_ uint,
@@ -1282,14 +1268,14 @@ func (v *typeCompiler_) PostprocessLogical(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessLogicalSlot(
+func (v *typeAssembler_) ProcessLogicalSlot(
 	logical not.LogicalLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessLogicalOperator(
+func (v *typeAssembler_) PreprocessLogicalOperator(
 	logicalOperator not.LogicalOperatorLike,
 	index_ uint,
 	count_ uint,
@@ -1297,7 +1283,7 @@ func (v *typeCompiler_) PreprocessLogicalOperator(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessLogicalOperator(
+func (v *typeAssembler_) PostprocessLogicalOperator(
 	logicalOperator not.LogicalOperatorLike,
 	index_ uint,
 	count_ uint,
@@ -1305,14 +1291,14 @@ func (v *typeCompiler_) PostprocessLogicalOperator(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessLogicalOperatorSlot(
+func (v *typeAssembler_) ProcessLogicalOperatorSlot(
 	logicalOperator not.LogicalOperatorLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessMagnitude(
+func (v *typeAssembler_) PreprocessMagnitude(
 	magnitude not.MagnitudeLike,
 	index_ uint,
 	count_ uint,
@@ -1320,7 +1306,7 @@ func (v *typeCompiler_) PreprocessMagnitude(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessMagnitude(
+func (v *typeAssembler_) PostprocessMagnitude(
 	magnitude not.MagnitudeLike,
 	index_ uint,
 	count_ uint,
@@ -1328,14 +1314,14 @@ func (v *typeCompiler_) PostprocessMagnitude(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessMagnitudeSlot(
+func (v *typeAssembler_) ProcessMagnitudeSlot(
 	magnitude not.MagnitudeLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessMainClause(
+func (v *typeAssembler_) PreprocessMainClause(
 	mainClause not.MainClauseLike,
 	index_ uint,
 	count_ uint,
@@ -1343,7 +1329,7 @@ func (v *typeCompiler_) PreprocessMainClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessMainClause(
+func (v *typeAssembler_) PostprocessMainClause(
 	mainClause not.MainClauseLike,
 	index_ uint,
 	count_ uint,
@@ -1351,14 +1337,14 @@ func (v *typeCompiler_) PostprocessMainClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessMainClauseSlot(
+func (v *typeAssembler_) ProcessMainClauseSlot(
 	mainClause not.MainClauseLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessMatchingClause(
+func (v *typeAssembler_) PreprocessMatchingClause(
 	matchingClause not.MatchingClauseLike,
 	index_ uint,
 	count_ uint,
@@ -1366,7 +1352,7 @@ func (v *typeCompiler_) PreprocessMatchingClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessMatchingClause(
+func (v *typeAssembler_) PostprocessMatchingClause(
 	matchingClause not.MatchingClauseLike,
 	index_ uint,
 	count_ uint,
@@ -1374,14 +1360,14 @@ func (v *typeCompiler_) PostprocessMatchingClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessMatchingClauseSlot(
+func (v *typeAssembler_) ProcessMatchingClauseSlot(
 	matchingClause not.MatchingClauseLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessMessage(
+func (v *typeAssembler_) PreprocessMessage(
 	message not.MessageLike,
 	index_ uint,
 	count_ uint,
@@ -1389,7 +1375,7 @@ func (v *typeCompiler_) PreprocessMessage(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessMessage(
+func (v *typeAssembler_) PostprocessMessage(
 	message not.MessageLike,
 	index_ uint,
 	count_ uint,
@@ -1397,14 +1383,14 @@ func (v *typeCompiler_) PostprocessMessage(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessMessageSlot(
+func (v *typeAssembler_) ProcessMessageSlot(
 	message not.MessageLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessMessageHandling(
+func (v *typeAssembler_) PreprocessMessageHandling(
 	messageHandling not.MessageHandlingLike,
 	index_ uint,
 	count_ uint,
@@ -1412,7 +1398,7 @@ func (v *typeCompiler_) PreprocessMessageHandling(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessMessageHandling(
+func (v *typeAssembler_) PostprocessMessageHandling(
 	messageHandling not.MessageHandlingLike,
 	index_ uint,
 	count_ uint,
@@ -1420,14 +1406,14 @@ func (v *typeCompiler_) PostprocessMessageHandling(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessMessageHandlingSlot(
+func (v *typeAssembler_) ProcessMessageHandlingSlot(
 	messageHandling not.MessageHandlingLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessMethod(
+func (v *typeAssembler_) PreprocessMethod(
 	method not.MethodLike,
 	index_ uint,
 	count_ uint,
@@ -1435,7 +1421,7 @@ func (v *typeCompiler_) PreprocessMethod(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessMethod(
+func (v *typeAssembler_) PostprocessMethod(
 	method not.MethodLike,
 	index_ uint,
 	count_ uint,
@@ -1443,14 +1429,14 @@ func (v *typeCompiler_) PostprocessMethod(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessMethodSlot(
+func (v *typeAssembler_) ProcessMethodSlot(
 	method not.MethodLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessNotarizeClause(
+func (v *typeAssembler_) PreprocessNotarizeClause(
 	notarizeClause not.NotarizeClauseLike,
 	index_ uint,
 	count_ uint,
@@ -1458,7 +1444,7 @@ func (v *typeCompiler_) PreprocessNotarizeClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessNotarizeClause(
+func (v *typeAssembler_) PostprocessNotarizeClause(
 	notarizeClause not.NotarizeClauseLike,
 	index_ uint,
 	count_ uint,
@@ -1466,14 +1452,14 @@ func (v *typeCompiler_) PostprocessNotarizeClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessNotarizeClauseSlot(
+func (v *typeAssembler_) ProcessNotarizeClauseSlot(
 	notarizeClause not.NotarizeClauseLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessNumerical(
+func (v *typeAssembler_) PreprocessNumerical(
 	numerical not.NumericalLike,
 	index_ uint,
 	count_ uint,
@@ -1481,7 +1467,7 @@ func (v *typeCompiler_) PreprocessNumerical(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessNumerical(
+func (v *typeAssembler_) PostprocessNumerical(
 	numerical not.NumericalLike,
 	index_ uint,
 	count_ uint,
@@ -1489,14 +1475,14 @@ func (v *typeCompiler_) PostprocessNumerical(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessNumericalSlot(
+func (v *typeAssembler_) ProcessNumericalSlot(
 	numerical not.NumericalLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessOnClause(
+func (v *typeAssembler_) PreprocessOnClause(
 	onClause not.OnClauseLike,
 	index_ uint,
 	count_ uint,
@@ -1504,7 +1490,7 @@ func (v *typeCompiler_) PreprocessOnClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessOnClause(
+func (v *typeAssembler_) PostprocessOnClause(
 	onClause not.OnClauseLike,
 	index_ uint,
 	count_ uint,
@@ -1512,14 +1498,14 @@ func (v *typeCompiler_) PostprocessOnClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessOnClauseSlot(
+func (v *typeAssembler_) ProcessOnClauseSlot(
 	onClause not.OnClauseLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessOperation(
+func (v *typeAssembler_) PreprocessOperation(
 	operation not.OperationLike,
 	index_ uint,
 	count_ uint,
@@ -1527,7 +1513,7 @@ func (v *typeCompiler_) PreprocessOperation(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessOperation(
+func (v *typeAssembler_) PostprocessOperation(
 	operation not.OperationLike,
 	index_ uint,
 	count_ uint,
@@ -1535,14 +1521,14 @@ func (v *typeCompiler_) PostprocessOperation(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessOperationSlot(
+func (v *typeAssembler_) ProcessOperationSlot(
 	operation not.OperationLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessParameters(
+func (v *typeAssembler_) PreprocessParameters(
 	parameters not.ParametersLike,
 	index_ uint,
 	count_ uint,
@@ -1550,7 +1536,7 @@ func (v *typeCompiler_) PreprocessParameters(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessParameters(
+func (v *typeAssembler_) PostprocessParameters(
 	parameters not.ParametersLike,
 	index_ uint,
 	count_ uint,
@@ -1558,14 +1544,14 @@ func (v *typeCompiler_) PostprocessParameters(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessParametersSlot(
+func (v *typeAssembler_) ProcessParametersSlot(
 	parameters not.ParametersLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessPostClause(
+func (v *typeAssembler_) PreprocessPostClause(
 	postClause not.PostClauseLike,
 	index_ uint,
 	count_ uint,
@@ -1573,7 +1559,7 @@ func (v *typeCompiler_) PreprocessPostClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessPostClause(
+func (v *typeAssembler_) PostprocessPostClause(
 	postClause not.PostClauseLike,
 	index_ uint,
 	count_ uint,
@@ -1581,14 +1567,14 @@ func (v *typeCompiler_) PostprocessPostClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessPostClauseSlot(
+func (v *typeAssembler_) ProcessPostClauseSlot(
 	postClause not.PostClauseLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessPrecedence(
+func (v *typeAssembler_) PreprocessPrecedence(
 	precedence not.PrecedenceLike,
 	index_ uint,
 	count_ uint,
@@ -1596,7 +1582,7 @@ func (v *typeCompiler_) PreprocessPrecedence(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessPrecedence(
+func (v *typeAssembler_) PostprocessPrecedence(
 	precedence not.PrecedenceLike,
 	index_ uint,
 	count_ uint,
@@ -1604,14 +1590,14 @@ func (v *typeCompiler_) PostprocessPrecedence(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessPrecedenceSlot(
+func (v *typeAssembler_) ProcessPrecedenceSlot(
 	precedence not.PrecedenceLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessPredicate(
+func (v *typeAssembler_) PreprocessPredicate(
 	predicate not.PredicateLike,
 	index_ uint,
 	count_ uint,
@@ -1619,7 +1605,7 @@ func (v *typeCompiler_) PreprocessPredicate(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessPredicate(
+func (v *typeAssembler_) PostprocessPredicate(
 	predicate not.PredicateLike,
 	index_ uint,
 	count_ uint,
@@ -1627,14 +1613,14 @@ func (v *typeCompiler_) PostprocessPredicate(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessPredicateSlot(
+func (v *typeAssembler_) ProcessPredicateSlot(
 	predicate not.PredicateLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessPrimitive(
+func (v *typeAssembler_) PreprocessPrimitive(
 	primitive not.PrimitiveLike,
 	index_ uint,
 	count_ uint,
@@ -1642,7 +1628,7 @@ func (v *typeCompiler_) PreprocessPrimitive(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessPrimitive(
+func (v *typeAssembler_) PostprocessPrimitive(
 	primitive not.PrimitiveLike,
 	index_ uint,
 	count_ uint,
@@ -1650,14 +1636,14 @@ func (v *typeCompiler_) PostprocessPrimitive(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessPrimitiveSlot(
+func (v *typeAssembler_) ProcessPrimitiveSlot(
 	primitive not.PrimitiveLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessProcedure(
+func (v *typeAssembler_) PreprocessProcedure(
 	procedure not.ProcedureLike,
 	index_ uint,
 	count_ uint,
@@ -1665,7 +1651,7 @@ func (v *typeCompiler_) PreprocessProcedure(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessProcedure(
+func (v *typeAssembler_) PostprocessProcedure(
 	procedure not.ProcedureLike,
 	index_ uint,
 	count_ uint,
@@ -1673,14 +1659,14 @@ func (v *typeCompiler_) PostprocessProcedure(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessProcedureSlot(
+func (v *typeAssembler_) ProcessProcedureSlot(
 	procedure not.ProcedureLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessPublishClause(
+func (v *typeAssembler_) PreprocessPublishClause(
 	publishClause not.PublishClauseLike,
 	index_ uint,
 	count_ uint,
@@ -1688,7 +1674,7 @@ func (v *typeCompiler_) PreprocessPublishClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessPublishClause(
+func (v *typeAssembler_) PostprocessPublishClause(
 	publishClause not.PublishClauseLike,
 	index_ uint,
 	count_ uint,
@@ -1696,14 +1682,14 @@ func (v *typeCompiler_) PostprocessPublishClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessPublishClauseSlot(
+func (v *typeAssembler_) ProcessPublishClauseSlot(
 	publishClause not.PublishClauseLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessRange(
+func (v *typeAssembler_) PreprocessRange(
 	range_ not.RangeLike,
 	index_ uint,
 	count_ uint,
@@ -1711,7 +1697,7 @@ func (v *typeCompiler_) PreprocessRange(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessRange(
+func (v *typeAssembler_) PostprocessRange(
 	range_ not.RangeLike,
 	index_ uint,
 	count_ uint,
@@ -1719,14 +1705,14 @@ func (v *typeCompiler_) PostprocessRange(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessRangeSlot(
+func (v *typeAssembler_) ProcessRangeSlot(
 	range_ not.RangeLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessRecipient(
+func (v *typeAssembler_) PreprocessRecipient(
 	recipient not.RecipientLike,
 	index_ uint,
 	count_ uint,
@@ -1734,7 +1720,7 @@ func (v *typeCompiler_) PreprocessRecipient(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessRecipient(
+func (v *typeAssembler_) PostprocessRecipient(
 	recipient not.RecipientLike,
 	index_ uint,
 	count_ uint,
@@ -1742,14 +1728,14 @@ func (v *typeCompiler_) PostprocessRecipient(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessRecipientSlot(
+func (v *typeAssembler_) ProcessRecipientSlot(
 	recipient not.RecipientLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessReferent(
+func (v *typeAssembler_) PreprocessReferent(
 	referent not.ReferentLike,
 	index_ uint,
 	count_ uint,
@@ -1757,7 +1743,7 @@ func (v *typeCompiler_) PreprocessReferent(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessReferent(
+func (v *typeAssembler_) PostprocessReferent(
 	referent not.ReferentLike,
 	index_ uint,
 	count_ uint,
@@ -1765,14 +1751,14 @@ func (v *typeCompiler_) PostprocessReferent(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessReferentSlot(
+func (v *typeAssembler_) ProcessReferentSlot(
 	referent not.ReferentLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessRejectClause(
+func (v *typeAssembler_) PreprocessRejectClause(
 	rejectClause not.RejectClauseLike,
 	index_ uint,
 	count_ uint,
@@ -1780,7 +1766,7 @@ func (v *typeCompiler_) PreprocessRejectClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessRejectClause(
+func (v *typeAssembler_) PostprocessRejectClause(
 	rejectClause not.RejectClauseLike,
 	index_ uint,
 	count_ uint,
@@ -1788,14 +1774,14 @@ func (v *typeCompiler_) PostprocessRejectClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessRejectClauseSlot(
+func (v *typeAssembler_) ProcessRejectClauseSlot(
 	rejectClause not.RejectClauseLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessRepositoryAccess(
+func (v *typeAssembler_) PreprocessRepositoryAccess(
 	repositoryAccess not.RepositoryAccessLike,
 	index_ uint,
 	count_ uint,
@@ -1803,7 +1789,7 @@ func (v *typeCompiler_) PreprocessRepositoryAccess(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessRepositoryAccess(
+func (v *typeAssembler_) PostprocessRepositoryAccess(
 	repositoryAccess not.RepositoryAccessLike,
 	index_ uint,
 	count_ uint,
@@ -1811,14 +1797,14 @@ func (v *typeCompiler_) PostprocessRepositoryAccess(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessRepositoryAccessSlot(
+func (v *typeAssembler_) ProcessRepositoryAccessSlot(
 	repositoryAccess not.RepositoryAccessLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessResult(
+func (v *typeAssembler_) PreprocessResult(
 	result not.ResultLike,
 	index_ uint,
 	count_ uint,
@@ -1826,7 +1812,7 @@ func (v *typeCompiler_) PreprocessResult(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessResult(
+func (v *typeAssembler_) PostprocessResult(
 	result not.ResultLike,
 	index_ uint,
 	count_ uint,
@@ -1834,14 +1820,14 @@ func (v *typeCompiler_) PostprocessResult(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessResultSlot(
+func (v *typeAssembler_) ProcessResultSlot(
 	result not.ResultLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessRetrieveClause(
+func (v *typeAssembler_) PreprocessRetrieveClause(
 	retrieveClause not.RetrieveClauseLike,
 	index_ uint,
 	count_ uint,
@@ -1849,7 +1835,7 @@ func (v *typeCompiler_) PreprocessRetrieveClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessRetrieveClause(
+func (v *typeAssembler_) PostprocessRetrieveClause(
 	retrieveClause not.RetrieveClauseLike,
 	index_ uint,
 	count_ uint,
@@ -1857,14 +1843,14 @@ func (v *typeCompiler_) PostprocessRetrieveClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessRetrieveClauseSlot(
+func (v *typeAssembler_) ProcessRetrieveClauseSlot(
 	retrieveClause not.RetrieveClauseLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessReturnClause(
+func (v *typeAssembler_) PreprocessReturnClause(
 	returnClause not.ReturnClauseLike,
 	index_ uint,
 	count_ uint,
@@ -1872,7 +1858,7 @@ func (v *typeCompiler_) PreprocessReturnClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessReturnClause(
+func (v *typeAssembler_) PostprocessReturnClause(
 	returnClause not.ReturnClauseLike,
 	index_ uint,
 	count_ uint,
@@ -1880,14 +1866,14 @@ func (v *typeCompiler_) PostprocessReturnClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessReturnClauseSlot(
+func (v *typeAssembler_) ProcessReturnClauseSlot(
 	returnClause not.ReturnClauseLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessSaveClause(
+func (v *typeAssembler_) PreprocessSaveClause(
 	saveClause not.SaveClauseLike,
 	index_ uint,
 	count_ uint,
@@ -1895,7 +1881,7 @@ func (v *typeCompiler_) PreprocessSaveClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessSaveClause(
+func (v *typeAssembler_) PostprocessSaveClause(
 	saveClause not.SaveClauseLike,
 	index_ uint,
 	count_ uint,
@@ -1903,14 +1889,14 @@ func (v *typeCompiler_) PostprocessSaveClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessSaveClauseSlot(
+func (v *typeAssembler_) ProcessSaveClauseSlot(
 	saveClause not.SaveClauseLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessSelectClause(
+func (v *typeAssembler_) PreprocessSelectClause(
 	selectClause not.SelectClauseLike,
 	index_ uint,
 	count_ uint,
@@ -1918,7 +1904,7 @@ func (v *typeCompiler_) PreprocessSelectClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessSelectClause(
+func (v *typeAssembler_) PostprocessSelectClause(
 	selectClause not.SelectClauseLike,
 	index_ uint,
 	count_ uint,
@@ -1926,14 +1912,14 @@ func (v *typeCompiler_) PostprocessSelectClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessSelectClauseSlot(
+func (v *typeAssembler_) ProcessSelectClauseSlot(
 	selectClause not.SelectClauseLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessSequence(
+func (v *typeAssembler_) PreprocessSequence(
 	sequence not.SequenceLike,
 	index_ uint,
 	count_ uint,
@@ -1941,7 +1927,7 @@ func (v *typeCompiler_) PreprocessSequence(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessSequence(
+func (v *typeAssembler_) PostprocessSequence(
 	sequence not.SequenceLike,
 	index_ uint,
 	count_ uint,
@@ -1949,14 +1935,14 @@ func (v *typeCompiler_) PostprocessSequence(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessSequenceSlot(
+func (v *typeAssembler_) ProcessSequenceSlot(
 	sequence not.SequenceLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessStatement(
+func (v *typeAssembler_) PreprocessStatement(
 	statement not.StatementLike,
 	index_ uint,
 	count_ uint,
@@ -1964,7 +1950,7 @@ func (v *typeCompiler_) PreprocessStatement(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessStatement(
+func (v *typeAssembler_) PostprocessStatement(
 	statement not.StatementLike,
 	index_ uint,
 	count_ uint,
@@ -1972,14 +1958,14 @@ func (v *typeCompiler_) PostprocessStatement(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessStatementSlot(
+func (v *typeAssembler_) ProcessStatementSlot(
 	statement not.StatementLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessString(
+func (v *typeAssembler_) PreprocessString(
 	string_ not.StringLike,
 	index_ uint,
 	count_ uint,
@@ -1987,7 +1973,7 @@ func (v *typeCompiler_) PreprocessString(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessString(
+func (v *typeAssembler_) PostprocessString(
 	string_ not.StringLike,
 	index_ uint,
 	count_ uint,
@@ -1995,14 +1981,14 @@ func (v *typeCompiler_) PostprocessString(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessStringSlot(
+func (v *typeAssembler_) ProcessStringSlot(
 	string_ not.StringLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessSubcomponent(
+func (v *typeAssembler_) PreprocessSubcomponent(
 	subcomponent not.SubcomponentLike,
 	index_ uint,
 	count_ uint,
@@ -2010,7 +1996,7 @@ func (v *typeCompiler_) PreprocessSubcomponent(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessSubcomponent(
+func (v *typeAssembler_) PostprocessSubcomponent(
 	subcomponent not.SubcomponentLike,
 	index_ uint,
 	count_ uint,
@@ -2018,14 +2004,14 @@ func (v *typeCompiler_) PostprocessSubcomponent(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessSubcomponentSlot(
+func (v *typeAssembler_) ProcessSubcomponentSlot(
 	subcomponent not.SubcomponentLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessSubject(
+func (v *typeAssembler_) PreprocessSubject(
 	subject not.SubjectLike,
 	index_ uint,
 	count_ uint,
@@ -2033,7 +2019,7 @@ func (v *typeCompiler_) PreprocessSubject(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessSubject(
+func (v *typeAssembler_) PostprocessSubject(
 	subject not.SubjectLike,
 	index_ uint,
 	count_ uint,
@@ -2041,14 +2027,14 @@ func (v *typeCompiler_) PostprocessSubject(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessSubjectSlot(
+func (v *typeAssembler_) ProcessSubjectSlot(
 	subject not.SubjectLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessTarget(
+func (v *typeAssembler_) PreprocessTarget(
 	target not.TargetLike,
 	index_ uint,
 	count_ uint,
@@ -2056,7 +2042,7 @@ func (v *typeCompiler_) PreprocessTarget(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessTarget(
+func (v *typeAssembler_) PostprocessTarget(
 	target not.TargetLike,
 	index_ uint,
 	count_ uint,
@@ -2064,14 +2050,14 @@ func (v *typeCompiler_) PostprocessTarget(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessTargetSlot(
+func (v *typeAssembler_) ProcessTargetSlot(
 	target not.TargetLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessTemplate(
+func (v *typeAssembler_) PreprocessTemplate(
 	template not.TemplateLike,
 	index_ uint,
 	count_ uint,
@@ -2079,7 +2065,7 @@ func (v *typeCompiler_) PreprocessTemplate(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessTemplate(
+func (v *typeAssembler_) PostprocessTemplate(
 	template not.TemplateLike,
 	index_ uint,
 	count_ uint,
@@ -2087,14 +2073,14 @@ func (v *typeCompiler_) PostprocessTemplate(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessTemplateSlot(
+func (v *typeAssembler_) ProcessTemplateSlot(
 	template not.TemplateLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessThrowClause(
+func (v *typeAssembler_) PreprocessThrowClause(
 	throwClause not.ThrowClauseLike,
 	index_ uint,
 	count_ uint,
@@ -2102,7 +2088,7 @@ func (v *typeCompiler_) PreprocessThrowClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessThrowClause(
+func (v *typeAssembler_) PostprocessThrowClause(
 	throwClause not.ThrowClauseLike,
 	index_ uint,
 	count_ uint,
@@ -2110,14 +2096,14 @@ func (v *typeCompiler_) PostprocessThrowClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessThrowClauseSlot(
+func (v *typeAssembler_) ProcessThrowClauseSlot(
 	throwClause not.ThrowClauseLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessValue(
+func (v *typeAssembler_) PreprocessValue(
 	value not.ValueLike,
 	index_ uint,
 	count_ uint,
@@ -2125,7 +2111,7 @@ func (v *typeCompiler_) PreprocessValue(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessValue(
+func (v *typeAssembler_) PostprocessValue(
 	value not.ValueLike,
 	index_ uint,
 	count_ uint,
@@ -2133,14 +2119,14 @@ func (v *typeCompiler_) PostprocessValue(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessValueSlot(
+func (v *typeAssembler_) ProcessValueSlot(
 	value not.ValueLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessVariable(
+func (v *typeAssembler_) PreprocessVariable(
 	variable not.VariableLike,
 	index_ uint,
 	count_ uint,
@@ -2148,7 +2134,7 @@ func (v *typeCompiler_) PreprocessVariable(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessVariable(
+func (v *typeAssembler_) PostprocessVariable(
 	variable not.VariableLike,
 	index_ uint,
 	count_ uint,
@@ -2156,14 +2142,14 @@ func (v *typeCompiler_) PostprocessVariable(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessVariableSlot(
+func (v *typeAssembler_) ProcessVariableSlot(
 	variable not.VariableLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessWhileClause(
+func (v *typeAssembler_) PreprocessWhileClause(
 	whileClause not.WhileClauseLike,
 	index_ uint,
 	count_ uint,
@@ -2171,7 +2157,7 @@ func (v *typeCompiler_) PreprocessWhileClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessWhileClause(
+func (v *typeAssembler_) PostprocessWhileClause(
 	whileClause not.WhileClauseLike,
 	index_ uint,
 	count_ uint,
@@ -2179,14 +2165,14 @@ func (v *typeCompiler_) PostprocessWhileClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessWhileClauseSlot(
+func (v *typeAssembler_) ProcessWhileClauseSlot(
 	whileClause not.WhileClauseLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessWithClause(
+func (v *typeAssembler_) PreprocessWithClause(
 	withClause not.WithClauseLike,
 	index_ uint,
 	count_ uint,
@@ -2194,7 +2180,7 @@ func (v *typeCompiler_) PreprocessWithClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PostprocessWithClause(
+func (v *typeAssembler_) PostprocessWithClause(
 	withClause not.WithClauseLike,
 	index_ uint,
 	count_ uint,
@@ -2202,7 +2188,7 @@ func (v *typeCompiler_) PostprocessWithClause(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) ProcessWithClauseSlot(
+func (v *typeAssembler_) ProcessWithClauseSlot(
 	withClause not.WithClauseLike,
 	slot_ uint,
 ) {
@@ -2213,49 +2199,12 @@ func (v *typeCompiler_) ProcessWithClauseSlot(
 
 // Private Methods
 
-func (v *typeCompiler_) addLiterals(
-	associations fra.ListLike[not.AssociationLike],
-) {
-	var items = not.Items("[", v.literals_, "]")
-	var collection = not.Collection(items)
-	var component = not.Component(collection)
-	var document = not.Document(component, nil, "")
-	var association = not.Association(
-		not.Primitive(not.Element("$literals")),
-		":",
-		document,
-	)
-	associations.AppendValue(association)
-}
-
-func (v *typeCompiler_) cleanMethod(
+func (v *typeAssembler_) assembleMethod(
 	document not.DocumentLike,
 ) {
-	var component = document.GetComponent()
-	var collection = component.GetAny().(not.CollectionLike)
-	var attributes = collection.GetAny().(not.AttributesLike)
-	var associations = attributes.GetAssociations()
-	var index uti.Index
-	var iterator = associations.GetIterator()
-	iterator.ToEnd() // Must work backwards when removing multiple associations.
-	for index = uti.Index(iterator.GetSize()); iterator.HasPrevious(); index-- {
-		var association = iterator.GetPrevious()
-		var key = association.GetPrimitive().GetAny().(string)
-		switch key {
-		case "$instructions", "$bytecode", "$arguments", "$variables",
-			"$messages", "$addresses":
-			associations.RemoveValue(index)
-		}
-	}
 }
 
-func (v *typeCompiler_) compileMethod(
-	document not.DocumentLike,
-) {
-	v.cleanMethod(document)
-}
-
-func (v *typeCompiler_) compileMethods(
+func (v *typeAssembler_) assembleMethods(
 	document not.DocumentLike,
 ) {
 	var component = document.GetComponent()
@@ -2266,35 +2215,16 @@ func (v *typeCompiler_) compileMethods(
 	for iterator.HasNext() {
 		var association = iterator.GetNext()
 		var method = association.GetDocument()
-		v.compileMethod(method)
-	}
-}
-
-func (v *typeCompiler_) cleanType(
-	document not.DocumentLike,
-) {
-	var component = document.GetComponent()
-	var collection = component.GetAny().(not.CollectionLike)
-	var attributes = collection.GetAny().(not.AttributesLike)
-	var associations = attributes.GetAssociations()
-	var index uti.Index
-	var iterator = associations.GetIterator()
-	for index = 1; iterator.HasNext(); index++ {
-		var association = iterator.GetNext()
-		var key = association.GetPrimitive().GetAny().(string)
-		if key == "$literals" {
-			associations.RemoveValue(index)
-		}
+		v.assembleMethod(method)
 	}
 }
 
 // Instance Structure
 
-type typeCompiler_ struct {
+type typeAssembler_ struct {
 	// Declare the instance attributes.
-	repository_ rep.DocumentRepositoryLike
-	visitor_    not.VisitorLike
-	literals_   fra.ListLike[not.EntityLike]
+	visitor_  not.VisitorLike
+	literals_ fra.ListLike[not.EntityLike]
 
 	// Declare the inherited aspects.
 	not.Methodical
@@ -2302,16 +2232,16 @@ type typeCompiler_ struct {
 
 // Class Structure
 
-type typeCompilerClass_ struct {
+type typeAssemblerClass_ struct {
 	// Declare the class constants.
 }
 
 // Class Reference
 
-func typeCompilerClass() *typeCompilerClass_ {
-	return typeCompilerClassReference_
+func typeAssemblerClass() *typeAssemblerClass_ {
+	return typeAssemblerClassReference_
 }
 
-var typeCompilerClassReference_ = &typeCompilerClass_{
+var typeAssemblerClassReference_ = &typeAssemblerClass_{
 	// Initialize the class constants.
 }
