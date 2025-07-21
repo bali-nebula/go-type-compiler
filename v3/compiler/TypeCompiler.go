@@ -2253,6 +2253,7 @@ func (v *typeCompiler_) compileMethod(
 	document not.DocumentLike,
 ) {
 	v.cleanMethod(document)
+	v.visitor_.VisitDocument(document)
 }
 
 func (v *typeCompiler_) compileMethods(

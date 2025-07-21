@@ -12,7 +12,7 @@
 
 /*
 Package "assembler" provides an implementation of an assembler that can be used
-to assemble compiled type methods into bytecode.
+to assemble compiled methods into bytecode for the Bali Virtual Machine™.
 
 For detailed documentation on this package refer to the wiki:
   - https://github.com/bali-nebula/go-type-compiler/wiki
@@ -29,7 +29,8 @@ on interfaces, not on each other.
 package assembler
 
 import (
-	not "github.com/bali-nebula/go-document-notation/v3"
+	lan "github.com/bali-nebula/go-assembly-language/v3"
+	fra "github.com/craterdog/go-component-framework/v7"
 )
 
 // TYPE DECLARATIONS
@@ -39,31 +40,34 @@ import (
 // CLASS DECLARATIONS
 
 /*
-TypeAssemblerClassLike is a class interface that declares the complete set of
+MethodAssemblerClassLike is a class interface that declares the complete set of
 class constructors, constants and functions that must be supported by each
-concrete type-assembler-like class.
+concrete method-assembler-like class.
 */
-type TypeAssemblerClassLike interface {
+type MethodAssemblerClassLike interface {
 	// Constructor Methods
-	TypeAssembler() TypeAssemblerLike
+	MethodAssembler(
+		literals fra.ListLike[string],
+		constants fra.CatalogLike[string, string],
+	) MethodAssemblerLike
 }
 
 // INSTANCE DECLARATIONS
 
 /*
-TypeAssemblerLike is an instance interface that declares the complete set of
+MethodAssemblerLike is an instance interface that declares the complete set of
 principal, attribute and aspect methods that must be supported by each instance
-of a concrete type-assembler-like class.
+of a concrete method-assembler-like class.
 */
-type TypeAssemblerLike interface {
+type MethodAssemblerLike interface {
 	// Principal Methods
-	GetClass() TypeAssemblerClassLike
-	AssembleType(
-		document not.DocumentLike,
+	GetClass() MethodAssemblerClassLike
+	AssembleInstructions(
+		assembly lan.AssemblyLike,
 	)
 
 	// Aspect Interfaces
-	not.Methodical
+	lan.Methodical
 }
 
 // ASPECT DECLARATIONS

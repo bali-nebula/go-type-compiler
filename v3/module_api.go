@@ -34,6 +34,7 @@ import (
 	rep "github.com/bali-nebula/go-document-repository/v3"
 	ass "github.com/bali-nebula/go-type-compiler/v3/assembler"
 	com "github.com/bali-nebula/go-type-compiler/v3/compiler"
+	fra "github.com/craterdog/go-component-framework/v7"
 )
 
 // TYPE ALIASES
@@ -41,11 +42,11 @@ import (
 // Assembler
 
 type (
-	TypeAssemblerClassLike = ass.TypeAssemblerClassLike
+	MethodAssemblerClassLike = ass.MethodAssemblerClassLike
 )
 
 type (
-	TypeAssemblerLike = ass.TypeAssemblerLike
+	MethodAssemblerLike = ass.MethodAssemblerLike
 )
 
 // Compiler
@@ -62,12 +63,18 @@ type (
 
 // Assembler
 
-func TypeAssemblerClass() TypeAssemblerClassLike {
-	return ass.TypeAssemblerClass()
+func MethodAssemblerClass() MethodAssemblerClassLike {
+	return ass.MethodAssemblerClass()
 }
 
-func TypeAssembler() TypeAssemblerLike {
-	return TypeAssemblerClass().TypeAssembler()
+func MethodAssembler(
+	literals fra.ListLike[string],
+	constants fra.CatalogLike[string, string],
+) MethodAssemblerLike {
+	return MethodAssemblerClass().MethodAssembler(
+		literals,
+		constants,
+	)
 }
 
 // Compiler
