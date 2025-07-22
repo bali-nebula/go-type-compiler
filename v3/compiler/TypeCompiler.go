@@ -13,8 +13,11 @@
 package compiler
 
 import (
+	lan "github.com/bali-nebula/go-assembly-language/v3"
 	not "github.com/bali-nebula/go-document-notation/v3"
 	rep "github.com/bali-nebula/go-document-repository/v3"
+	ass "github.com/bali-nebula/go-type-compiler/v3/assembler"
+	//doc "github.com/bali-nebula/go-type-compiler/v3/document"
 	fra "github.com/craterdog/go-component-framework/v7"
 	uti "github.com/craterdog/go-missing-utilities/v7"
 )
@@ -38,12 +41,12 @@ func (c *typeCompilerClass_) TypeCompiler(
 	var instance = &typeCompiler_{
 		// Initialize the instance attributes.
 		repository_: repository,
-		literals_:   fra.List[not.EntityLike](),
+		literals_:   fra.Set[string](),
+		constants_:  fra.Catalog[string, not.DocumentLike](),
 
 		// Initialize the inherited aspects.
 		Methodical: not.Processor(),
 	}
-	instance.visitor_ = not.Visitor(instance)
 	return instance
 }
 
@@ -63,20 +66,9 @@ func (v *typeCompiler_) CompileType(
 	document not.DocumentLike,
 ) {
 	v.cleanType(document)
-	var component = document.GetComponent()
-	var collection = component.GetAny().(not.CollectionLike)
-	var attributes = collection.GetAny().(not.AttributesLike)
-	var associations = attributes.GetAssociations()
-	var iterator = associations.GetIterator()
-	for iterator.HasNext() {
-		var association = iterator.GetNext()
-		var key = association.GetPrimitive().GetAny().(string)
-		if key == "$methods" {
-			var methods = association.GetDocument()
-			v.compileMethods(methods)
-		}
-	}
-	v.addLiterals(associations)
+	var methods = not.GetItem(document, "$methods")
+	v.compileMethods(methods)
+	v.assembleMethods(methods)
 }
 
 // Attribute Methods
@@ -2213,25 +2205,26 @@ func (v *typeCompiler_) ProcessWithClauseSlot(
 
 // Private Methods
 
-func (v *typeCompiler_) addLiterals(
-	associations fra.ListLike[not.AssociationLike],
+func (v *typeCompiler_) assembleMethods(
+	type_ not.DocumentLike,
 ) {
-	var items = not.Items("[", v.literals_, "]")
-	var collection = not.Collection(items)
-	var component = not.Component(collection)
-	var document = not.Document(component, nil, "")
-	var association = not.Association(
-		not.Primitive(not.Element("$literals")),
-		":",
-		document,
-	)
-	associations.AppendValue(association)
+	var assembler = ass.MethodAssemblerClass().MethodAssembler(type_)
+	var component = type_.GetComponent()
+	var collection = component.GetAny().(not.CollectionLike)
+	var attributes = collection.GetAny().(not.AttributesLike)
+	var associations = attributes.GetAssociations()
+	var iterator = associations.GetIterator()
+	for iterator.HasNext() {
+		var association = iterator.GetNext()
+		var method = association.GetDocument()
+		assembler.AssembleMethod(method)
+	}
 }
 
 func (v *typeCompiler_) cleanMethod(
-	document not.DocumentLike,
+	method not.DocumentLike,
 ) {
-	var component = document.GetComponent()
+	var component = method.GetComponent()
 	var collection = component.GetAny().(not.CollectionLike)
 	var attributes = collection.GetAny().(not.AttributesLike)
 	var associations = attributes.GetAssociations()
@@ -2250,16 +2243,23 @@ func (v *typeCompiler_) cleanMethod(
 }
 
 func (v *typeCompiler_) compileMethod(
-	document not.DocumentLike,
+	method not.DocumentLike,
 ) {
-	v.cleanMethod(document)
-	v.visitor_.VisitDocument(document)
+	v.cleanMethod(method)
+	v.instructions_ = fra.List[lan.InstructionLike]()
+	v.bytecode_ = fra.List[uint16]()
+	v.arguments_ = fra.Catalog[string, not.DocumentLike]()
+	v.variables_ = fra.Catalog[string, not.DocumentLike]()
+	v.messages_ = fra.Set[string]()
+	v.addresses_ = fra.Catalog[string, uint16]()
+	v.address_ = 1
+	not.Visitor(v).VisitDocument(method)
 }
 
 func (v *typeCompiler_) compileMethods(
-	document not.DocumentLike,
+	type_ not.DocumentLike,
 ) {
-	var component = document.GetComponent()
+	var component = type_.GetComponent()
 	var collection = component.GetAny().(not.CollectionLike)
 	var attributes = collection.GetAny().(not.AttributesLike)
 	var associations = attributes.GetAssociations()
@@ -2272,9 +2272,9 @@ func (v *typeCompiler_) compileMethods(
 }
 
 func (v *typeCompiler_) cleanType(
-	document not.DocumentLike,
+	type_ not.DocumentLike,
 ) {
-	var component = document.GetComponent()
+	var component = type_.GetComponent()
 	var collection = component.GetAny().(not.CollectionLike)
 	var attributes = collection.GetAny().(not.AttributesLike)
 	var associations = attributes.GetAssociations()
@@ -2293,9 +2293,17 @@ func (v *typeCompiler_) cleanType(
 
 type typeCompiler_ struct {
 	// Declare the instance attributes.
-	repository_ rep.DocumentRepositoryLike
-	visitor_    not.VisitorLike
-	literals_   fra.ListLike[not.EntityLike]
+	repository_   rep.DocumentRepositoryLike
+	literals_     fra.SetLike[string]
+	constants_    fra.CatalogLike[string, not.DocumentLike]
+	instructions_ fra.ListLike[lan.InstructionLike]
+	bytecode_     fra.ListLike[uint16]
+	arguments_    fra.CatalogLike[string, not.DocumentLike]
+	variables_    fra.CatalogLike[string, not.DocumentLike]
+	messages_     fra.SetLike[string]
+	addresses_    fra.CatalogLike[string, uint16]
+	address_      uint16
+	//stack_ fra.StackLike[doc.ContextLike]
 
 	// Declare the inherited aspects.
 	not.Methodical

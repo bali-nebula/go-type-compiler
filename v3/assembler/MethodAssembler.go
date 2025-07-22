@@ -14,6 +14,7 @@ package assembler
 
 import (
 	lan "github.com/bali-nebula/go-assembly-language/v3"
+	not "github.com/bali-nebula/go-document-notation/v3"
 	fra "github.com/craterdog/go-component-framework/v7"
 	uti "github.com/craterdog/go-missing-utilities/v7"
 )
@@ -29,15 +30,13 @@ func MethodAssemblerClass() MethodAssemblerClassLike {
 // Constructor Methods
 
 func (c *methodAssemblerClass_) MethodAssembler(
-	literals fra.ListLike[string],
-	constants fra.CatalogLike[string, string],
+	type_ not.DocumentLike,
 ) MethodAssemblerLike {
-	if uti.IsUndefined(literals) {
-		panic("The \"literals\" attribute is required by this class.")
+	if uti.IsUndefined(type_) {
+		panic("The \"type_\" attribute is required by this class.")
 	}
-	if uti.IsUndefined(constants) {
-		panic("The \"constants\" attribute is required by this class.")
-	}
+	var literals fra.SetLike[string]
+	var constants fra.CatalogLike[string, not.DocumentLike]
 	var instance = &methodAssembler_{
 		// Initialize the instance attributes.
 		literals_:  literals,
@@ -62,9 +61,13 @@ func (v *methodAssembler_) GetClass() MethodAssemblerClassLike {
 	return methodAssemblerClass()
 }
 
-func (v *methodAssembler_) AssembleInstructions(
-	assembly lan.AssemblyLike,
+func (v *methodAssembler_) AssembleMethod(
+	method not.DocumentLike,
 ) {
+	var document = not.GetItem(method, "$instructions")
+	var component = document.GetComponent()
+	var source = component.GetAny().(not.StringLike).GetAny().(string)
+	var assembly = lan.ParseSource(source)
 	v.visitor_.VisitAssembly(assembly)
 }
 
@@ -726,9 +729,9 @@ func (v *methodAssembler_) ProcessValueSlot(
 
 type methodAssembler_ struct {
 	// Declare the instance attributes.
+	literals_  fra.SetLike[string]
+	constants_ fra.CatalogLike[string, not.DocumentLike]
 	visitor_   lan.VisitorLike
-	literals_  fra.ListLike[string]
-	constants_ fra.CatalogLike[string, string]
 
 	// Declare the inherited aspects.
 	lan.Methodical

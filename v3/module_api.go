@@ -31,10 +31,10 @@ For detailed documentation on this entire module refer to the wiki:
 package module
 
 import (
+	not "github.com/bali-nebula/go-document-notation/v3"
 	rep "github.com/bali-nebula/go-document-repository/v3"
 	ass "github.com/bali-nebula/go-type-compiler/v3/assembler"
 	com "github.com/bali-nebula/go-type-compiler/v3/compiler"
-	fra "github.com/craterdog/go-component-framework/v7"
 )
 
 // TYPE ALIASES
@@ -68,13 +68,9 @@ func MethodAssemblerClass() MethodAssemblerClassLike {
 }
 
 func MethodAssembler(
-	literals fra.ListLike[string],
-	constants fra.CatalogLike[string, string],
+	method not.DocumentLike,
 ) MethodAssemblerLike {
-	return MethodAssemblerClass().MethodAssembler(
-		literals,
-		constants,
-	)
+	return MethodAssemblerClass().MethodAssembler(method)
 }
 
 // Compiler

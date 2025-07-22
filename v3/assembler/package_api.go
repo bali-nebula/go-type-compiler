@@ -30,7 +30,7 @@ package assembler
 
 import (
 	lan "github.com/bali-nebula/go-assembly-language/v3"
-	fra "github.com/craterdog/go-component-framework/v7"
+	not "github.com/bali-nebula/go-document-notation/v3"
 )
 
 // TYPE DECLARATIONS
@@ -47,8 +47,7 @@ concrete method-assembler-like class.
 type MethodAssemblerClassLike interface {
 	// Constructor Methods
 	MethodAssembler(
-		literals fra.ListLike[string],
-		constants fra.CatalogLike[string, string],
+		type_ not.DocumentLike,
 	) MethodAssemblerLike
 }
 
@@ -62,8 +61,8 @@ of a concrete method-assembler-like class.
 type MethodAssemblerLike interface {
 	// Principal Methods
 	GetClass() MethodAssemblerClassLike
-	AssembleInstructions(
-		assembly lan.AssemblyLike,
+	AssembleMethod(
+		method not.DocumentLike,
 	)
 
 	// Aspect Interfaces

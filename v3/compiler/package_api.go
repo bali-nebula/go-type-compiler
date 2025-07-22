@@ -62,7 +62,7 @@ type TypeCompilerLike interface {
 	// Principal Methods
 	GetClass() TypeCompilerClassLike
 	CompileType(
-		document not.DocumentLike,
+		type_ not.DocumentLike,
 	)
 
 	// Attribute Methods
