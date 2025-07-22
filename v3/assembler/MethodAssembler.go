@@ -35,8 +35,8 @@ func (c *methodAssemblerClass_) MethodAssembler(
 	if uti.IsUndefined(type_) {
 		panic("The \"type_\" attribute is required by this class.")
 	}
-	var literals fra.SetLike[string]
-	var constants fra.CatalogLike[string, not.DocumentLike]
+	var literals = fra.Set[string]()
+	var constants = fra.Catalog[string, not.DocumentLike]()
 	var instance = &methodAssembler_{
 		// Initialize the instance attributes.
 		literals_:  literals,
@@ -45,7 +45,6 @@ func (c *methodAssemblerClass_) MethodAssembler(
 		// Initialize the inherited aspects.
 		Methodical: lan.Processor(),
 	}
-	instance.visitor_ = lan.Visitor(instance)
 	return instance
 }
 
@@ -64,11 +63,20 @@ func (v *methodAssembler_) GetClass() MethodAssemblerClassLike {
 func (v *methodAssembler_) AssembleMethod(
 	method not.DocumentLike,
 ) {
+	// Reset the instance attributes.
+	v.bytecode_ = fra.List[fra.Instruction]()
+
+	// Assemble the instructions into bytecode.
 	var document = not.GetItem(method, "$instructions")
 	var component = document.GetComponent()
 	var source = component.GetAny().(not.StringLike).GetAny().(string)
 	var assembly = lan.ParseSource(source)
-	v.visitor_.VisitAssembly(assembly)
+	lan.Visitor(v).VisitAssembly(assembly)
+
+	// Add the bytecode to the method definition.
+	var bytecode = fra.Bytecode(v.bytecode_.AsArray())
+	var item = not.ParseSource(bytecode.AsString())
+	v.SetItem(method, item, "$bytecode")
 }
 
 // Attribute Methods
@@ -725,13 +733,20 @@ func (v *methodAssembler_) ProcessValueSlot(
 
 // Private Methods
 
+func (v *methodAssembler_) SetItem(
+	method not.DocumentLike,
+	item not.DocumentLike,
+	indices ...any,
+) {
+}
+
 // Instance Structure
 
 type methodAssembler_ struct {
 	// Declare the instance attributes.
 	literals_  fra.SetLike[string]
 	constants_ fra.CatalogLike[string, not.DocumentLike]
-	visitor_   lan.VisitorLike
+	bytecode_  fra.ListLike[fra.Instruction]
 
 	// Declare the inherited aspects.
 	lan.Methodical

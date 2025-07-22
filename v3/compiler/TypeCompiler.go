@@ -2247,7 +2247,6 @@ func (v *typeCompiler_) compileMethod(
 ) {
 	v.cleanMethod(method)
 	v.instructions_ = fra.List[lan.InstructionLike]()
-	v.bytecode_ = fra.List[uint16]()
 	v.arguments_ = fra.Catalog[string, not.DocumentLike]()
 	v.variables_ = fra.Catalog[string, not.DocumentLike]()
 	v.messages_ = fra.Set[string]()
@@ -2297,7 +2296,6 @@ type typeCompiler_ struct {
 	literals_     fra.SetLike[string]
 	constants_    fra.CatalogLike[string, not.DocumentLike]
 	instructions_ fra.ListLike[lan.InstructionLike]
-	bytecode_     fra.ListLike[uint16]
 	arguments_    fra.CatalogLike[string, not.DocumentLike]
 	variables_    fra.CatalogLike[string, not.DocumentLike]
 	messages_     fra.SetLike[string]
