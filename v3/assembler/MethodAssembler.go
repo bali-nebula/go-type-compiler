@@ -67,16 +67,18 @@ func (v *methodAssembler_) AssembleMethod(
 	v.bytecode_ = fra.List[fra.Instruction]()
 
 	// Assemble the instructions into bytecode.
-	var document = not.GetItem(method, "$instructions")
+	var key = not.Primitive(not.Element("$instructions"))
+	var document = not.GetAttribute(method, key)
 	var component = document.GetComponent()
 	var source = component.GetAny().(not.StringLike).GetAny().(string)
 	var assembly = lan.ParseSource(source)
 	lan.Visitor(v).VisitAssembly(assembly)
 
 	// Add the bytecode to the method definition.
-	var bytecode = fra.Bytecode(v.bytecode_.AsArray())
-	var item = not.ParseSource(bytecode.AsString())
-	v.SetItem(method, item, "$bytecode")
+	source = fra.Bytecode(v.bytecode_.AsArray()).AsString()
+	var bytecode = not.ParseSource(source)
+	key = not.Primitive(not.Element("$bytecode"))
+	not.SetAttribute(method, bytecode, key)
 }
 
 // Attribute Methods
@@ -732,13 +734,6 @@ func (v *methodAssembler_) ProcessValueSlot(
 // PROTECTED INTERFACE
 
 // Private Methods
-
-func (v *methodAssembler_) SetItem(
-	method not.DocumentLike,
-	item not.DocumentLike,
-	indices ...any,
-) {
-}
 
 // Instance Structure
 

@@ -66,7 +66,8 @@ func (v *typeCompiler_) CompileType(
 	document not.DocumentLike,
 ) {
 	v.cleanType(document)
-	var methods = not.GetItem(document, "$methods")
+	var key = not.Primitive(not.Element("$methods"))
+	var methods = not.GetAttribute(document, key)
 	v.compileMethods(methods)
 	v.assembleMethods(methods)
 }
@@ -793,29 +794,6 @@ func (v *typeCompiler_) PostprocessElement(
 
 func (v *typeCompiler_) ProcessElementSlot(
 	element not.ElementLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) PreprocessEmpty(
-	empty not.EmptyLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) PostprocessEmpty(
-	empty not.EmptyLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessEmptySlot(
-	empty not.EmptyLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
