@@ -1,0 +1,57 @@
+/*
+................................................................................
+.    Copyright (c) 2009-2025 Crater Dog Technologies.  All Rights Reserved.    .
+................................................................................
+.  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.               .
+.                                                                              .
+.  This code is free software; you can redistribute it and/or modify it under  .
+.  the terms of The MIT License (MIT), as published by the Open Source         .
+.  Initiative. (See https://opensource.org/license/MIT)                        .
+................................................................................
+*/
+
+package module_test
+
+import (
+	com "github.com/bali-nebula/go-type-compiler/v3"
+	fra "github.com/craterdog/go-component-framework/v7"
+	uti "github.com/craterdog/go-missing-utilities/v7"
+	ass "github.com/stretchr/testify/assert"
+	tes "testing"
+)
+
+const directory = "./test/"
+
+func TestFormattingBytecode(t *tes.T) {
+	var instructions = fra.List[com.InstructionLike]()
+	var operation uint16
+	var modifier uint16
+	var operand uint16
+	var instruction = com.Instruction(0, 0, 0)
+	instructions.AppendValue(instruction)
+	operand++
+	for operation = 0; operation < 8; operation++ {
+		for modifier = 0; modifier < 4; modifier++ {
+			if operation == 2 {
+				instruction = com.Instruction(
+					com.Operation(operation<<13),
+					com.Modifier(modifier<<11),
+					0,
+				)
+			} else {
+				instruction = com.Instruction(
+					com.Operation(operation<<13),
+					com.Modifier(modifier<<11),
+					com.Operand(operand),
+				)
+			}
+			instructions.AppendValue(instruction)
+			operand++
+		}
+	}
+	ass.Equal(t, 33, int(instructions.GetSize()))
+	var bytecode = com.Bytecode(instructions)
+	var formatted = bytecode.AsString()
+	var filename = directory + "instructions.txt"
+	uti.WriteFile(filename, formatted)
+}

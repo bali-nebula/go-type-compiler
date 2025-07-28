@@ -35,6 +35,7 @@ import (
 	rep "github.com/bali-nebula/go-document-repository/v3"
 	ass "github.com/bali-nebula/go-type-compiler/v3/assembler"
 	com "github.com/bali-nebula/go-type-compiler/v3/compiler"
+	fra "github.com/craterdog/go-component-framework/v7"
 )
 
 // TYPE ALIASES
@@ -42,10 +43,54 @@ import (
 // Assembler
 
 type (
+	Operation = ass.Operation
+	Modifier  = ass.Modifier
+	Operand   = ass.Operand
+)
+
+const (
+	Jump       = ass.Jump
+	Push       = ass.Push
+	Pull       = ass.Pull
+	Load       = ass.Load
+	Save       = ass.Save
+	Drop       = ass.Drop
+	Call       = ass.Call
+	Send       = ass.Send
+	Any        = ass.Any
+	Empty      = ass.Empty
+	None       = ass.None
+	False      = ass.False
+	Handler    = ass.Handler
+	Literal    = ass.Literal
+	Constant   = ass.Constant
+	Argument   = ass.Argument
+	Component  = ass.Component
+	Result     = ass.Result
+	Exception  = ass.Exception
+	Variable   = ass.Variable
+	Document   = ass.Document
+	Contract   = ass.Contract
+	Message    = ass.Message
+	Arguments0 = ass.Arguments0
+	Arguments1 = ass.Arguments1
+	Arguments2 = ass.Arguments2
+	Arguments3 = ass.Arguments3
+	Component0 = ass.Component0
+	ComponentN = ass.ComponentN
+	Document0  = ass.Document0
+	DocumentN  = ass.DocumentN
+)
+
+type (
+	BytecodeClassLike        = ass.BytecodeClassLike
+	InstructionClassLike     = ass.InstructionClassLike
 	MethodAssemblerClassLike = ass.MethodAssemblerClassLike
 )
 
 type (
+	BytecodeLike        = ass.BytecodeLike
+	InstructionLike     = ass.InstructionLike
 	MethodAssemblerLike = ass.MethodAssemblerLike
 )
 
@@ -63,14 +108,44 @@ type (
 
 // Assembler
 
+func BytecodeClass() BytecodeClassLike {
+	return ass.BytecodeClass()
+}
+
+func Bytecode(
+	instructions fra.Sequential[ass.InstructionLike],
+) BytecodeLike {
+	return BytecodeClass().Bytecode(
+		instructions,
+	)
+}
+
+func InstructionClass() InstructionClassLike {
+	return ass.InstructionClass()
+}
+
+func Instruction(
+	operation ass.Operation,
+	modifier ass.Modifier,
+	operand ass.Operand,
+) InstructionLike {
+	return InstructionClass().Instruction(
+		operation,
+		modifier,
+		operand,
+	)
+}
+
 func MethodAssemblerClass() MethodAssemblerClassLike {
 	return ass.MethodAssemblerClass()
 }
 
 func MethodAssembler(
-	method not.DocumentLike,
+	type_ not.DocumentLike,
 ) MethodAssemblerLike {
-	return MethodAssemblerClass().MethodAssembler(method)
+	return MethodAssemblerClass().MethodAssembler(
+		type_,
+	)
 }
 
 // Compiler
