@@ -74,10 +74,10 @@ func (v instruction_) AsString() string {
 	var operand = v.GetOperand()
 	var index, address string
 	if operation == Jump || (operation == Push && modifier == Handler) {
-		// Treat the operand as an address "[Xxxx]".
-		address = fmt.Sprintf("[X%03x]", operand)
+		// Treat the operand as an address "[xHEX]".
+		address = fmt.Sprintf("[x%03x]", operand)
 	} else {
-		// Treat the operand as an index "dddd ".
+		// Treat the operand as an index "DECI".
 		index = fmt.Sprintf("%d", operand)
 	}
 	switch operation {
@@ -109,70 +109,70 @@ func (v instruction_) AsString() string {
 		switch modifier {
 		case Handler:
 			result += "HANDLER"
+		case Exception:
+			result += "EXCEPTION"
 		case Component:
 			result += "COMPONENT"
 		case Result:
 			result += "RESULT"
-		case Exception:
-			result += "EXCEPTION"
 		}
 	case Load:
 		result = "LOAD "
 		switch modifier {
-		case Variable:
-			result += "VARIABLE " + index
-		case Draft:
-			result += "DRAFT " + index
 		case Contract:
 			result += "CONTRACT " + index
+		case Draft:
+			result += "DRAFT " + index
 		case Message:
 			result += "MESSAGE " + index
+		case Variable:
+			result += "VARIABLE " + index
 		}
 	case Save:
 		result = "SAVE "
 		switch modifier {
-		case Variable:
-			result += "VARIABLE " + index
-		case Draft:
-			result += "DRAFT " + index
 		case Contract:
 			result += "CONTRACT " + index
+		case Draft:
+			result += "DRAFT " + index
 		case Message:
 			result += "MESSAGE " + index
+		case Variable:
+			result += "VARIABLE " + index
 		}
 	case Drop:
 		result = "DROP "
 		switch modifier {
-		case Variable:
-			result += "VARIABLE " + index
-		case Draft:
-			result += "DRAFT " + index
 		case Contract:
 			result += "CONTRACT " + index
+		case Draft:
+			result += "DRAFT " + index
 		case Message:
 			result += "MESSAGE " + index
+		case Variable:
+			result += "VARIABLE " + index
 		}
 	case Call:
 		result = "CALL " + index
 		switch modifier {
-		case Arguments0:
-		case Arguments1:
+		case With0Arguments:
+		case With1Argument:
 			result += " WITH 1 ARGUMENT"
-		case Arguments2:
+		case With2Arguments:
 			result += " WITH 2 ARGUMENTS"
-		case Arguments3:
+		case With3Arguments:
 			result += " WITH 3 ARGUMENTS"
 		}
 	case Send:
 		result = "SEND " + index + " TO "
 		switch modifier {
-		case Component0:
+		case Component:
 			result += "COMPONENT"
-		case ComponentN:
+		case ComponentWithArguments:
 			result += "COMPONENT WITH ARGUMENTS"
-		case Contract0:
+		case Contract:
 			result += "CONTRACT"
-		case ContractN:
+		case ContractWithArguments:
 			result += "CONTRACT WITH ARGUMENTS"
 		}
 	}

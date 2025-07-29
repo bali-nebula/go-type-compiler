@@ -49,37 +49,48 @@ type (
 )
 
 const (
-	Jump       = ass.Jump
-	Push       = ass.Push
-	Pull       = ass.Pull
-	Load       = ass.Load
-	Save       = ass.Save
-	Drop       = ass.Drop
-	Call       = ass.Call
-	Send       = ass.Send
-	Any        = ass.Any
-	Empty      = ass.Empty
-	None       = ass.None
-	False      = ass.False
-	Handler    = ass.Handler
-	Literal    = ass.Literal
-	Constant   = ass.Constant
-	Argument   = ass.Argument
-	Component  = ass.Component
-	Result     = ass.Result
-	Exception  = ass.Exception
-	Variable   = ass.Variable
-	Draft      = ass.Draft
-	Contract   = ass.Contract
-	Message    = ass.Message
-	Arguments0 = ass.Arguments0
-	Arguments1 = ass.Arguments1
-	Arguments2 = ass.Arguments2
-	Arguments3 = ass.Arguments3
-	Component0 = ass.Component0
-	ComponentN = ass.ComponentN
-	Contract0  = ass.Contract0
-	ContractN  = ass.ContractN
+	// Operations
+	Jump = ass.Jump
+	Push = ass.Push
+	Pull = ass.Pull
+	Load = ass.Load
+	Save = ass.Save
+	Drop = ass.Drop
+	Call = ass.Call
+	Send = ass.Send
+
+	// Jump Modifiers
+	Any   = ass.Any
+	Empty = ass.Empty
+	None  = ass.None
+	False = ass.False
+
+	// Push Modifiers
+	Handler  = ass.Handler
+	Literal  = ass.Literal
+	Constant = ass.Constant
+	Argument = ass.Argument
+
+	// Pull Modifiers
+	Exception = ass.Exception
+	Component = ass.Component
+	Result    = ass.Result
+
+	// Load, Save and Drop Modifiers
+	Contract = ass.Contract
+	Draft    = ass.Draft
+	Message  = ass.Message
+	Variable = ass.Variable
+
+	// Call Modifiers
+	With0Arguments = ass.With0Arguments
+	With1Argument  = ass.With1Argument
+	With2Arguments = ass.With2Arguments
+	With3Arguments = ass.With3Arguments
+
+	// Send Modifiers
+	ComponentWithArguments = ass.ComponentWithArguments
+	ContractWithArguments  = ass.ContractWithArguments
 )
 
 type (

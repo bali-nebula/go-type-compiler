@@ -1,5 +1,5 @@
-github.com/bali-nebula/go-assembly-language/v3 v3.5.0 h1:diqzXqK5VKBBbxnQCLV60EFHsGTqSpKtgR6it0mt8NA=
-github.com/bali-nebula/go-assembly-language/v3 v3.5.0/go.mod h1:wSHFCk23WGkXLjeWwroSAU+A8fwt2e4lBoUePiyDMrw=
+github.com/bali-nebula/go-assembly-language/v3 v3.6.0 h1:nn1B0jjl3dqY9xSxdJQMzsip6iiKRuUKZLftOTgVYAA=
+github.com/bali-nebula/go-assembly-language/v3 v3.6.0/go.mod h1:wSHFCk23WGkXLjeWwroSAU+A8fwt2e4lBoUePiyDMrw=
 github.com/bali-nebula/go-digital-notary/v3 v3.13.0 h1:AlKj8XyilaaZGsmfthWiov7HyRAc5RmwGTKWEFwyh5o=
 github.com/bali-nebula/go-digital-notary/v3 v3.13.0/go.mod h1:BUIWVom2He6/HSoAT2+Q57ifGMlkP0KDWla5nH1wch8=
 github.com/bali-nebula/go-document-notation/v3 v3.9.0 h1:kvPgeCuVGjLczI5GbJHAExOHlflH6v8ZhQgWaR9AVVM=

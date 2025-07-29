@@ -58,34 +58,40 @@ Modifier is a constrained type representing the possible BVM modifiers.
 type Modifier uint16
 
 const (
+	// Jump Operation
 	Any   Modifier = 0b0000000000000000
 	Empty Modifier = 0b0000100000000000
 	None  Modifier = 0b0001000000000000
 	False Modifier = 0b0001100000000000
 
+	// Push Operation
 	Handler  Modifier = 0b0000000000000000
 	Literal  Modifier = 0b0000100000000000
 	Constant Modifier = 0b0001000000000000
 	Argument Modifier = 0b0001100000000000
 
-	Component Modifier = 0b0000100000000000
-	Result    Modifier = 0b0001000000000000
-	Exception Modifier = 0b0001100000000000
+	// Pull Operation
+	// Handler is defined above.
+	Exception Modifier = 0b0000100000000000
+	Component Modifier = 0b0001000000000000
+	Result    Modifier = 0b0001100000000000
 
-	Variable Modifier = 0b0000000000000000
+	// Load, Save and Drop Operations
+	Contract Modifier = 0b0000000000000000
 	Draft    Modifier = 0b0000100000000000
-	Contract Modifier = 0b0001000000000000
-	Message  Modifier = 0b0001100000000000
+	Message  Modifier = 0b0001000000000000
+	Variable Modifier = 0b0001100000000000
 
-	Arguments0 Modifier = 0b0000000000000000
-	Arguments1 Modifier = 0b0000100000000000
-	Arguments2 Modifier = 0b0001000000000000
-	Arguments3 Modifier = 0b0001100000000000
+	// Call Operation
+	With0Arguments Modifier = 0b0000000000000000
+	With1Argument  Modifier = 0b0000100000000000
+	With2Arguments Modifier = 0b0001000000000000
+	With3Arguments Modifier = 0b0001100000000000
 
-	Component0 Modifier = 0b0000000000000000
-	ComponentN Modifier = 0b0000100000000000
-	Contract0  Modifier = 0b0001000000000000
-	ContractN  Modifier = 0b0001100000000000
+	// Send Operation
+	// Contract and Component are defined above.
+	ContractWithArguments  Modifier = 0b0000100000000000
+	ComponentWithArguments Modifier = 0b0001100000000000
 )
 
 /*

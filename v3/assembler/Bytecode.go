@@ -65,8 +65,8 @@ Address   Bytes    Bytecode                Instruction
 	var iterator = v.GetIterator()
 	for counter = 1; iterator.HasNext(); counter++ {
 		var instruction = iterator.GetNext()
-		var address = fmt.Sprintf("[X%03x]", counter)
-		var bytes = fmt.Sprintf("X%04x", instruction.AsIntrinsic())
+		var address = fmt.Sprintf("[x%03x]", counter)
+		var bytes = fmt.Sprintf("x%04x", instruction.AsIntrinsic())
 		var operation = instruction.GetOperation() >> 13
 		var modifier = instruction.GetModifier() >> 11
 		var operand = v.operandAsString(
@@ -119,10 +119,10 @@ func (v *bytecode_) operandAsString(
 ) string {
 	var result string
 	if operation == Jump || (operation == Push && modifier == Handler) {
-		// Treat the operand as an address "[Xxxx]".
-		result = fmt.Sprintf("[X%03x]", operand)
+		// Treat the operand as an address "[xHEX]".
+		result = fmt.Sprintf("[x%03x]", operand)
 	} else {
-		// Treat the operand as an index " dddd ".
+		// Treat the operand as an index " DECI ".
 		result = fmt.Sprintf(" %4d ", operand)
 	}
 	return result

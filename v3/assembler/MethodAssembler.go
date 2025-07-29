@@ -127,7 +127,23 @@ func (v *methodAssembler_) PreprocessDrop(
 	index_ uint,
 	count_ uint,
 ) {
-	// TBD - Add the method implementation.
+	var operation = Drop
+	var modifier Modifier
+	switch drop.GetComponent().GetAny().(string) {
+	case "CONTRACT":
+		modifier = Contract
+	case "DRAFT":
+		modifier = Draft
+	case "MESSAGE":
+		modifier = Message
+	case "VARIABLE":
+		modifier = Variable
+	}
+	var symbol = drop.GetSymbol()
+	var index = v.variables_.GetIndex(symbol)
+	var operand = Operand(index)
+	var instruction = InstructionClass().Instruction(operation, modifier, operand)
+	v.instructions_.AppendValue(instruction)
 }
 
 func (v *methodAssembler_) PostprocessDrop(
@@ -143,7 +159,25 @@ func (v *methodAssembler_) PreprocessJump(
 	index_ uint,
 	count_ uint,
 ) {
-	// TBD - Add the method implementation.
+	var operation = Jump
+	var modifier Modifier
+	var conditionally = jump.GetOptionalConditionally()
+	if uti.IsDefined(conditionally) {
+		var condition = conditionally.GetCondition()
+		switch condition.GetAny().(string) {
+		case "EMPTY":
+			modifier = Empty
+		case "NONE":
+			modifier = None
+		case "FALSE":
+			modifier = False
+		}
+	}
+	var label = jump.GetLabel()
+	var address = v.addresses_.GetValue(label)
+	var operand = Operand(address)
+	var instruction = InstructionClass().Instruction(operation, modifier, operand)
+	v.instructions_.AppendValue(instruction)
 }
 
 func (v *methodAssembler_) PostprocessJump(
@@ -159,7 +193,23 @@ func (v *methodAssembler_) PreprocessLoad(
 	index_ uint,
 	count_ uint,
 ) {
-	// TBD - Add the method implementation.
+	var operation = Load
+	var modifier Modifier
+	switch load.GetComponent().GetAny().(string) {
+	case "CONTRACT":
+		modifier = Contract
+	case "DRAFT":
+		modifier = Draft
+	case "MESSAGE":
+		modifier = Message
+	case "VARIABLE":
+		modifier = Variable
+	}
+	var symbol = load.GetSymbol()
+	var index = v.variables_.GetIndex(symbol)
+	var operand = Operand(index)
+	var instruction = InstructionClass().Instruction(operation, modifier, operand)
+	v.instructions_.AppendValue(instruction)
 }
 
 func (v *methodAssembler_) PostprocessLoad(
@@ -175,7 +225,21 @@ func (v *methodAssembler_) PreprocessPull(
 	index_ uint,
 	count_ uint,
 ) {
-	// TBD - Add the method implementation.
+	var operation = Pull
+	var modifier Modifier
+	switch pull.GetValue().GetAny().(string) {
+	case "HANDLER":
+		modifier = Handler
+	case "EXCEPTION":
+		modifier = Exception
+	case "COMPONENT":
+		modifier = Component
+	case "RESULT":
+		modifier = Result
+	}
+	var operand Operand
+	var instruction = InstructionClass().Instruction(operation, modifier, operand)
+	v.instructions_.AppendValue(instruction)
 }
 
 func (v *methodAssembler_) PostprocessPull(
@@ -191,7 +255,29 @@ func (v *methodAssembler_) PreprocessPush(
 	index_ uint,
 	count_ uint,
 ) {
-	// TBD - Add the method implementation.
+	var operation = Push
+	var modifier Modifier
+	var operand Operand
+	switch source := push.GetSource().GetAny().(type) {
+	case lan.HandlerLike:
+		modifier = Handler
+		var address = v.addresses_.GetValue(source.GetLabel())
+		operand = Operand(address)
+	case lan.LiteralLike:
+		modifier = Literal
+		var index = v.literals_.GetIndex(source.GetQuoted())
+		operand = Operand(index)
+	case lan.ConstantLike:
+		modifier = Constant
+		var index = v.constants_.GetIndex(source.GetSymbol())
+		operand = Operand(index)
+	case lan.ArgumentLike:
+		modifier = Argument
+		var index = v.arguments_.GetIndex(source.GetSymbol())
+		operand = Operand(index)
+	}
+	var instruction = InstructionClass().Instruction(operation, modifier, operand)
+	v.instructions_.AppendValue(instruction)
 }
 
 func (v *methodAssembler_) PostprocessPush(
@@ -207,7 +293,23 @@ func (v *methodAssembler_) PreprocessSave(
 	index_ uint,
 	count_ uint,
 ) {
-	// TBD - Add the method implementation.
+	var operation = Save
+	var modifier Modifier
+	switch save.GetComponent().GetAny().(string) {
+	case "CONTRACT":
+		modifier = Contract
+	case "DRAFT":
+		modifier = Draft
+	case "MESSAGE":
+		modifier = Message
+	case "VARIABLE":
+		modifier = Variable
+	}
+	var symbol = save.GetSymbol()
+	var index = v.variables_.GetIndex(symbol)
+	var operand = Operand(index)
+	var instruction = InstructionClass().Instruction(operation, modifier, operand)
+	v.instructions_.AppendValue(instruction)
 }
 
 func (v *methodAssembler_) PostprocessSave(
@@ -223,7 +325,26 @@ func (v *methodAssembler_) PreprocessSend(
 	index_ uint,
 	count_ uint,
 ) {
-	// TBD - Add the method implementation.
+	var operation = Send
+	var modifier Modifier
+	var withArguments = uti.IsDefined(send.GetOptionalParameterized())
+	switch send.GetDestination().GetAny().(string) {
+	case "CONTRACT":
+		modifier = Contract
+		if withArguments {
+			modifier = ContractWithArguments
+		}
+	case "COMPONENT":
+		modifier = Component
+		if withArguments {
+			modifier = ComponentWithArguments
+		}
+	}
+	var symbol = send.GetSymbol()
+	var index = v.messages_.GetIndex(symbol)
+	var operand = Operand(index)
+	var instruction = InstructionClass().Instruction(operation, modifier, operand)
+	v.instructions_.AppendValue(instruction)
 }
 
 func (v *methodAssembler_) PostprocessSend(
