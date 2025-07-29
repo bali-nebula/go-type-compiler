@@ -17,7 +17,6 @@ import (
 	not "github.com/bali-nebula/go-document-notation/v3"
 	rep "github.com/bali-nebula/go-document-repository/v3"
 	ass "github.com/bali-nebula/go-type-compiler/v3/assembler"
-	//doc "github.com/bali-nebula/go-type-compiler/v3/document"
 	fra "github.com/craterdog/go-component-framework/v7"
 	uti "github.com/craterdog/go-missing-utilities/v7"
 )
@@ -42,7 +41,7 @@ func (c *typeCompilerClass_) TypeCompiler(
 		// Initialize the instance attributes.
 		repository_: repository,
 		literals_:   fra.Set[string](),
-		constants_:  fra.Catalog[string, not.DocumentLike](),
+		constants_:  fra.Set[string](),
 
 		// Initialize the inherited aspects.
 		Methodical: not.Processor(),
@@ -63,13 +62,11 @@ func (v *typeCompiler_) GetClass() TypeCompilerClassLike {
 }
 
 func (v *typeCompiler_) CompileType(
-	document not.DocumentLike,
+	type_ not.DocumentLike,
 ) {
-	v.cleanType(document)
-	var key = not.Primitive(not.Element("$methods"))
-	var methods = not.GetAttribute(document, key)
-	v.compileMethods(methods)
-	v.assembleMethods(methods)
+	v.cleanType(type_)
+	v.compileMethods(type_)
+	v.assembleMethods(type_)
 }
 
 // Attribute Methods
@@ -2187,7 +2184,9 @@ func (v *typeCompiler_) assembleMethods(
 	type_ not.DocumentLike,
 ) {
 	var assembler = ass.MethodAssemblerClass().MethodAssembler(type_)
-	var component = type_.GetComponent()
+	var key = not.Primitive(not.Element("$methods"))
+	var methods = not.GetAttribute(type_, key)
+	var component = methods.GetComponent()
 	var collection = component.GetAny().(not.CollectionLike)
 	var attributes = collection.GetAny().(not.AttributesLike)
 	var associations = attributes.GetAssociations()
@@ -2226,7 +2225,7 @@ func (v *typeCompiler_) compileMethod(
 	v.cleanMethod(method)
 	v.instructions_ = fra.List[lan.InstructionLike]()
 	v.arguments_ = fra.Catalog[string, not.DocumentLike]()
-	v.variables_ = fra.Catalog[string, not.DocumentLike]()
+	v.variables_ = fra.Set[string]()
 	v.messages_ = fra.Set[string]()
 	v.addresses_ = fra.Catalog[string, uint16]()
 	v.address_ = 1
@@ -2236,7 +2235,9 @@ func (v *typeCompiler_) compileMethod(
 func (v *typeCompiler_) compileMethods(
 	type_ not.DocumentLike,
 ) {
-	var component = type_.GetComponent()
+	var key = not.Primitive(not.Element("$methods"))
+	var methods = not.GetAttribute(type_, key)
+	var component = methods.GetComponent()
 	var collection = component.GetAny().(not.CollectionLike)
 	var attributes = collection.GetAny().(not.AttributesLike)
 	var associations = attributes.GetAssociations()
@@ -2272,14 +2273,13 @@ type typeCompiler_ struct {
 	// Declare the instance attributes.
 	repository_   rep.DocumentRepositoryLike
 	literals_     fra.SetLike[string]
-	constants_    fra.CatalogLike[string, not.DocumentLike]
+	constants_    fra.SetLike[string]
 	instructions_ fra.ListLike[lan.InstructionLike]
 	arguments_    fra.CatalogLike[string, not.DocumentLike]
-	variables_    fra.CatalogLike[string, not.DocumentLike]
+	variables_    fra.SetLike[string]
 	messages_     fra.SetLike[string]
 	addresses_    fra.CatalogLike[string, uint16]
 	address_      uint16
-	//stack_ fra.StackLike[doc.ContextLike]
 
 	// Declare the inherited aspects.
 	not.Methodical

@@ -185,6 +185,9 @@ type MethodAssemblerLike interface {
 		method not.DocumentLike,
 	)
 
+	// Attribute Methods
+	GetType() not.DocumentLike
+
 	// Aspect Interfaces
 	lan.Methodical
 }

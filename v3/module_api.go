@@ -143,9 +143,7 @@ func MethodAssemblerClass() MethodAssemblerClassLike {
 func MethodAssembler(
 	type_ not.DocumentLike,
 ) MethodAssemblerLike {
-	return MethodAssemblerClass().MethodAssembler(
-		type_,
-	)
+	return MethodAssemblerClass().MethodAssembler(type_)
 }
 
 // Compiler

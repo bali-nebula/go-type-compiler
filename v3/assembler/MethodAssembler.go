@@ -35,12 +35,13 @@ func (c *methodAssemblerClass_) MethodAssembler(
 	if uti.IsUndefined(type_) {
 		panic("The \"type_\" attribute is required by this class.")
 	}
+	var constants = fra.Set[string]()
 	var literals = fra.Set[string]()
-	var constants = fra.Catalog[string, not.DocumentLike]()
 	var instance = &methodAssembler_{
 		// Initialize the instance attributes.
-		literals_:  literals,
+		type_:      type_,
 		constants_: constants,
+		literals_:  literals,
 
 		// Initialize the inherited aspects.
 		Methodical: lan.Processor(),
@@ -64,24 +65,25 @@ func (v *methodAssembler_) AssembleMethod(
 	method not.DocumentLike,
 ) {
 	// Reset the instance attributes.
-	v.bytecode_ = fra.List[fra.Instruction]()
+	v.arguments_ = fra.Set[string]()
+	v.variables_ = fra.Set[string]()
+	v.messages_ = fra.Set[string]()
+	v.addresses_ = fra.Catalog[string, uint16]()
+	v.instructions_ = fra.List[InstructionLike]()
 
-	// Assemble the instructions into bytecode.
-	var key = not.Primitive(not.Element("$instructions"))
-	var document = not.GetAttribute(method, key)
-	var component = document.GetComponent()
-	var source = component.GetAny().(not.StringLike).GetAny().(string)
-	var assembly = lan.ParseSource(source)
+	// Assemble the method into assembly instructions.
+	var assembly lan.AssemblyLike
 	lan.Visitor(v).VisitAssembly(assembly)
 
-	// Add the bytecode to the method definition.
-	source = fra.Bytecode(v.bytecode_.AsArray()).AsString()
-	var bytecode = not.ParseSource(source)
-	key = not.Primitive(not.Element("$bytecode"))
-	not.SetAttribute(method, bytecode, key)
+	// Convert the assembly instructions into bytecode.
+	BytecodeClass().Bytecode(v.instructions_)
 }
 
 // Attribute Methods
+
+func (v *methodAssembler_) GetType() not.DocumentLike {
+	return v.type_
+}
 
 // Methodical Methods
 
@@ -739,9 +741,14 @@ func (v *methodAssembler_) ProcessValueSlot(
 
 type methodAssembler_ struct {
 	// Declare the instance attributes.
-	literals_  fra.SetLike[string]
-	constants_ fra.CatalogLike[string, not.DocumentLike]
-	bytecode_  fra.ListLike[fra.Instruction]
+	type_         not.DocumentLike
+	literals_     fra.SetLike[string]
+	constants_    fra.SetLike[string]
+	arguments_    fra.SetLike[string]
+	variables_    fra.SetLike[string]
+	messages_     fra.SetLike[string]
+	addresses_    fra.CatalogLike[string, uint16]
+	instructions_ fra.ListLike[InstructionLike]
 
 	// Declare the inherited aspects.
 	lan.Methodical
