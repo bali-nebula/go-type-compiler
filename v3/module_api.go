@@ -69,7 +69,7 @@ const (
 	Result     = ass.Result
 	Exception  = ass.Exception
 	Variable   = ass.Variable
-	Document   = ass.Document
+	Draft      = ass.Draft
 	Contract   = ass.Contract
 	Message    = ass.Message
 	Arguments0 = ass.Arguments0
@@ -78,8 +78,8 @@ const (
 	Arguments3 = ass.Arguments3
 	Component0 = ass.Component0
 	ComponentN = ass.ComponentN
-	Document0  = ass.Document0
-	DocumentN  = ass.DocumentN
+	Contract0  = ass.Contract0
+	ContractN  = ass.ContractN
 )
 
 type (

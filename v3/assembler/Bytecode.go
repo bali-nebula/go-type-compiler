@@ -57,16 +57,16 @@ func (v *bytecode_) GetClass() BytecodeClassLike {
 func (v *bytecode_) AsString() string {
 	var result str.Builder
 	result.WriteString(`
- Addr   Bytes   Bytecode               Instruction
----------------------------------------------------------------
+Address   Bytes    Bytecode                Instruction
+--------------------------------------------------------------------
 `,
 	)
 	var counter uint16
 	var iterator = v.GetIterator()
 	for counter = 1; iterator.HasNext(); counter++ {
 		var instruction = iterator.GetNext()
-		var address = fmt.Sprintf("[%03x]", counter)
-		var bytes = fmt.Sprintf("x%04x", instruction.AsIntrinsic())
+		var address = fmt.Sprintf("[X%03x]", counter)
+		var bytes = fmt.Sprintf("X%04x", instruction.AsIntrinsic())
 		var operation = instruction.GetOperation() >> 13
 		var modifier = instruction.GetModifier() >> 11
 		var operand = v.operandAsString(
@@ -74,10 +74,10 @@ func (v *bytecode_) AsString() string {
 			instruction.GetModifier(),
 			instruction.GetOperand(),
 		)
-		var bytecode = fmt.Sprintf("%d%d %s", operation, modifier, operand)
+		var bytecode = fmt.Sprintf("%d %d %s", operation, modifier, operand)
 		var description = instruction.AsString()
 		var line = fmt.Sprintf(
-			"%s:  %s   %s  %s\n",
+			"%s:   %s   %s  %s\n",
 			address,
 			bytes,
 			bytecode,
@@ -119,11 +119,11 @@ func (v *bytecode_) operandAsString(
 ) string {
 	var result string
 	if operation == Jump || (operation == Push && modifier == Handler) {
-		// Treat the operand as an address "[xxx]".
-		result = fmt.Sprintf("[%03x]", operand)
+		// Treat the operand as an address "[Xxxx]".
+		result = fmt.Sprintf("[X%03x]", operand)
 	} else {
-		// Treat the operand as an index "dddd ".
-		result = fmt.Sprintf("%4d ", operand)
+		// Treat the operand as an index " dddd ".
+		result = fmt.Sprintf(" %4d ", operand)
 	}
 	return result
 }

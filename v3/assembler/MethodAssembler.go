@@ -17,6 +17,7 @@ import (
 	not "github.com/bali-nebula/go-document-notation/v3"
 	fra "github.com/craterdog/go-component-framework/v7"
 	uti "github.com/craterdog/go-missing-utilities/v7"
+	stc "strconv"
 )
 
 // CLASS INTERFACE
@@ -65,6 +66,7 @@ func (v *methodAssembler_) AssembleMethod(
 	method not.DocumentLike,
 ) {
 	// Reset the instance attributes.
+	v.address_ = 1
 	v.arguments_ = fra.Set[string]()
 	v.variables_ = fra.Set[string]()
 	v.messages_ = fra.Set[string]()
@@ -87,121 +89,10 @@ func (v *methodAssembler_) GetType() not.DocumentLike {
 
 // Methodical Methods
 
-func (v *methodAssembler_) ProcessComment(
-	comment string,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) ProcessCount(
-	count string,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) ProcessDelimiter(
-	delimiter string,
-) {
-	// TBD - Add the method implementation.
-}
-
 func (v *methodAssembler_) ProcessLabel(
 	label string,
 ) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) ProcessNewline(
-	newline string,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) ProcessQuoted(
-	quoted string,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) ProcessSpace(
-	space string,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) ProcessSymbol(
-	symbol string,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) PreprocessAction(
-	action lan.ActionLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) PostprocessAction(
-	action lan.ActionLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) ProcessActionSlot(
-	action lan.ActionLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) PreprocessArgument(
-	argument lan.ArgumentLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) PostprocessArgument(
-	argument lan.ArgumentLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) ProcessArgumentSlot(
-	argument lan.ArgumentLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) PreprocessAssembly(
-	assembly lan.AssemblyLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) PostprocessAssembly(
-	assembly lan.AssemblyLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) ProcessAssemblySlot(
-	assembly lan.AssemblyLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
+	v.addresses_.SetValue(label, v.address_)
 }
 
 func (v *methodAssembler_) PreprocessCall(
@@ -209,7 +100,18 @@ func (v *methodAssembler_) PreprocessCall(
 	index_ uint,
 	count_ uint,
 ) {
-	// TBD - Add the method implementation.
+	var operation = Call
+	var modifier Modifier
+	var cardinality = call.GetOptionalCardinality()
+	if uti.IsDefined(cardinality) {
+		var count, _ = stc.Atoi(cardinality.GetCount())
+		modifier = Modifier(count)
+	}
+	var symbol = call.GetSymbol()
+	var index = methodAssemblerClass().intrinsics_.GetIndex(symbol)
+	var operand = Operand(index)
+	var instruction = InstructionClass().Instruction(operation, modifier, operand)
+	v.instructions_.AppendValue(instruction)
 }
 
 func (v *methodAssembler_) PostprocessCall(
@@ -217,152 +119,7 @@ func (v *methodAssembler_) PostprocessCall(
 	index_ uint,
 	count_ uint,
 ) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) ProcessCallSlot(
-	call lan.CallLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) PreprocessCardinality(
-	cardinality lan.CardinalityLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) PostprocessCardinality(
-	cardinality lan.CardinalityLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) ProcessCardinalitySlot(
-	cardinality lan.CardinalityLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) PreprocessComponent(
-	component lan.ComponentLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) PostprocessComponent(
-	component lan.ComponentLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) ProcessComponentSlot(
-	component lan.ComponentLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) PreprocessCondition(
-	condition lan.ConditionLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) PostprocessCondition(
-	condition lan.ConditionLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) ProcessConditionSlot(
-	condition lan.ConditionLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) PreprocessConditionally(
-	conditionally lan.ConditionallyLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) PostprocessConditionally(
-	conditionally lan.ConditionallyLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) ProcessConditionallySlot(
-	conditionally lan.ConditionallyLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) PreprocessConstant(
-	constant lan.ConstantLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) PostprocessConstant(
-	constant lan.ConstantLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) ProcessConstantSlot(
-	constant lan.ConstantLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) PreprocessDestination(
-	destination lan.DestinationLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) PostprocessDestination(
-	destination lan.DestinationLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) ProcessDestinationSlot(
-	destination lan.DestinationLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
+	v.address_++
 }
 
 func (v *methodAssembler_) PreprocessDrop(
@@ -378,60 +135,7 @@ func (v *methodAssembler_) PostprocessDrop(
 	index_ uint,
 	count_ uint,
 ) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) ProcessDropSlot(
-	drop lan.DropLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) PreprocessHandler(
-	handler lan.HandlerLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) PostprocessHandler(
-	handler lan.HandlerLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) ProcessHandlerSlot(
-	handler lan.HandlerLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) PreprocessInstruction(
-	instruction lan.InstructionLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) PostprocessInstruction(
-	instruction lan.InstructionLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) ProcessInstructionSlot(
-	instruction lan.InstructionLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
+	v.address_++
 }
 
 func (v *methodAssembler_) PreprocessJump(
@@ -447,37 +151,7 @@ func (v *methodAssembler_) PostprocessJump(
 	index_ uint,
 	count_ uint,
 ) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) ProcessJumpSlot(
-	jump lan.JumpLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) PreprocessLiteral(
-	literal lan.LiteralLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) PostprocessLiteral(
-	literal lan.LiteralLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) ProcessLiteralSlot(
-	literal lan.LiteralLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
+	v.address_++
 }
 
 func (v *methodAssembler_) PreprocessLoad(
@@ -493,83 +167,7 @@ func (v *methodAssembler_) PostprocessLoad(
 	index_ uint,
 	count_ uint,
 ) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) ProcessLoadSlot(
-	load lan.LoadLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) PreprocessNote(
-	note lan.NoteLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) PostprocessNote(
-	note lan.NoteLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) ProcessNoteSlot(
-	note lan.NoteLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) PreprocessParameterized(
-	parameterized lan.ParameterizedLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) PostprocessParameterized(
-	parameterized lan.ParameterizedLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) ProcessParameterizedSlot(
-	parameterized lan.ParameterizedLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) PreprocessPrefix(
-	prefix lan.PrefixLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) PostprocessPrefix(
-	prefix lan.PrefixLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) ProcessPrefixSlot(
-	prefix lan.PrefixLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
+	v.address_++
 }
 
 func (v *methodAssembler_) PreprocessPull(
@@ -585,14 +183,7 @@ func (v *methodAssembler_) PostprocessPull(
 	index_ uint,
 	count_ uint,
 ) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) ProcessPullSlot(
-	pull lan.PullLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
+	v.address_++
 }
 
 func (v *methodAssembler_) PreprocessPush(
@@ -608,14 +199,7 @@ func (v *methodAssembler_) PostprocessPush(
 	index_ uint,
 	count_ uint,
 ) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) ProcessPushSlot(
-	push lan.PushLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
+	v.address_++
 }
 
 func (v *methodAssembler_) PreprocessSave(
@@ -631,14 +215,7 @@ func (v *methodAssembler_) PostprocessSave(
 	index_ uint,
 	count_ uint,
 ) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) ProcessSaveSlot(
-	save lan.SaveLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
+	v.address_++
 }
 
 func (v *methodAssembler_) PreprocessSend(
@@ -654,14 +231,7 @@ func (v *methodAssembler_) PostprocessSend(
 	index_ uint,
 	count_ uint,
 ) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) ProcessSendSlot(
-	send lan.SendLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
+	v.address_++
 }
 
 func (v *methodAssembler_) PreprocessSkip(
@@ -669,7 +239,8 @@ func (v *methodAssembler_) PreprocessSkip(
 	index_ uint,
 	count_ uint,
 ) {
-	// TBD - Add the method implementation.
+	var instruction = InstructionClass().Instruction(0, 0, 0)
+	v.instructions_.AppendValue(instruction)
 }
 
 func (v *methodAssembler_) PostprocessSkip(
@@ -677,60 +248,7 @@ func (v *methodAssembler_) PostprocessSkip(
 	index_ uint,
 	count_ uint,
 ) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) ProcessSkipSlot(
-	skip lan.SkipLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) PreprocessSource(
-	source lan.SourceLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) PostprocessSource(
-	source lan.SourceLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) ProcessSourceSlot(
-	source lan.SourceLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) PreprocessValue(
-	value lan.ValueLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) PostprocessValue(
-	value lan.ValueLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *methodAssembler_) ProcessValueSlot(
-	value lan.ValueLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
+	v.address_++
 }
 
 // PROTECTED INTERFACE
@@ -747,6 +265,7 @@ type methodAssembler_ struct {
 	arguments_    fra.SetLike[string]
 	variables_    fra.SetLike[string]
 	messages_     fra.SetLike[string]
+	address_      uint16
 	addresses_    fra.CatalogLike[string, uint16]
 	instructions_ fra.ListLike[InstructionLike]
 
@@ -758,6 +277,7 @@ type methodAssembler_ struct {
 
 type methodAssemblerClass_ struct {
 	// Declare the class constants.
+	intrinsics_ fra.SetLike[string]
 }
 
 // Class Reference
@@ -768,4 +288,150 @@ func methodAssemblerClass() *methodAssemblerClass_ {
 
 var methodAssemblerClassReference_ = &methodAssemblerClass_{
 	// Initialize the class constants.
+	intrinsics_: fra.SetFromArray[string](
+		[]string{
+			"$invalid",
+			"$addItem",
+			"$ancestry",
+			"$and",
+			"$arccosine",
+			"$arcsine",
+			"$arctangent",
+			"$areEqual",
+			"$areSame",
+			"$association",
+			"$attribute",
+			"$authority",
+			"$base02",
+			"$base16",
+			"$base32",
+			"$base64",
+			"$binary",
+			"$bytes",
+			"$catalog",
+			"$chain",
+			"$citation",
+			"$code",
+			"$coinToss",
+			"$comparator",
+			"$complement",
+			"$component",
+			"$conjugate",
+			"$connector",
+			"$cosine",
+			"$day",
+			"$days",
+			"$default",
+			"$degrees",
+			"$difference",
+			"$document",
+			"$doesMatch",
+			"$duplicate",
+			"$duration",
+			"$earlier",
+			"$effective",
+			"$emptyCollection",
+			"$exponential",
+			"$factorial",
+			"$first",
+			"$format",
+			"$fragment",
+			"$hasNext",
+			"$hasPrevious",
+			"$hash",
+			"$head",
+			"$hour",
+			"$hours",
+			"$html",
+			"$imaginary",
+			"$insertItem",
+			"$insertItems",
+			"$integer",
+			"$interfaces",
+			"$inverse",
+			"$ior",
+			"$isEnumerable",
+			"$isLess",
+			"$isMore",
+			"$isNegative",
+			"$isSignificant",
+			"$item",
+			"$iterator",
+			"$key",
+			"$keys",
+			"$last",
+			"$later",
+			"$levels",
+			"$list",
+			"$logarithm",
+			"$magnitude",
+			"$matchesText",
+			"$millisecond",
+			"$milliseconds",
+			"$minute",
+			"$minutes",
+			"$month",
+			"$months",
+			"$nextItem",
+			"$nextVersion",
+			"$node",
+			"$not",
+			"$now",
+			"$parameters",
+			"$path",
+			"$phase",
+			"$previousItem",
+			"$procedure",
+			"$product",
+			"$query",
+			"$queue",
+			"$quotient",
+			"$radians",
+			"$random",
+			"$range",
+			"$ranking",
+			"$real",
+			"$reciprocal",
+			"$remainder",
+			"$removeAttribute",
+			"$removeHead",
+			"$removeIndex",
+			"$removeIndices",
+			"$removeItem",
+			"$removeTop",
+			"$reverseItems",
+			"$sans",
+			"$scaled",
+			"$scheme",
+			"$second",
+			"$seconds",
+			"$set",
+			"$setAttribute",
+			"$setFirst",
+			"$setItem",
+			"$setLast",
+			"$setParameter",
+			"$setValue",
+			"$shuffleItems",
+			"$sine",
+			"$size",
+			"$sortItems",
+			"$sorter",
+			"$source",
+			"$stack",
+			"$sum",
+			"$supplement",
+			"$tag",
+			"$tangent",
+			"$toEnd",
+			"$toSlot",
+			"$toStart",
+			"$top",
+			"$value",
+			"$weeks",
+			"$xor",
+			"$year",
+			"$years",
+		},
+	),
 }

@@ -74,8 +74,8 @@ func (v instruction_) AsString() string {
 	var operand = v.GetOperand()
 	var index, address string
 	if operation == Jump || (operation == Push && modifier == Handler) {
-		// Treat the operand as an address "[xxx]".
-		address = fmt.Sprintf("[%03x]", operand)
+		// Treat the operand as an address "[Xxxx]".
+		address = fmt.Sprintf("[X%03x]", operand)
 	} else {
 		// Treat the operand as an index "dddd ".
 		index = fmt.Sprintf("%d", operand)
@@ -121,8 +121,8 @@ func (v instruction_) AsString() string {
 		switch modifier {
 		case Variable:
 			result += "VARIABLE " + index
-		case Document:
-			result += "DOCUMENT " + index
+		case Draft:
+			result += "DRAFT " + index
 		case Contract:
 			result += "CONTRACT " + index
 		case Message:
@@ -133,8 +133,8 @@ func (v instruction_) AsString() string {
 		switch modifier {
 		case Variable:
 			result += "VARIABLE " + index
-		case Document:
-			result += "DOCUMENT " + index
+		case Draft:
+			result += "DRAFT " + index
 		case Contract:
 			result += "CONTRACT " + index
 		case Message:
@@ -145,8 +145,8 @@ func (v instruction_) AsString() string {
 		switch modifier {
 		case Variable:
 			result += "VARIABLE " + index
-		case Document:
-			result += "DOCUMENT " + index
+		case Draft:
+			result += "DRAFT " + index
 		case Contract:
 			result += "CONTRACT " + index
 		case Message:
@@ -170,10 +170,10 @@ func (v instruction_) AsString() string {
 			result += "COMPONENT"
 		case ComponentN:
 			result += "COMPONENT WITH ARGUMENTS"
-		case Document0:
-			result += "DOCUMENT"
-		case DocumentN:
-			result += "DOCUMENT WITH ARGUMENTS"
+		case Contract0:
+			result += "CONTRACT"
+		case ContractN:
+			result += "CONTRACT WITH ARGUMENTS"
 		}
 	}
 	return result

@@ -73,7 +73,7 @@ const (
 	Exception Modifier = 0b0001100000000000
 
 	Variable Modifier = 0b0000000000000000
-	Document Modifier = 0b0000100000000000
+	Draft    Modifier = 0b0000100000000000
 	Contract Modifier = 0b0001000000000000
 	Message  Modifier = 0b0001100000000000
 
@@ -84,8 +84,8 @@ const (
 
 	Component0 Modifier = 0b0000000000000000
 	ComponentN Modifier = 0b0000100000000000
-	Document0  Modifier = 0b0001000000000000
-	DocumentN  Modifier = 0b0001100000000000
+	Contract0  Modifier = 0b0001000000000000
+	ContractN  Modifier = 0b0001100000000000
 )
 
 /*
