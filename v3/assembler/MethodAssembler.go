@@ -18,6 +18,7 @@ import (
 	fra "github.com/craterdog/go-component-framework/v7"
 	uti "github.com/craterdog/go-missing-utilities/v7"
 	stc "strconv"
+	str "strings"
 )
 
 // CLASS INTERFACE
@@ -36,11 +37,10 @@ func (c *methodAssemblerClass_) MethodAssembler(
 	if uti.IsUndefined(type_) {
 		panic("The \"type_\" attribute is required by this class.")
 	}
-	var constants = fra.Set[string]()
-	var literals = fra.Set[string]()
+	var constants = c.extractConstants(type_)
+	var literals = c.extractLiterals(type_)
 	var instance = &methodAssembler_{
 		// Initialize the instance attributes.
-		type_:      type_,
 		constants_: constants,
 		literals_:  literals,
 
@@ -65,35 +65,19 @@ func (v *methodAssembler_) GetClass() MethodAssemblerClassLike {
 func (v *methodAssembler_) AssembleMethod(
 	method not.DocumentLike,
 ) {
-	// Reset the instance attributes.
-	v.address_ = 1
-	v.arguments_ = fra.Set[string]()
-	v.variables_ = fra.Set[string]()
-	v.messages_ = fra.Set[string]()
-	v.addresses_ = fra.Catalog[string, uint16]()
-	v.instructions_ = fra.List[InstructionLike]()
+	// Extract the instance attributes from the method.
+	v.extractAttributes(method)
 
-	// Assemble the method into assembly instructions.
-	var assembly lan.AssemblyLike
-	lan.Visitor(v).VisitAssembly(assembly)
+	// Assemble the method into bytecode.
+	lan.Visitor(v).VisitAssembly(v.assembly_)
 
-	// Convert the assembly instructions into bytecode.
-	BytecodeClass().Bytecode(v.instructions_)
+	// Add the assembled bytecode to the method.
+	v.addAttributes(method)
 }
 
 // Attribute Methods
 
-func (v *methodAssembler_) GetType() not.DocumentLike {
-	return v.type_
-}
-
 // Methodical Methods
-
-func (v *methodAssembler_) ProcessLabel(
-	label string,
-) {
-	v.addresses_.SetValue(label, v.address_)
-}
 
 func (v *methodAssembler_) PreprocessCall(
 	call lan.CallLike,
@@ -105,21 +89,13 @@ func (v *methodAssembler_) PreprocessCall(
 	var cardinality = call.GetOptionalCardinality()
 	if uti.IsDefined(cardinality) {
 		var count, _ = stc.Atoi(cardinality.GetCount())
-		modifier = Modifier(count)
+		modifier = Modifier(count << 11)
 	}
 	var symbol = call.GetSymbol()
 	var index = methodAssemblerClass().intrinsics_.GetIndex(symbol)
 	var operand = Operand(index)
 	var instruction = InstructionClass().Instruction(operation, modifier, operand)
 	v.instructions_.AppendValue(instruction)
-}
-
-func (v *methodAssembler_) PostprocessCall(
-	call lan.CallLike,
-	index_ uint,
-	count_ uint,
-) {
-	v.address_++
 }
 
 func (v *methodAssembler_) PreprocessDrop(
@@ -144,14 +120,6 @@ func (v *methodAssembler_) PreprocessDrop(
 	var operand = Operand(index)
 	var instruction = InstructionClass().Instruction(operation, modifier, operand)
 	v.instructions_.AppendValue(instruction)
-}
-
-func (v *methodAssembler_) PostprocessDrop(
-	drop lan.DropLike,
-	index_ uint,
-	count_ uint,
-) {
-	v.address_++
 }
 
 func (v *methodAssembler_) PreprocessJump(
@@ -180,14 +148,6 @@ func (v *methodAssembler_) PreprocessJump(
 	v.instructions_.AppendValue(instruction)
 }
 
-func (v *methodAssembler_) PostprocessJump(
-	jump lan.JumpLike,
-	index_ uint,
-	count_ uint,
-) {
-	v.address_++
-}
-
 func (v *methodAssembler_) PreprocessLoad(
 	load lan.LoadLike,
 	index_ uint,
@@ -206,18 +166,16 @@ func (v *methodAssembler_) PreprocessLoad(
 		modifier = Variable
 	}
 	var symbol = load.GetSymbol()
-	var index = v.variables_.GetIndex(symbol)
+	var index = v.arguments_.GetIndex(symbol)
+	if index == 0 {
+		index = v.constants_.GetIndex(symbol)
+	}
+	if index == 0 {
+		index = v.variables_.GetIndex(symbol)
+	}
 	var operand = Operand(index)
 	var instruction = InstructionClass().Instruction(operation, modifier, operand)
 	v.instructions_.AppendValue(instruction)
-}
-
-func (v *methodAssembler_) PostprocessLoad(
-	load lan.LoadLike,
-	index_ uint,
-	count_ uint,
-) {
-	v.address_++
 }
 
 func (v *methodAssembler_) PreprocessPull(
@@ -242,14 +200,6 @@ func (v *methodAssembler_) PreprocessPull(
 	v.instructions_.AppendValue(instruction)
 }
 
-func (v *methodAssembler_) PostprocessPull(
-	pull lan.PullLike,
-	index_ uint,
-	count_ uint,
-) {
-	v.address_++
-}
-
 func (v *methodAssembler_) PreprocessPush(
 	push lan.PushLike,
 	index_ uint,
@@ -265,7 +215,11 @@ func (v *methodAssembler_) PreprocessPush(
 		operand = Operand(address)
 	case lan.LiteralLike:
 		modifier = Literal
-		var index = v.literals_.GetIndex(source.GetQuoted())
+		var literal = source.GetQuoted()
+		literal = literal[3 : len(literal)-3]
+		literal = not.FormatDocument(not.ParseSource(literal))
+		literal = literal[:len(literal)-1]
+		var index = v.literals_.GetIndex(literal)
 		operand = Operand(index)
 	case lan.ConstantLike:
 		modifier = Constant
@@ -278,14 +232,6 @@ func (v *methodAssembler_) PreprocessPush(
 	}
 	var instruction = InstructionClass().Instruction(operation, modifier, operand)
 	v.instructions_.AppendValue(instruction)
-}
-
-func (v *methodAssembler_) PostprocessPush(
-	push lan.PushLike,
-	index_ uint,
-	count_ uint,
-) {
-	v.address_++
 }
 
 func (v *methodAssembler_) PreprocessSave(
@@ -310,14 +256,6 @@ func (v *methodAssembler_) PreprocessSave(
 	var operand = Operand(index)
 	var instruction = InstructionClass().Instruction(operation, modifier, operand)
 	v.instructions_.AppendValue(instruction)
-}
-
-func (v *methodAssembler_) PostprocessSave(
-	save lan.SaveLike,
-	index_ uint,
-	count_ uint,
-) {
-	v.address_++
 }
 
 func (v *methodAssembler_) PreprocessSend(
@@ -347,14 +285,6 @@ func (v *methodAssembler_) PreprocessSend(
 	v.instructions_.AppendValue(instruction)
 }
 
-func (v *methodAssembler_) PostprocessSend(
-	send lan.SendLike,
-	index_ uint,
-	count_ uint,
-) {
-	v.address_++
-}
-
 func (v *methodAssembler_) PreprocessSkip(
 	skip lan.SkipLike,
 	index_ uint,
@@ -364,29 +294,209 @@ func (v *methodAssembler_) PreprocessSkip(
 	v.instructions_.AppendValue(instruction)
 }
 
-func (v *methodAssembler_) PostprocessSkip(
-	skip lan.SkipLike,
-	index_ uint,
-	count_ uint,
-) {
-	v.address_++
-}
-
 // PROTECTED INTERFACE
 
 // Private Methods
+
+func (c *methodAssemblerClass_) extractConstants(
+	type_ not.DocumentLike,
+) fra.SetLike[string] {
+	var constants = fra.Set[string]()
+	var key = not.Primitive(not.Element("$constants"))
+	var document = not.GetAttribute(type_, key)
+	switch component := document.GetComponent().GetAny().(type) {
+	case not.CollectionLike:
+		switch collection := component.GetAny().(type) {
+		case not.AttributesLike:
+			var associations = collection.GetAssociations()
+			var iterator = associations.GetIterator()
+			for iterator.HasNext() {
+				var association = iterator.GetNext()
+				var element = association.GetPrimitive().GetAny().(not.ElementLike)
+				var constant = element.GetAny().(string)
+				constants.AddValue(constant)
+			}
+		}
+	}
+	return constants
+}
+
+func (c *methodAssemblerClass_) extractLiterals(
+	type_ not.DocumentLike,
+) fra.SetLike[string] {
+	var literals = fra.Set[string]()
+	var key = not.Primitive(not.Element("$literals"))
+	var document = not.GetAttribute(type_, key)
+	switch component := document.GetComponent().GetAny().(type) {
+	case not.CollectionLike:
+		switch collection := component.GetAny().(type) {
+		case not.ItemsLike:
+			var entities = collection.GetEntities()
+			var iterator = entities.GetIterator()
+			for iterator.HasNext() {
+				var entity = iterator.GetNext()
+				var document = entity.GetDocument()
+				var literal = not.FormatDocument(document)
+				literals.AddValue(literal[:len(literal)-1])
+			}
+		}
+	}
+	return literals
+}
+
+func (v *methodAssembler_) extractAttributes(
+	method not.DocumentLike,
+) {
+	v.instructions_ = fra.List[InstructionLike]()
+	v.extractAddresses(method)
+	v.extractArguments(method)
+	v.extractVariables(method)
+	v.extractMessages(method)
+}
+
+func (v *methodAssembler_) extractArguments(
+	method not.DocumentLike,
+) {
+	v.arguments_ = fra.Set[string]()
+	var key = not.Primitive(not.Element("$arguments"))
+	var document = not.GetAttribute(method, key)
+	switch component := document.GetComponent().GetAny().(type) {
+	case not.CollectionLike:
+		switch collection := component.GetAny().(type) {
+		case not.ItemsLike:
+			var entities = collection.GetEntities()
+			var iterator = entities.GetIterator()
+			for iterator.HasNext() {
+				var entity = iterator.GetNext()
+				var document = entity.GetDocument()
+				var argument = not.FormatDocument(document)
+				v.arguments_.AddValue(argument[:len(argument)-1])
+			}
+		}
+	}
+}
+
+func (v *methodAssembler_) extractMessages(
+	method not.DocumentLike,
+) {
+	v.messages_ = fra.Set[string]()
+	var key = not.Primitive(not.Element("$messages"))
+	var document = not.GetAttribute(method, key)
+	switch component := document.GetComponent().GetAny().(type) {
+	case not.CollectionLike:
+		switch collection := component.GetAny().(type) {
+		case not.ItemsLike:
+			var entities = collection.GetEntities()
+			var iterator = entities.GetIterator()
+			for iterator.HasNext() {
+				var entity = iterator.GetNext()
+				var document = entity.GetDocument()
+				var message = not.FormatDocument(document)
+				v.messages_.AddValue(message[:len(message)-1])
+			}
+		}
+	}
+}
+
+func (v *methodAssembler_) extractVariables(
+	method not.DocumentLike,
+) {
+	v.variables_ = fra.Set[string]()
+	var key = not.Primitive(not.Element("$variables"))
+	var document = not.GetAttribute(method, key)
+	switch component := document.GetComponent().GetAny().(type) {
+	case not.CollectionLike:
+		switch collection := component.GetAny().(type) {
+		case not.ItemsLike:
+			var entities = collection.GetEntities()
+			var iterator = entities.GetIterator()
+			for iterator.HasNext() {
+				var entity = iterator.GetNext()
+				var document = entity.GetDocument()
+				var variable = not.FormatDocument(document)
+				v.variables_.AddValue(variable[:len(variable)-1])
+			}
+		}
+	}
+}
+
+func (v *methodAssembler_) extractAddresses(
+	method not.DocumentLike,
+) {
+	// Extract the assembly instructions from the method.
+	var key = not.Primitive(not.Element("$instructions"))
+	var document = not.GetAttribute(method, key)
+	var source = not.FormatDocument(document)
+	source = source[3 : len(source)-3] // Remove the delimiters and their newlines.
+	v.assembly_ = lan.ParseSource(source)
+
+	// Extract the label addresses from the assembly instructions.
+	v.addresses_ = fra.Catalog[string, uint16]()
+	var address uint16 = 1
+	var instructions = v.assembly_.GetInstructions()
+	var iterator = instructions.GetIterator()
+	for iterator.HasNext() {
+		var instruction = iterator.GetNext()
+		var prefix = instruction.GetOptionalPrefix()
+		if uti.IsDefined(prefix) {
+			var label = prefix.GetLabel()
+			v.addresses_.SetValue(label, address)
+		}
+		var action = instruction.GetAction()
+		switch action.GetAny().(type) {
+		case lan.NoteLike:
+			// Notes don't generate a bytecode instruction.
+		default:
+			// All other actions do.
+			address++
+		}
+	}
+}
+
+func (v *methodAssembler_) addAttributes(
+	method not.DocumentLike,
+) {
+	// Add the bytecode to the method.
+	var instructions = fra.List[fra.Instruction]()
+	var iterator = v.instructions_.GetIterator()
+	for iterator.HasNext() {
+		var instruction = iterator.GetNext()
+		instructions.AppendValue(fra.Instruction(instruction.AsIntrinsic()))
+	}
+	var source = str.ReplaceAll(fra.Bytecode(instructions.AsArray()).AsString(), "-", ":")
+	var bytecode = not.Document(not.Component(not.String(source)), nil, "")
+	var key = not.Primitive(not.Element("$bytecode"))
+	not.SetAttribute(method, bytecode, key)
+
+	// Add the label addresses to the method.
+	var list = fra.List[not.AssociationLike]()
+	var iterator2 = v.addresses_.GetIterator()
+	for iterator2.HasNext() {
+		var association = iterator2.GetNext()
+		var label = association.GetKey()
+		var address = association.GetValue()
+		var primitive = not.Primitive(not.Element(label))
+		var document = not.ParseSource(stc.Itoa(int(address)))
+		list.AppendValue(not.Association(primitive, ":", document))
+	}
+	var attributes = not.Attributes("[", list, "]")
+	var collection = not.Collection(attributes)
+	var addresses = not.Document(not.Component(collection), nil, "")
+	key = not.Primitive(not.Element("$addresses"))
+	not.SetAttribute(method, addresses, key)
+
+}
 
 // Instance Structure
 
 type methodAssembler_ struct {
 	// Declare the instance attributes.
-	type_         not.DocumentLike
+	assembly_     lan.AssemblyLike
 	literals_     fra.SetLike[string]
 	constants_    fra.SetLike[string]
 	arguments_    fra.SetLike[string]
 	variables_    fra.SetLike[string]
 	messages_     fra.SetLike[string]
-	address_      uint16
 	addresses_    fra.CatalogLike[string, uint16]
 	instructions_ fra.ListLike[InstructionLike]
 

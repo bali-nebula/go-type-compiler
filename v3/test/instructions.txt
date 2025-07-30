@@ -1,7 +1,7 @@
 
 Address   Bytes    Bytecode                Instruction
 --------------------------------------------------------------------
-[x001]:   x0000   0 0 [x000]  NOOP
+[x001]:   x0000   0 0 [x000]  SKIP
 [x002]:   x0001   0 0 [x001]  JUMP TO [x001]
 [x003]:   x0802   0 1 [x002]  JUMP TO [x002] ON EMPTY
 [x004]:   x1003   0 2 [x003]  JUMP TO [x003] ON NONE

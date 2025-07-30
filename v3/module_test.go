@@ -13,6 +13,8 @@
 package module_test
 
 import (
+	fmt "fmt"
+	not "github.com/bali-nebula/go-document-notation/v3"
 	com "github.com/bali-nebula/go-type-compiler/v3"
 	fra "github.com/craterdog/go-component-framework/v7"
 	uti "github.com/craterdog/go-missing-utilities/v7"
@@ -54,4 +56,18 @@ func TestFormattingBytecode(t *tes.T) {
 	var formatted = bytecode.AsString()
 	var filename = directory + "instructions.txt"
 	uti.WriteFile(filename, formatted)
+}
+
+func TestMethodAssembler(t *tes.T) {
+	var filename = directory + "type.bali"
+	var source = uti.ReadFile(filename)
+	fmt.Println("BEFORE:", source)
+	var type_ = not.ParseSource(source)
+	var key1 = not.Primitive(not.Element("$methods"))
+	var key2 = not.Primitive(not.Element("$example"))
+	var method = not.GetAttribute(type_, key1, key2)
+	var assembler = com.MethodAssembler(type_)
+	assembler.AssembleMethod(method)
+	source = not.FormatDocument(type_)
+	fmt.Println("AFTER:", source)
 }

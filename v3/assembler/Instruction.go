@@ -67,7 +67,7 @@ func (v instruction_) AsIntrinsic() uint16 {
 func (v instruction_) AsString() string {
 	var result string
 	if v.AsIntrinsic() == 0 {
-		return "NOOP"
+		return "SKIP"
 	}
 	var operation = v.GetOperation()
 	var modifier = v.GetModifier()
