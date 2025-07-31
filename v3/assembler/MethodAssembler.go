@@ -414,7 +414,7 @@ func (v *methodAssembler_) setAddresses(
 	method not.DocumentLike,
 ) {
 	// Add the label addresses to the method.
-	var list = fra.List[not.AssociationLike]()
+	var associations = fra.List[not.AssociationLike]()
 	var iterator = v.addresses_.GetIterator()
 	for iterator.HasNext() {
 		var association = iterator.GetNext()
@@ -422,9 +422,9 @@ func (v *methodAssembler_) setAddresses(
 		var address = association.GetValue()
 		var primitive = not.Primitive(not.String(label))
 		var document = not.ParseSource(stc.Itoa(int(address)))
-		list.AppendValue(not.Association(primitive, ":", document))
+		associations.AppendValue(not.Association(primitive, ":", document))
 	}
-	var attributes = not.Attributes("[", list, "]")
+	var attributes = not.Attributes("[", associations, "]")
 	var collection = not.Collection(attributes)
 	var addresses = not.Document(not.Component(collection), nil, "")
 	var primitive = not.Primitive(not.Element("$addresses"))
