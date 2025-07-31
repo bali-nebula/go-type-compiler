@@ -13,6 +13,7 @@
 package module_test
 
 import (
+	fmt "fmt"
 	not "github.com/bali-nebula/go-document-notation/v3"
 	com "github.com/bali-nebula/go-type-compiler/v3"
 	fra "github.com/craterdog/go-component-framework/v7"
@@ -68,4 +69,11 @@ func TestMethodAssembler(t *tes.T) {
 	assembler.AssembleMethod(method)
 	source = not.FormatDocument(type_)
 	uti.WriteFile(filename, source)
+	var key = not.Primitive(not.Element("$bytecode"))
+	var document = not.GetAttribute(method, key)
+	var component = document.GetComponent()
+	source = component.GetAny().(not.StringLike).GetAny().(string)
+	var bytecode = com.BytecodeFromString(source)
+	var instructions = bytecode.GetInstructions()
+	fmt.Println(com.FormatInstructions(instructions))
 }

@@ -17,6 +17,9 @@ import (
 	fra "github.com/craterdog/go-component-framework/v7"
 	uti "github.com/craterdog/go-missing-utilities/v7"
 	mat "math"
+	reg "regexp"
+	stc "strconv"
+	sts "strings"
 )
 
 // CLASS INTERFACE
@@ -40,6 +43,31 @@ func (c *bytecodeClass_) Bytecode(
 		instructions_: instructions,
 	}
 	return instance
+}
+
+func (c *bytecodeClass_) BytecodeFromString(
+	source string,
+) BytecodeLike {
+	var matches = c.matcher_.FindStringSubmatch(source)
+	if uti.IsUndefined(matches) {
+		var message = fmt.Sprintf(
+			"An illegal string was passed to the bytecode constructor method: %s",
+			source,
+		)
+		panic(message)
+	}
+	var base16 = matches[0]
+	base16 = base16[2 : len(base16)-2]        // Strip off the delimiters.
+	base16 = sts.ReplaceAll(base16, "\n", "") // Remove all newlines.
+	base16 = sts.ReplaceAll(base16, " ", "")  // Remove all spaces.
+	var strings = sts.Split(base16, ":")[1:]  // Extract the instructions.
+	var instructions = fra.List[InstructionLike]()
+	for _, hex := range strings {
+		var integer, _ = stc.ParseUint(hex, 16, 16)
+		var instruction = InstructionClass().InstructionFromInteger(uint16(integer))
+		instructions.AppendValue(instruction)
+	}
+	return c.Bytecode(instructions)
 }
 
 // Constant Methods
@@ -71,6 +99,10 @@ func (v *bytecode_) AsString() string {
 
 // Attribute Methods
 
+func (v *bytecode_) GetInstructions() fra.Sequential[InstructionLike] {
+	return v.instructions_
+}
+
 // Sequential[InstructionLike] Methods
 
 func (v *bytecode_) IsEmpty() bool {
@@ -93,6 +125,18 @@ func (v *bytecode_) GetIterator() fra.IteratorLike[InstructionLike] {
 
 // Private Methods
 
+// NOTE:
+// These private constants are used to define the private regular expression
+// matcher that is used to match legal string patterns for this intrinsic type.
+// Unfortunately there is no way to make them private to this class since they
+// must be TRUE Go constants to be used in this way.  We append an underscore to
+// each name to lessen the chance of a name collision with other private Go
+// class constants in this package.
+const (
+	base10_ = "[0-9]"
+	base16_ = base10_ + "|[a-f]"
+)
+
 // Instance Structure
 
 type bytecode_ struct {
@@ -104,6 +148,7 @@ type bytecode_ struct {
 
 type bytecodeClass_ struct {
 	// Declare the class constants.
+	matcher_ *reg.Regexp
 }
 
 // Class Reference
@@ -114,4 +159,7 @@ func bytecodeClass() *bytecodeClass_ {
 
 var bytecodeClassReference_ = &bytecodeClass_{
 	// Initialize the class constants.
+	matcher_: reg.MustCompile(
+		"^'>\n((?: )*(?:(?::(?:" + base16_ + "){4})){1,12}\n)+(?: )*<'",
+	),
 }

@@ -113,6 +113,9 @@ type BytecodeClassLike interface {
 	Bytecode(
 		instructions fra.Sequential[InstructionLike],
 	) BytecodeLike
+	BytecodeFromString(
+		source string,
+	) BytecodeLike
 }
 
 /*
@@ -126,6 +129,9 @@ type InstructionClassLike interface {
 		operation Operation,
 		modifier Modifier,
 		operand Operand,
+	) InstructionLike
+	InstructionFromInteger(
+		integer uint16,
 	) InstructionLike
 
 	// Constant Methods
@@ -162,6 +168,9 @@ type BytecodeLike interface {
 	// Principal Methods
 	GetClass() BytecodeClassLike
 	AsString() string
+
+	// Attribute Methods
+	GetInstructions() fra.Sequential[InstructionLike]
 
 	// Aspect Interfaces
 	fra.Sequential[InstructionLike]

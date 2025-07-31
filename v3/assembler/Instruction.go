@@ -38,6 +38,15 @@ func (c *instructionClass_) Instruction(
 	return instruction_(instruction)
 }
 
+func (c *instructionClass_) InstructionFromInteger(
+	integer uint16,
+) InstructionLike {
+	var operation = Operation(integer & c.operationMask_)
+	var modifier = Modifier(integer & c.modifierMask_)
+	var operand = Operand(integer & c.operandMask_)
+	return c.Instruction(operation, modifier, operand)
+}
+
 // Constant Methods
 
 func (c *instructionClass_) OperationMask() uint16 {

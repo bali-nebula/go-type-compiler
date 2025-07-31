@@ -131,6 +131,14 @@ func Bytecode(
 	)
 }
 
+func BytecodeFromString(
+	source string,
+) BytecodeLike {
+	return BytecodeClass().BytecodeFromString(
+		source,
+	)
+}
+
 func InstructionClass() InstructionClassLike {
 	return ass.InstructionClass()
 }
@@ -144,6 +152,14 @@ func Instruction(
 		operation,
 		modifier,
 		operand,
+	)
+}
+
+func InstructionFromInteger(
+	integer uint16,
+) InstructionLike {
+	return InstructionClass().InstructionFromInteger(
+		integer,
 	)
 }
 
