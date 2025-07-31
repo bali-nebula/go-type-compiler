@@ -36,8 +36,8 @@ func (c *methodAssemblerClass_) MethodAssembler(
 	if uti.IsUndefined(type_) {
 		panic("The \"type_\" attribute is required by this class.")
 	}
-	var constants = c.extractConstants(type_)
-	var literals = c.extractLiterals(type_)
+	var constants = c.extractKeys(type_, "$constants")
+	var literals = c.extractItems(type_, "$literals")
 	var instance = &methodAssembler_{
 		// Initialize the instance attributes.
 		constants_: constants,
@@ -68,10 +68,11 @@ func (v *methodAssembler_) AssembleMethod(
 	v.extractAttributes(method)
 
 	// Assemble the method into bytecode.
-	lan.Visitor(v).VisitAssembly(v.assembly_)
+	v.assembleBytecode(method)
 
-	// Add the assembled bytecode to the method.
-	v.addAttributes(method)
+	// Add the assembled bytecode and address labels to the method.
+	v.setBytecode(method)
+	v.setAddresses(method)
 }
 
 // Attribute Methods
@@ -215,9 +216,9 @@ func (v *methodAssembler_) PreprocessPush(
 	case lan.LiteralLike:
 		modifier = Literal
 		var literal = source.GetQuoted()
-		literal = literal[3 : len(literal)-3]
+		literal = literal[3 : len(literal)-3] // Remove the delimiters.
 		literal = not.FormatDocument(not.ParseSource(literal))
-		literal = literal[:len(literal)-1]
+		literal = literal[:len(literal)-1] // Remove the trailing newline.
 		var index = v.literals_.GetIndex(literal)
 		operand = Operand(index)
 	case lan.ConstantLike:
@@ -297,12 +298,37 @@ func (v *methodAssembler_) PreprocessSkip(
 
 // Private Methods
 
-func (c *methodAssemblerClass_) extractConstants(
-	type_ not.DocumentLike,
+func (c *methodAssemblerClass_) extractItems(
+	document not.DocumentLike,
+	symbol string,
 ) fra.SetLike[string] {
-	var constants = fra.Set[string]()
-	var key = not.Primitive(not.Element("$constants"))
-	var document = not.GetAttribute(type_, key)
+	var items = fra.Set[string]()
+	var primitive = not.Primitive(not.Element(symbol))
+	document = not.GetAttribute(document, primitive)
+	switch component := document.GetComponent().GetAny().(type) {
+	case not.CollectionLike:
+		switch collection := component.GetAny().(type) {
+		case not.ItemsLike:
+			var entities = collection.GetEntities()
+			var iterator = entities.GetIterator()
+			for iterator.HasNext() {
+				var entity = iterator.GetNext()
+				var document = entity.GetDocument()
+				var item = not.FormatDocument(document)
+				items.AddValue(item[:len(item)-1]) // Remove the trailing newline.
+			}
+		}
+	}
+	return items
+}
+
+func (c *methodAssemblerClass_) extractKeys(
+	document not.DocumentLike,
+	symbol string,
+) fra.SetLike[string] {
+	var keys = fra.Set[string]()
+	var primitive = not.Primitive(not.Element(symbol))
+	document = not.GetAttribute(document, primitive)
 	switch component := document.GetComponent().GetAny().(type) {
 	case not.CollectionLike:
 		switch collection := component.GetAny().(type) {
@@ -312,134 +338,35 @@ func (c *methodAssemblerClass_) extractConstants(
 			for iterator.HasNext() {
 				var association = iterator.GetNext()
 				var element = association.GetPrimitive().GetAny().(not.ElementLike)
-				var constant = element.GetAny().(string)
-				constants.AddValue(constant)
+				var key = element.GetAny().(string)
+				keys.AddValue(key)
 			}
 		}
 	}
-	return constants
+	return keys
 }
 
-func (c *methodAssemblerClass_) extractLiterals(
-	type_ not.DocumentLike,
-) fra.SetLike[string] {
-	var literals = fra.Set[string]()
-	var key = not.Primitive(not.Element("$literals"))
-	var document = not.GetAttribute(type_, key)
-	switch component := document.GetComponent().GetAny().(type) {
-	case not.CollectionLike:
-		switch collection := component.GetAny().(type) {
-		case not.ItemsLike:
-			var entities = collection.GetEntities()
-			var iterator = entities.GetIterator()
-			for iterator.HasNext() {
-				var entity = iterator.GetNext()
-				var document = entity.GetDocument()
-				var literal = not.FormatDocument(document)
-				literals.AddValue(literal[:len(literal)-1])
-			}
-		}
-	}
-	return literals
-}
-
-func (v *methodAssembler_) extractAttributes(
+func (v *methodAssembler_) assembleBytecode(
 	method not.DocumentLike,
 ) {
-	v.instructions_ = fra.List[InstructionLike]()
-	v.extractAddresses(method)
-	v.extractArguments(method)
-	v.extractVariables(method)
-	v.extractMessages(method)
-}
-
-func (v *methodAssembler_) extractArguments(
-	method not.DocumentLike,
-) {
-	v.arguments_ = fra.Set[string]()
-	var key = not.Primitive(not.Element("$arguments"))
-	var document = not.GetAttribute(method, key)
-	switch component := document.GetComponent().GetAny().(type) {
-	case not.CollectionLike:
-		switch collection := component.GetAny().(type) {
-		case not.ItemsLike:
-			var entities = collection.GetEntities()
-			var iterator = entities.GetIterator()
-			for iterator.HasNext() {
-				var entity = iterator.GetNext()
-				var document = entity.GetDocument()
-				var argument = not.FormatDocument(document)
-				v.arguments_.AddValue(argument[:len(argument)-1])
-			}
-		}
-	}
-}
-
-func (v *methodAssembler_) extractMessages(
-	method not.DocumentLike,
-) {
-	v.messages_ = fra.Set[string]()
-	var key = not.Primitive(not.Element("$messages"))
-	var document = not.GetAttribute(method, key)
-	switch component := document.GetComponent().GetAny().(type) {
-	case not.CollectionLike:
-		switch collection := component.GetAny().(type) {
-		case not.ItemsLike:
-			var entities = collection.GetEntities()
-			var iterator = entities.GetIterator()
-			for iterator.HasNext() {
-				var entity = iterator.GetNext()
-				var document = entity.GetDocument()
-				var message = not.FormatDocument(document)
-				v.messages_.AddValue(message[:len(message)-1])
-			}
-		}
-	}
-}
-
-func (v *methodAssembler_) extractVariables(
-	method not.DocumentLike,
-) {
-	v.variables_ = fra.Set[string]()
-	var key = not.Primitive(not.Element("$variables"))
-	var document = not.GetAttribute(method, key)
-	switch component := document.GetComponent().GetAny().(type) {
-	case not.CollectionLike:
-		switch collection := component.GetAny().(type) {
-		case not.ItemsLike:
-			var entities = collection.GetEntities()
-			var iterator = entities.GetIterator()
-			for iterator.HasNext() {
-				var entity = iterator.GetNext()
-				var document = entity.GetDocument()
-				var variable = not.FormatDocument(document)
-				v.variables_.AddValue(variable[:len(variable)-1])
-			}
-		}
-	}
+	var assembly = v.extractAssembly(method)
+	var instructions = assembly.GetInstructions()
+	v.addresses_ = v.extractAddresses(instructions)
+	lan.Visitor(v).VisitAssembly(assembly)
 }
 
 func (v *methodAssembler_) extractAddresses(
-	method not.DocumentLike,
-) {
-	// Extract the assembly instructions from the method.
-	var key = not.Primitive(not.Element("$instructions"))
-	var document = not.GetAttribute(method, key)
-	var source = not.FormatDocument(document)
-	source = source[3 : len(source)-3] // Remove the delimiters and their newlines.
-	v.assembly_ = lan.ParseSource(source)
-
-	// Extract the label addresses from the assembly instructions.
-	v.addresses_ = fra.Catalog[string, uint16]()
+	instructions fra.Sequential[lan.InstructionLike],
+) fra.CatalogLike[string, uint16] {
+	var addresses = fra.Catalog[string, uint16]()
 	var address uint16 = 1
-	var instructions = v.assembly_.GetInstructions()
 	var iterator = instructions.GetIterator()
 	for iterator.HasNext() {
 		var instruction = iterator.GetNext()
 		var prefix = instruction.GetOptionalPrefix()
 		if uti.IsDefined(prefix) {
 			var label = prefix.GetLabel()
-			v.addresses_.SetValue(label, address)
+			addresses.SetValue(label, address)
 		}
 		var action = instruction.GetAction()
 		switch action.GetAny().(type) {
@@ -450,22 +377,47 @@ func (v *methodAssembler_) extractAddresses(
 			address++
 		}
 	}
+	return addresses
 }
 
-func (v *methodAssembler_) addAttributes(
+func (v *methodAssembler_) extractAssembly(
+	method not.DocumentLike,
+) lan.AssemblyLike {
+	var primitive = not.Primitive(not.Element("$instructions"))
+	var document = not.GetAttribute(method, primitive)
+	var source = not.FormatDocument(document)
+	source = source[3 : len(source)-3] // Remove the delimiters and their newlines.
+	return lan.ParseSource(source)
+}
+
+func (v *methodAssembler_) extractAttributes(
+	method not.DocumentLike,
+) {
+	var class = methodAssemblerClass()
+	v.instructions_ = fra.List[InstructionLike]()
+	v.arguments_ = class.extractItems(method, "$arguments")
+	v.variables_ = class.extractItems(method, "$variables")
+	v.messages_ = class.extractItems(method, "$messages")
+}
+
+func (v *methodAssembler_) setBytecode(
 	method not.DocumentLike,
 ) {
 	// Add the bytecode to the method.
 	var source = BytecodeClass().Bytecode(v.instructions_).AsString()
 	var bytecode = not.Document(not.Component(not.String(source)), nil, "")
-	var key = not.Primitive(not.Element("$bytecode"))
-	not.SetAttribute(method, bytecode, key)
+	var primitive = not.Primitive(not.Element("$bytecode"))
+	not.SetAttribute(method, bytecode, primitive)
+}
 
+func (v *methodAssembler_) setAddresses(
+	method not.DocumentLike,
+) {
 	// Add the label addresses to the method.
 	var list = fra.List[not.AssociationLike]()
-	var iterator2 = v.addresses_.GetIterator()
-	for iterator2.HasNext() {
-		var association = iterator2.GetNext()
+	var iterator = v.addresses_.GetIterator()
+	for iterator.HasNext() {
+		var association = iterator.GetNext()
 		var label = `"` + association.GetKey() + `"`
 		var address = association.GetValue()
 		var primitive = not.Primitive(not.String(label))
@@ -475,8 +427,8 @@ func (v *methodAssembler_) addAttributes(
 	var attributes = not.Attributes("[", list, "]")
 	var collection = not.Collection(attributes)
 	var addresses = not.Document(not.Component(collection), nil, "")
-	key = not.Primitive(not.Element("$addresses"))
-	not.SetAttribute(method, addresses, key)
+	var primitive = not.Primitive(not.Element("$addresses"))
+	not.SetAttribute(method, addresses, primitive)
 
 }
 
@@ -484,7 +436,6 @@ func (v *methodAssembler_) addAttributes(
 
 type methodAssembler_ struct {
 	// Declare the instance attributes.
-	assembly_     lan.AssemblyLike
 	literals_     fra.SetLike[string]
 	constants_    fra.SetLike[string]
 	arguments_    fra.SetLike[string]
