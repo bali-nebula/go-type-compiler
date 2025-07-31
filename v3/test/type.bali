@@ -1,21 +1,20 @@
 [
-    $constants: [
-        $pi: ~π
-    ]
+    $constants: [$pi: ~π]
     $methods: [
+        $ignored: none
         $example: [
             $procedure: none
             $instructions: ">
                 NOTE --Skips to the next instruction.
                 SKIP
-
+                
                 1.Jump:
                 NOTE --Jumps to a new address (conditionally or unconditionally).
                 JUMP TO 2.Push
                 JUMP TO 3.Pull ON EMPTY
                 JUMP TO 4.Load ON NONE
                 JUMP TO 5.Save ON FALSE
-
+                
                 2.Push:
                 NOTE --Pushes a value onto a stack.
                 PUSH HANDLER 6.Drop
@@ -28,42 +27,42 @@
                 <`
                 PUSH CONSTANT $pi
                 PUSH ARGUMENT $target
-
+                
                 3.Pull:
                 NOTE --Pulls the top value from a stack.
                 PULL HANDLER
                 PULL COMPONENT
                 PULL RESULT
                 PULL EXCEPTION
-
+                
                 4.Load:
                 NOTE --Loads a value from the environment onto a stack.
                 LOAD VARIABLE $index
                 LOAD DRAFT $citation
                 LOAD CONTRACT $name
                 LOAD MESSAGE $bag
-
+                
                 5.Save:
                 NOTE --Saves the top value from a stack into the environment.
                 SAVE VARIABLE $index
                 SAVE DRAFT $citation
                 SAVE CONTRACT $name
                 SAVE MESSAGE $bag
-
+                
                 6.Drop:
                 NOTE --Drops a value from the environment.
                 DROP VARIABLE $index
                 DROP DRAFT $citation
                 DROP CONTRACT $name
                 DROP MESSAGE $message
-
+                
                 7.Call:
                 NOTE --Calls an intrinsic function with 0 to 3 arguments.
                 CALL $now
                 CALL $factorial WITH 1 ARGUMENTS
                 CALL $sum WITH 2 ARGUMENTS
                 CALL $range WITH 3 ARGUMENTS
-
+                
                 8.Send:
                 NOTE --Sends a message to a target component with optional arguments.
                 SEND $getAncestry TO COMPONENT
@@ -71,8 +70,21 @@
                 SEND $getKeys TO CONTRACT
                 SEND $setAttribute TO CONTRACT WITH ARGUMENTS
             <"
-            $bytecode: none
-            $addresses: none
+            $bytecode: '>
+                :0000:0006:080a:100e:1812:2016:2801:3001:3801:4000:5000:5800
+                :4800:7803:6802:6005:7001:9803:8802:8005:9001:b803:a802:a005
+                :b004:c057:c82a:d082:d863:f001:f804:e002:e803
+            <'
+            $addresses: [
+                "1.Jump": 2
+                "2.Push": 6
+                "3.Pull": 10
+                "4.Load": 14
+                "5.Save": 18
+                "6.Drop": 22
+                "7.Call": 26
+                "8.Send": 30
+            ]
             $arguments: [$target]
             $variables: [
                 $index

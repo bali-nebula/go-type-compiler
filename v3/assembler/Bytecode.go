@@ -13,6 +13,7 @@
 package assembler
 
 import (
+	fmt "fmt"
 	fra "github.com/craterdog/go-component-framework/v7"
 	uti "github.com/craterdog/go-missing-utilities/v7"
 	mat "math"
@@ -59,10 +60,10 @@ func (v *bytecode_) AsString() string {
 	var iterator = v.instructions_.GetIterator()
 	for iterator.HasNext() {
 		var instruction = iterator.GetNext()
-		if mat.Mod(float64(iterator.GetSlot()), 12.0) == 0 {
+		if mat.Mod(float64(iterator.GetSlot()-1), 12.0) == 0 {
 			source += newline
 		}
-		source += instruction.AsString()
+		source += fmt.Sprintf(":%04x", instruction.AsIntrinsic())
 	}
 	source += "\n<'"
 	return source

@@ -466,9 +466,9 @@ func (v *methodAssembler_) addAttributes(
 	var iterator2 = v.addresses_.GetIterator()
 	for iterator2.HasNext() {
 		var association = iterator2.GetNext()
-		var label = association.GetKey()
+		var label = `"` + association.GetKey() + `"`
 		var address = association.GetValue()
-		var primitive = not.Primitive(not.Element(label))
+		var primitive = not.Primitive(not.String(label))
 		var document = not.ParseSource(stc.Itoa(int(address)))
 		list.AppendValue(not.Association(primitive, ":", document))
 	}
