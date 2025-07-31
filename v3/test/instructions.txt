@@ -1,36 +1,35 @@
-
-Address   Bytes    Bytecode                Instruction
+Address   Bytes   Instruction                Mnemonic
 --------------------------------------------------------------------
-[x001]:   x0000   0 0 [x000]  SKIP
-[x002]:   x0001   0 0 [x001]  JUMP TO [x001]
-[x003]:   x0802   0 1 [x002]  JUMP TO [x002] ON EMPTY
-[x004]:   x1003   0 2 [x003]  JUMP TO [x003] ON NONE
-[x005]:   x1804   0 3 [x004]  JUMP TO [x004] ON FALSE
-[x006]:   x2005   1 0 [x005]  PUSH HANDLER [x005]
-[x007]:   x2806   1 1     6   PUSH LITERAL 6
-[x008]:   x3007   1 2     7   PUSH CONSTANT 7
-[x009]:   x3808   1 3     8   PUSH ARGUMENT 8
-[x00a]:   x4000   2 0     0   PULL HANDLER
-[x00b]:   x4800   2 1     0   PULL EXCEPTION
-[x00c]:   x5000   2 2     0   PULL COMPONENT
-[x00d]:   x5800   2 3     0   PULL RESULT
-[x00e]:   x600d   3 0    13   LOAD CONTRACT 13
-[x00f]:   x680e   3 1    14   LOAD DRAFT 14
-[x010]:   x700f   3 2    15   LOAD MESSAGE 15
-[x011]:   x7810   3 3    16   LOAD VARIABLE 16
-[x012]:   x8011   4 0    17   SAVE CONTRACT 17
-[x013]:   x8812   4 1    18   SAVE DRAFT 18
-[x014]:   x9013   4 2    19   SAVE MESSAGE 19
-[x015]:   x9814   4 3    20   SAVE VARIABLE 20
-[x016]:   xa015   5 0    21   DROP CONTRACT 21
-[x017]:   xa816   5 1    22   DROP DRAFT 22
-[x018]:   xb017   5 2    23   DROP MESSAGE 23
-[x019]:   xb818   5 3    24   DROP VARIABLE 24
-[x01a]:   xc019   6 0    25   CALL 25
-[x01b]:   xc81a   6 1    26   CALL 26 WITH 1 ARGUMENT
-[x01c]:   xd01b   6 2    27   CALL 27 WITH 2 ARGUMENTS
-[x01d]:   xd81c   6 3    28   CALL 28 WITH 3 ARGUMENTS
-[x01e]:   xe01d   7 0    29   SEND 29 TO CONTRACT
-[x01f]:   xe81e   7 1    30   SEND 30 TO CONTRACT WITH ARGUMENTS
-[x020]:   xf01f   7 2    31   SEND 31 TO COMPONENT
-[x021]:   xf820   7 3    32   SEND 32 TO COMPONENT WITH ARGUMENTS
+[x001]:   x0000   0 0 [x000]   SKIP
+[x002]:   x0064   0 0 [x064]   JUMP TO [x064]
+[x003]:   x0865   0 1 [x065]   JUMP TO [x065] ON EMPTY
+[x004]:   x1066   0 2 [x066]   JUMP TO [x066] ON NONE
+[x005]:   x1867   0 3 [x067]   JUMP TO [x067] ON FALSE
+[x006]:   x2068   1 0 [x068]   PUSH HANDLER [x068]
+[x007]:   x2869   1 1   105    PUSH LITERAL 105
+[x008]:   x306a   1 2   106    PUSH CONSTANT 106
+[x009]:   x386b   1 3   107    PUSH ARGUMENT 107
+[x00a]:   x4000   2 0     0    PULL HANDLER
+[x00b]:   x4800   2 1     0    PULL EXCEPTION
+[x00c]:   x5000   2 2     0    PULL COMPONENT
+[x00d]:   x5800   2 3     0    PULL RESULT
+[x00e]:   x6070   3 0   112    LOAD CONTRACT 112
+[x00f]:   x6871   3 1   113    LOAD DRAFT 113
+[x010]:   x7072   3 2   114    LOAD MESSAGE 114
+[x011]:   x7873   3 3   115    LOAD VARIABLE 115
+[x012]:   x8074   4 0   116    SAVE CONTRACT 116
+[x013]:   x8875   4 1   117    SAVE DRAFT 117
+[x014]:   x9076   4 2   118    SAVE MESSAGE 118
+[x015]:   x9877   4 3   119    SAVE VARIABLE 119
+[x016]:   xa078   5 0   120    DROP CONTRACT 120
+[x017]:   xa879   5 1   121    DROP DRAFT 121
+[x018]:   xb07a   5 2   122    DROP MESSAGE 122
+[x019]:   xb87b   5 3   123    DROP VARIABLE 123
+[x01a]:   xc07c   6 0   124    CALL 124
+[x01b]:   xc87d   6 1   125    CALL 125 WITH 1 ARGUMENT
+[x01c]:   xd07e   6 2   126    CALL 126 WITH 2 ARGUMENTS
+[x01d]:   xd87f   6 3   127    CALL 127 WITH 3 ARGUMENTS
+[x01e]:   xe080   7 0   128    SEND 128 TO CONTRACT
+[x01f]:   xe881   7 1   129    SEND 129 TO CONTRACT WITH ARGUMENTS
+[x020]:   xf082   7 2   130    SEND 130 TO COMPONENT
+[x021]:   xf883   7 3   131    SEND 131 TO COMPONENT WITH ARGUMENTS

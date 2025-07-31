@@ -67,16 +67,15 @@ func (c *instructionClass_) FormatInstructions(
 	instructions fra.Sequential[InstructionLike],
 ) string {
 	var result sts.Builder
-	result.WriteString(`
-Address   Bytes    Bytecode                Instruction
+	result.WriteString(
+		`Address   Bytes   Instruction                Mnemonic
 --------------------------------------------------------------------
 `,
 	)
-	var counter uint16
 	var iterator = instructions.GetIterator()
-	for counter = 1; iterator.HasNext(); counter++ {
+	for iterator.HasNext() {
 		var instruction = iterator.GetNext()
-		var address = fmt.Sprintf("[x%03x]", counter)
+		var address = fmt.Sprintf("[x%03x]", iterator.GetSlot())
 		var bytes = fmt.Sprintf("x%04x", instruction.AsIntrinsic())
 		var operation = instruction.GetOperation() >> 13
 		var modifier = instruction.GetModifier() >> 11
@@ -88,7 +87,7 @@ Address   Bytes    Bytecode                Instruction
 		var bytecode = fmt.Sprintf("%d %d %s", operation, modifier, operand)
 		var description = instruction.AsString()
 		var line = fmt.Sprintf(
-			"%s:   %s   %s  %s\n",
+			"%s:   %s   %s   %s\n",
 			address,
 			bytes,
 			bytecode,

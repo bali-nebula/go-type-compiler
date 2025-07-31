@@ -26,15 +26,15 @@ const directory = "./test/"
 
 func TestFormattingBytecode(t *tes.T) {
 	var instructions = fra.List[com.InstructionLike]()
+	var instruction = com.Instruction(0, 0, 0) // SKIP instruction.
+	instructions.AppendValue(instruction)
 	var operation uint16
 	var modifier uint16
-	var operand uint16
-	var instruction = com.Instruction(0, 0, 0)
-	instructions.AppendValue(instruction)
-	operand++
+	var operand uint16 = 100
 	for operation = 0; operation < 8; operation++ {
 		for modifier = 0; modifier < 4; modifier++ {
 			if operation == 2 {
+				// The PULL instruction has no operand.
 				instruction = com.Instruction(
 					com.Operation(operation<<13),
 					com.Modifier(modifier<<11),
