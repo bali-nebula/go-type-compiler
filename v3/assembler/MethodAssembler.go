@@ -18,7 +18,6 @@ import (
 	fra "github.com/craterdog/go-component-framework/v7"
 	uti "github.com/craterdog/go-missing-utilities/v7"
 	stc "strconv"
-	str "strings"
 )
 
 // CLASS INTERFACE
@@ -457,13 +456,7 @@ func (v *methodAssembler_) addAttributes(
 	method not.DocumentLike,
 ) {
 	// Add the bytecode to the method.
-	var instructions = fra.List[fra.Instruction]()
-	var iterator = v.instructions_.GetIterator()
-	for iterator.HasNext() {
-		var instruction = iterator.GetNext()
-		instructions.AppendValue(fra.Instruction(instruction.AsIntrinsic()))
-	}
-	var source = str.ReplaceAll(fra.Bytecode(instructions.AsArray()).AsString(), "-", ":")
+	var source = BytecodeClass().Bytecode(v.instructions_).AsString()
 	var bytecode = not.Document(not.Component(not.String(source)), nil, "")
 	var key = not.Primitive(not.Element("$bytecode"))
 	not.SetAttribute(method, bytecode, key)
