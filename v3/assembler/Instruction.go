@@ -139,12 +139,12 @@ func (v instruction_) AsString() string {
 }
 
 func (v instruction_) OperationAsString() string {
+	if v.AsIntrinsic() == 0 {
+		return "SKIP"
+	}
 	var operation = v.GetOperation()
 	switch operation {
 	case Jump:
-		if v.GetOperand() == 0 {
-			return "SKIP"
-		}
 		return "JUMP"
 	case Push:
 		return "PUSH"
@@ -221,7 +221,7 @@ func (v instruction_) ModifierAsString() string {
 		switch modifier {
 		case With0Arguments:
 			return ""
-		case With1Argument:
+		case With1Arguments:
 			return "WITH 1 ARGUMENTS"
 		case With2Arguments:
 			return "WITH 2 ARGUMENTS"

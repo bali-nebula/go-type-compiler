@@ -84,7 +84,7 @@ const (
 
 	// Call Operation
 	With0Arguments Modifier = 0b0000000000000000
-	With1Argument  Modifier = 0b0000100000000000
+	With1Arguments Modifier = 0b0000100000000000
 	With2Arguments Modifier = 0b0001000000000000
 	With3Arguments Modifier = 0b0001100000000000
 

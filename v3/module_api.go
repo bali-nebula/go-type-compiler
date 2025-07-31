@@ -84,7 +84,7 @@ const (
 
 	// Call Modifiers
 	With0Arguments = ass.With0Arguments
-	With1Argument  = ass.With1Argument
+	With1Arguments = ass.With1Arguments
 	With2Arguments = ass.With2Arguments
 	With3Arguments = ass.With3Arguments
 
