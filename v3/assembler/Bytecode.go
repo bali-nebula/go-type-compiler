@@ -125,18 +125,6 @@ func (v *bytecode_) GetIterator() fra.IteratorLike[InstructionLike] {
 
 // Private Methods
 
-// NOTE:
-// These private constants are used to define the private regular expression
-// matcher that is used to match legal string patterns for this intrinsic type.
-// Unfortunately there is no way to make them private to this class since they
-// must be TRUE Go constants to be used in this way.  We append an underscore to
-// each name to lessen the chance of a name collision with other private Go
-// class constants in this package.
-const (
-	base10_ = "[0-9]"
-	base16_ = base10_ + "|[a-f]"
-)
-
 // Instance Structure
 
 type bytecode_ struct {
@@ -160,6 +148,6 @@ func bytecodeClass() *bytecodeClass_ {
 var bytecodeClassReference_ = &bytecodeClass_{
 	// Initialize the class constants.
 	matcher_: reg.MustCompile(
-		"^'>\n((?: )*(?:(?::(?:" + base16_ + "){4})){1,12}\n)+(?: )*<'",
+		"^'>\n(?:(?: )*(?:(?::(?:[0-9]|[a-f]){4})){1,12}\n)+(?: )*<'",
 	),
 }
