@@ -14,6 +14,8 @@ package assembler
 
 import (
 	fmt "fmt"
+	fra "github.com/craterdog/go-component-framework/v7"
+	sts "strings"
 )
 
 // CLASS INTERFACE
@@ -51,6 +53,42 @@ func (c *instructionClass_) OperandMask() uint16 {
 }
 
 // Function Methods
+
+func (c *instructionClass_) FormatInstructions(
+	instructions fra.Sequential[InstructionLike],
+) string {
+	var result sts.Builder
+	result.WriteString(`
+Address   Bytes    Bytecode                Instruction
+--------------------------------------------------------------------
+`,
+	)
+	var counter uint16
+	var iterator = instructions.GetIterator()
+	for counter = 1; iterator.HasNext(); counter++ {
+		var instruction = iterator.GetNext()
+		var address = fmt.Sprintf("[x%03x]", counter)
+		var bytes = fmt.Sprintf("x%04x", instruction.AsIntrinsic())
+		var operation = instruction.GetOperation() >> 13
+		var modifier = instruction.GetModifier() >> 11
+		var operand = c.operandAsString(
+			instruction.GetOperation(),
+			instruction.GetModifier(),
+			instruction.GetOperand(),
+		)
+		var bytecode = fmt.Sprintf("%d %d %s", operation, modifier, operand)
+		var description = instruction.AsString()
+		var line = fmt.Sprintf(
+			"%s:   %s   %s  %s\n",
+			address,
+			bytes,
+			bytecode,
+			description,
+		)
+		result.WriteString(line)
+	}
+	return result.String()
+}
 
 // INSTANCE INTERFACE
 
@@ -196,6 +234,22 @@ func (v instruction_) GetOperand() Operand {
 // PROTECTED INTERFACE
 
 // Private Methods
+
+func (c *instructionClass_) operandAsString(
+	operation Operation,
+	modifier Modifier,
+	operand Operand,
+) string {
+	var result string
+	if operation == Jump || (operation == Push && modifier == Handler) {
+		// Treat the operand as an address "[xHEX]".
+		result = fmt.Sprintf("[x%03x]", operand)
+	} else {
+		// Treat the operand as an index " DECI ".
+		result = fmt.Sprintf(" %4d ", operand)
+	}
+	return result
+}
 
 func (c instructionClass_) validateInstruction(
 	operation Operation,

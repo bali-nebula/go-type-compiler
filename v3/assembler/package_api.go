@@ -132,6 +132,11 @@ type InstructionClassLike interface {
 	OperationMask() uint16
 	ModifierMask() uint16
 	OperandMask() uint16
+
+	// Function Methods
+	FormatInstructions(
+		instructions fra.Sequential[InstructionLike],
+	) string
 }
 
 /*

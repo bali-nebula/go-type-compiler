@@ -147,6 +147,12 @@ func Instruction(
 	)
 }
 
+func FormatInstructions(
+	instructions fra.Sequential[InstructionLike],
+) string {
+	return InstructionClass().FormatInstructions(instructions)
+}
+
 func MethodAssemblerClass() MethodAssemblerClassLike {
 	return ass.MethodAssemblerClass()
 }

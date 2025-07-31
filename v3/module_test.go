@@ -52,8 +52,8 @@ func TestFormattingBytecode(t *tes.T) {
 		}
 	}
 	ass.Equal(t, 33, int(instructions.GetSize()))
-	var bytecode = com.Bytecode(instructions)
-	var formatted = bytecode.AsString()
+	var _ = com.Bytecode(instructions)
+	var formatted = com.FormatInstructions(instructions)
 	var filename = directory + "instructions.txt"
 	uti.WriteFile(filename, formatted)
 }
