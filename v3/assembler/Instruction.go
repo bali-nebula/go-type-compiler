@@ -15,6 +15,7 @@ package assembler
 import (
 	fmt "fmt"
 	fra "github.com/craterdog/go-component-framework/v7"
+	uti "github.com/craterdog/go-missing-utilities/v7"
 	sts "strings"
 )
 
@@ -79,11 +80,13 @@ func (c *instructionClass_) FormatInstructions(
 		var bytes = fmt.Sprintf("x%04x", instruction.AsIntrinsic())
 		var operation = instruction.GetOperation() >> 13
 		var modifier = instruction.GetModifier() >> 11
-		var operand = c.operandAsString(
-			instruction.GetOperation(),
-			instruction.GetModifier(),
-			instruction.GetOperand(),
-		)
+		var operand = instruction.OperandAsString()
+		for len(operand) < 5 {
+			operand = " " + operand
+		}
+		if len(operand) < 6 {
+			operand += " "
+		}
 		var bytecode = fmt.Sprintf("%d %d %s", operation, modifier, operand)
 		var description = instruction.AsString()
 		var line = fmt.Sprintf(
@@ -111,118 +114,156 @@ func (v instruction_) AsIntrinsic() uint16 {
 }
 
 func (v instruction_) AsString() string {
-	var result string
-	if v.AsIntrinsic() == 0 {
-		return "SKIP"
+	var instruction = v.OperationAsString()
+	switch instruction {
+	case "SKIP":
+	case "JUMP":
+		instruction += " TO " + v.OperandAsString()
+		var modifier = v.ModifierAsString()
+		if uti.IsDefined(modifier) {
+			instruction += " " + modifier
+		}
+	case "CALL", "SEND":
+		instruction += " " + v.OperandAsString()
+		var modifier = v.ModifierAsString()
+		if uti.IsDefined(modifier) {
+			instruction += " " + modifier
+		}
+	case "PULL":
+		instruction += " " + v.ModifierAsString()
+	case "PUSH", "LOAD", "SAVE", "DROP":
+		instruction += " " + v.ModifierAsString()
+		instruction += " " + v.OperandAsString()
 	}
+	return instruction
+}
+
+func (v instruction_) OperationAsString() string {
+	var operation = v.GetOperation()
+	switch operation {
+	case Jump:
+		if v.GetOperand() == 0 {
+			return "SKIP"
+		}
+		return "JUMP"
+	case Push:
+		return "PUSH"
+	case Pull:
+		return "PULL"
+	case Load:
+		return "LOAD"
+	case Save:
+		return "SAVE"
+	case Drop:
+		return "DROP"
+	case Call:
+		return "CALL"
+	case Send:
+		return "SEND"
+	default:
+		var message = fmt.Sprintf(
+			"Found an unknown operation type: %v",
+			operation,
+		)
+		panic(message)
+	}
+}
+
+func (v instruction_) ModifierAsString() string {
+	var operation = v.GetOperation()
+	var modifier = v.GetModifier()
+	switch operation {
+	case Jump:
+		switch modifier {
+		case Any:
+			return ""
+		case Empty:
+			return "ON EMPTY"
+		case None:
+			return "ON NONE"
+		case False:
+			return "ON FALSE"
+		}
+	case Push:
+		switch modifier {
+		case Handler:
+			return "HANDLER"
+		case Literal:
+			return "LITERAL"
+		case Constant:
+			return "CONSTANT"
+		case Argument:
+			return "ARGUMENT"
+		}
+	case Pull:
+		switch modifier {
+		case Handler:
+			return "HANDLER"
+		case Exception:
+			return "EXCEPTION"
+		case Component:
+			return "COMPONENT"
+		case Result:
+			return "RESULT"
+		}
+	case Load, Save, Drop:
+		switch modifier {
+		case Contract:
+			return "CONTRACT"
+		case Draft:
+			return "DRAFT"
+		case Message:
+			return "MESSAGE"
+		case Variable:
+			return "VARIABLE"
+		}
+	case Call:
+		switch modifier {
+		case With0Arguments:
+			return ""
+		case With1Argument:
+			return "WITH 1 ARGUMENTS"
+		case With2Arguments:
+			return "WITH 2 ARGUMENTS"
+		case With3Arguments:
+			return "WITH 3 ARGUMENTS"
+		}
+	case Send:
+		switch modifier {
+		case Component:
+			return "TO COMPONENT"
+		case ComponentWithArguments:
+			return "TO COMPONENT WITH ARGUMENTS"
+		case Contract:
+			return "TO CONTRACT"
+		case ContractWithArguments:
+			return "TO CONTRACT WITH ARGUMENTS"
+		}
+	default:
+		var message = fmt.Sprintf(
+			"Found an unknown operation type: %v",
+			operation,
+		)
+		panic(message)
+	}
+	var message = fmt.Sprintf(
+		"Found an unknown modifier type: %v",
+		modifier,
+	)
+	panic(message)
+}
+
+func (v instruction_) OperandAsString() string {
 	var operation = v.GetOperation()
 	var modifier = v.GetModifier()
 	var operand = v.GetOperand()
-	var index, address string
 	if operation == Jump || (operation == Push && modifier == Handler) {
 		// Treat the operand as an address "[xHEX]".
-		address = fmt.Sprintf("[x%03x]", operand)
+		return fmt.Sprintf("[x%03x]", operand)
 	} else {
 		// Treat the operand as an index "DECI".
-		index = fmt.Sprintf("%d", operand)
+		return fmt.Sprintf("%d", operand)
 	}
-	switch operation {
-	case Jump:
-		result = "JUMP TO " + address
-		switch modifier {
-		case Any:
-		case Empty:
-			result += " ON EMPTY"
-		case None:
-			result += " ON NONE"
-		case False:
-			result += " ON FALSE"
-		}
-	case Push:
-		result = "PUSH "
-		switch modifier {
-		case Handler:
-			result += "HANDLER " + address
-		case Literal:
-			result += "LITERAL " + index
-		case Constant:
-			result += "CONSTANT " + index
-		case Argument:
-			result += "ARGUMENT " + index
-		}
-	case Pull:
-		result = "PULL "
-		switch modifier {
-		case Handler:
-			result += "HANDLER"
-		case Exception:
-			result += "EXCEPTION"
-		case Component:
-			result += "COMPONENT"
-		case Result:
-			result += "RESULT"
-		}
-	case Load:
-		result = "LOAD "
-		switch modifier {
-		case Contract:
-			result += "CONTRACT " + index
-		case Draft:
-			result += "DRAFT " + index
-		case Message:
-			result += "MESSAGE " + index
-		case Variable:
-			result += "VARIABLE " + index
-		}
-	case Save:
-		result = "SAVE "
-		switch modifier {
-		case Contract:
-			result += "CONTRACT " + index
-		case Draft:
-			result += "DRAFT " + index
-		case Message:
-			result += "MESSAGE " + index
-		case Variable:
-			result += "VARIABLE " + index
-		}
-	case Drop:
-		result = "DROP "
-		switch modifier {
-		case Contract:
-			result += "CONTRACT " + index
-		case Draft:
-			result += "DRAFT " + index
-		case Message:
-			result += "MESSAGE " + index
-		case Variable:
-			result += "VARIABLE " + index
-		}
-	case Call:
-		result = "CALL " + index
-		switch modifier {
-		case With0Arguments:
-		case With1Argument:
-			result += " WITH 1 ARGUMENTS"
-		case With2Arguments:
-			result += " WITH 2 ARGUMENTS"
-		case With3Arguments:
-			result += " WITH 3 ARGUMENTS"
-		}
-	case Send:
-		result = "SEND " + index + " TO "
-		switch modifier {
-		case Component:
-			result += "COMPONENT"
-		case ComponentWithArguments:
-			result += "COMPONENT WITH ARGUMENTS"
-		case Contract:
-			result += "CONTRACT"
-		case ContractWithArguments:
-			result += "CONTRACT WITH ARGUMENTS"
-		}
-	}
-	return result
 }
 
 // Attribute Methods
@@ -242,22 +283,6 @@ func (v instruction_) GetOperand() Operand {
 // PROTECTED INTERFACE
 
 // Private Methods
-
-func (c *instructionClass_) operandAsString(
-	operation Operation,
-	modifier Modifier,
-	operand Operand,
-) string {
-	var result string
-	if operation == Jump || (operation == Push && modifier == Handler) {
-		// Treat the operand as an address "[xHEX]".
-		result = fmt.Sprintf("[x%03x]", operand)
-	} else {
-		// Treat the operand as an index " DECI ".
-		result = fmt.Sprintf(" %4d ", operand)
-	}
-	return result
-}
 
 func (c instructionClass_) validateInstruction(
 	operation Operation,

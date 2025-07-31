@@ -186,6 +186,9 @@ type InstructionLike interface {
 	GetClass() InstructionClassLike
 	AsIntrinsic() uint16
 	AsString() string
+	OperationAsString() string
+	ModifierAsString() string
+	OperandAsString() string
 
 	// Attribute Methods
 	GetOperation() Operation
