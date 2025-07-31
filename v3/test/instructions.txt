@@ -26,7 +26,7 @@ Address   Bytes   Instruction                Mnemonic
 [x018]:   xb07a   5 2   122    DROP MESSAGE 122
 [x019]:   xb87b   5 3   123    DROP VARIABLE 123
 [x01a]:   xc07c   6 0   124    CALL 124
-[x01b]:   xc87d   6 1   125    CALL 125 WITH 1 ARGUMENT
+[x01b]:   xc87d   6 1   125    CALL 125 WITH 1 ARGUMENTS
 [x01c]:   xd07e   6 2   126    CALL 126 WITH 2 ARGUMENTS
 [x01d]:   xd87f   6 3   127    CALL 127 WITH 3 ARGUMENTS
 [x01e]:   xe080   7 0   128    SEND 128 TO CONTRACT

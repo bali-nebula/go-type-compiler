@@ -203,7 +203,7 @@ func (v instruction_) AsString() string {
 		switch modifier {
 		case With0Arguments:
 		case With1Argument:
-			result += " WITH 1 ARGUMENT"
+			result += " WITH 1 ARGUMENTS"
 		case With2Arguments:
 			result += " WITH 2 ARGUMENTS"
 		case With3Arguments:
