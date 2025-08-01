@@ -30,7 +30,6 @@ package compiler
 
 import (
 	not "github.com/bali-nebula/go-document-notation/v3"
-	rep "github.com/bali-nebula/go-document-repository/v3"
 )
 
 // TYPE DECLARATIONS
@@ -46,9 +45,7 @@ concrete type-compiler-like class.
 */
 type TypeCompilerClassLike interface {
 	// Constructor Methods
-	TypeCompiler(
-		repository rep.DocumentRepositoryLike,
-	) TypeCompilerLike
+	TypeCompiler() TypeCompilerLike
 }
 
 // INSTANCE DECLARATIONS

@@ -15,10 +15,8 @@ package compiler
 import (
 	lan "github.com/bali-nebula/go-assembly-language/v3"
 	not "github.com/bali-nebula/go-document-notation/v3"
-	rep "github.com/bali-nebula/go-document-repository/v3"
 	ass "github.com/bali-nebula/go-type-compiler/v3/assembler"
 	fra "github.com/craterdog/go-component-framework/v7"
-	uti "github.com/craterdog/go-missing-utilities/v7"
 )
 
 // CLASS INTERFACE
@@ -31,17 +29,11 @@ func TypeCompilerClass() TypeCompilerClassLike {
 
 // Constructor Methods
 
-func (c *typeCompilerClass_) TypeCompiler(
-	repository rep.DocumentRepositoryLike,
-) TypeCompilerLike {
-	if uti.IsUndefined(repository) {
-		panic("The \"repository\" attribute is required by this class.")
-	}
+func (c *typeCompilerClass_) TypeCompiler() TypeCompilerLike {
 	var instance = &typeCompiler_{
 		// Initialize the instance attributes.
-		repository_: repository,
-		literals_:   fra.Set[string](),
-		constants_:  fra.Set[string](),
+		literals_:  fra.Set[string](),
+		constants_: fra.Set[string](),
 
 		// Initialize the inherited aspects.
 		Methodical: not.Processor(),
@@ -2204,7 +2196,6 @@ func (v *typeCompiler_) getAssociations(
 
 type typeCompiler_ struct {
 	// Declare the instance attributes.
-	repository_   rep.DocumentRepositoryLike
 	literals_     fra.SetLike[string]
 	constants_    fra.SetLike[string]
 	arguments_    fra.CatalogLike[string, not.DocumentLike]
