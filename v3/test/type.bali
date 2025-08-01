@@ -59,7 +59,7 @@
                 7.Call:
                 NOTE --Calls an intrinsic function with 0 to 3 arguments.
                 CALL $now
-                CALL $factorial WITH 1 ARGUMENTS
+                CALL $factorial WITH 1 ARGUMENT
                 CALL $sum WITH 2 ARGUMENTS
                 CALL $range WITH 3 ARGUMENTS
                 

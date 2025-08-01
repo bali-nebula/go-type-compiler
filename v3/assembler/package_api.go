@@ -59,10 +59,10 @@ type Modifier uint16
 
 const (
 	// Jump Operation
-	Any   Modifier = 0b0000000000000000
-	Empty Modifier = 0b0000100000000000
-	None  Modifier = 0b0001000000000000
-	False Modifier = 0b0001100000000000
+	OnAny   Modifier = 0b0000000000000000
+	OnEmpty Modifier = 0b0000100000000000
+	OnNone  Modifier = 0b0001000000000000
+	OnFalse Modifier = 0b0001100000000000
 
 	// Push Operation
 	Handler  Modifier = 0b0000000000000000
@@ -84,7 +84,7 @@ const (
 
 	// Call Operation
 	With0Arguments Modifier = 0b0000000000000000
-	With1Arguments Modifier = 0b0000100000000000
+	With1Argument  Modifier = 0b0000100000000000
 	With2Arguments Modifier = 0b0001000000000000
 	With3Arguments Modifier = 0b0001100000000000
 

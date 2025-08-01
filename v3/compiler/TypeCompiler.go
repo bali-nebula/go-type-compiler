@@ -635,29 +635,6 @@ func (v *typeCompiler_) ProcessComponentSlot(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessCondition(
-	condition not.ConditionLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) PostprocessCondition(
-	condition not.ConditionLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessConditionSlot(
-	condition not.ConditionLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
 func (v *typeCompiler_) PreprocessContinueClause(
 	continueClause not.ContinueClauseLike,
 	index_ uint,

@@ -175,13 +175,13 @@ func (v instruction_) ModifierAsString() string {
 	switch operation {
 	case Jump:
 		switch modifier {
-		case Any:
+		case OnAny:
 			return ""
-		case Empty:
+		case OnEmpty:
 			return "ON EMPTY"
-		case None:
+		case OnNone:
 			return "ON NONE"
-		case False:
+		case OnFalse:
 			return "ON FALSE"
 		}
 	case Push:
@@ -221,8 +221,8 @@ func (v instruction_) ModifierAsString() string {
 		switch modifier {
 		case With0Arguments:
 			return ""
-		case With1Arguments:
-			return "WITH 1 ARGUMENTS"
+		case With1Argument:
+			return "WITH 1 ARGUMENT"
 		case With2Arguments:
 			return "WITH 2 ARGUMENTS"
 		case With3Arguments:

@@ -60,10 +60,10 @@ const (
 	Send = ass.Send
 
 	// Jump Modifiers
-	Any   = ass.Any
-	Empty = ass.Empty
-	None  = ass.None
-	False = ass.False
+	OnAny   = ass.OnAny
+	OnEmpty = ass.OnEmpty
+	OnNone  = ass.OnNone
+	OnFalse = ass.OnFalse
 
 	// Push Modifiers
 	Handler  = ass.Handler
@@ -84,7 +84,7 @@ const (
 
 	// Call Modifiers
 	With0Arguments = ass.With0Arguments
-	With1Arguments = ass.With1Arguments
+	With1Argument  = ass.With1Argument
 	With2Arguments = ass.With2Arguments
 	With3Arguments = ass.With3Arguments
 

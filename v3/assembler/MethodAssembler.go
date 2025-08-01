@@ -85,11 +85,17 @@ func (v *methodAssembler_) PreprocessCall(
 	count_ uint,
 ) {
 	var operation = Call
-	var modifier Modifier
+	var modifier = With0Arguments
 	var cardinality = call.GetOptionalCardinality()
 	if uti.IsDefined(cardinality) {
-		var count, _ = stc.Atoi(cardinality.GetCount())
-		modifier = Modifier(count << 11)
+		switch cardinality.GetAny().(string) {
+		case "WITH 1 ARGUMENT":
+			modifier = With1Argument
+		case "WITH 2 ARGUMENTS":
+			modifier = With2Arguments
+		case "WITH 3 ARGUMENTS":
+			modifier = With3Arguments
+		}
 	}
 	var symbol = call.GetSymbol()
 	var index = methodAssemblerClass().intrinsics_.GetIndex(symbol)
@@ -128,17 +134,16 @@ func (v *methodAssembler_) PreprocessJump(
 	count_ uint,
 ) {
 	var operation = Jump
-	var modifier Modifier
+	var modifier = OnAny
 	var conditionally = jump.GetOptionalConditionally()
 	if uti.IsDefined(conditionally) {
-		var condition = conditionally.GetCondition()
-		switch condition.GetAny().(string) {
-		case "EMPTY":
-			modifier = Empty
-		case "NONE":
-			modifier = None
-		case "FALSE":
-			modifier = False
+		switch conditionally.GetAny().(string) {
+		case "ON EMPTY":
+			modifier = OnEmpty
+		case "ON NONE":
+			modifier = OnNone
+		case "ON FALSE":
+			modifier = OnFalse
 		}
 	}
 	var label = jump.GetLabel()
