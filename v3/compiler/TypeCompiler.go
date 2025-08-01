@@ -64,16 +64,11 @@ func (v *typeCompiler_) GetClass() TypeCompilerClassLike {
 func (v *typeCompiler_) CompileType(
 	type_ not.DocumentLike,
 ) {
-	v.cleanType(type_)
 	v.compileMethods(type_)
 	v.assembleMethods(type_)
 }
 
 // Attribute Methods
-
-func (v *typeCompiler_) GetRepository() rep.DocumentRepositoryLike {
-	return v.repository_
-}
 
 // Methodical Methods
 
@@ -2161,12 +2156,7 @@ func (v *typeCompiler_) assembleMethods(
 	type_ not.DocumentLike,
 ) {
 	var assembler = ass.MethodAssemblerClass().MethodAssembler(type_)
-	var key = not.Primitive(not.Element("$methods"))
-	var methods = not.GetAttribute(type_, key)
-	var component = methods.GetComponent()
-	var collection = component.GetAny().(not.CollectionLike)
-	var attributes = collection.GetAny().(not.AttributesLike)
-	var associations = attributes.GetAssociations()
+	var associations = v.getAssociations(type_, "$methods")
 	var iterator = associations.GetIterator()
 	for iterator.HasNext() {
 		var association = iterator.GetNext()
@@ -2175,49 +2165,20 @@ func (v *typeCompiler_) assembleMethods(
 	}
 }
 
-func (v *typeCompiler_) cleanMethod(
-	method not.DocumentLike,
-) {
-	var component = method.GetComponent()
-	var collection = component.GetAny().(not.CollectionLike)
-	var attributes = collection.GetAny().(not.AttributesLike)
-	var associations = attributes.GetAssociations()
-	var index uti.Index
-	var iterator = associations.GetIterator()
-	iterator.ToEnd() // Must work backwards when removing multiple associations.
-	for index = uti.Index(iterator.GetSize()); iterator.HasPrevious(); index-- {
-		var association = iterator.GetPrevious()
-		var key = association.GetPrimitive().GetAny().(string)
-		switch key {
-		case "$instructions", "$bytecode", "$arguments", "$variables",
-			"$messages", "$addresses":
-			associations.RemoveValue(index)
-		}
-	}
-}
-
 func (v *typeCompiler_) compileMethod(
 	method not.DocumentLike,
 ) {
-	v.cleanMethod(method)
-	v.instructions_ = fra.List[lan.InstructionLike]()
 	v.arguments_ = fra.Catalog[string, not.DocumentLike]()
 	v.variables_ = fra.Set[string]()
 	v.messages_ = fra.Set[string]()
-	v.addresses_ = fra.Catalog[string, uint16]()
-	v.address_ = 1
+	v.instructions_ = fra.List[lan.InstructionLike]()
 	not.Visitor(v).VisitDocument(method)
 }
 
 func (v *typeCompiler_) compileMethods(
 	type_ not.DocumentLike,
 ) {
-	var key = not.Primitive(not.Element("$methods"))
-	var methods = not.GetAttribute(type_, key)
-	var component = methods.GetComponent()
-	var collection = component.GetAny().(not.CollectionLike)
-	var attributes = collection.GetAny().(not.AttributesLike)
-	var associations = attributes.GetAssociations()
+	var associations = v.getAssociations(type_, "$methods")
 	var iterator = associations.GetIterator()
 	for iterator.HasNext() {
 		var association = iterator.GetNext()
@@ -2226,22 +2187,17 @@ func (v *typeCompiler_) compileMethods(
 	}
 }
 
-func (v *typeCompiler_) cleanType(
+func (v *typeCompiler_) getAssociations(
 	type_ not.DocumentLike,
-) {
-	var component = type_.GetComponent()
+	symbol string,
+) fra.Sequential[not.AssociationLike] {
+	var primitive = not.Primitive(not.Element(symbol))
+	var document = not.GetAttribute(type_, primitive)
+	var component = document.GetComponent()
 	var collection = component.GetAny().(not.CollectionLike)
 	var attributes = collection.GetAny().(not.AttributesLike)
 	var associations = attributes.GetAssociations()
-	var index uti.Index
-	var iterator = associations.GetIterator()
-	for index = 1; iterator.HasNext(); index++ {
-		var association = iterator.GetNext()
-		var key = association.GetPrimitive().GetAny().(string)
-		if key == "$literals" {
-			associations.RemoveValue(index)
-		}
-	}
+	return associations
 }
 
 // Instance Structure
@@ -2251,12 +2207,10 @@ type typeCompiler_ struct {
 	repository_   rep.DocumentRepositoryLike
 	literals_     fra.SetLike[string]
 	constants_    fra.SetLike[string]
-	instructions_ fra.ListLike[lan.InstructionLike]
 	arguments_    fra.CatalogLike[string, not.DocumentLike]
 	variables_    fra.SetLike[string]
 	messages_     fra.SetLike[string]
-	addresses_    fra.CatalogLike[string, uint16]
-	address_      uint16
+	instructions_ fra.ListLike[lan.InstructionLike]
 
 	// Declare the inherited aspects.
 	not.Methodical

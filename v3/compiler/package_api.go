@@ -65,9 +65,6 @@ type TypeCompilerLike interface {
 		type_ not.DocumentLike,
 	)
 
-	// Attribute Methods
-	GetRepository() rep.DocumentRepositoryLike
-
 	// Aspect Interfaces
 	not.Methodical
 }
