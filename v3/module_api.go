@@ -32,7 +32,6 @@ package module
 
 import (
 	not "github.com/bali-nebula/go-document-notation/v3"
-	rep "github.com/bali-nebula/go-document-repository/v3"
 	ass "github.com/bali-nebula/go-type-compiler/v3/assembler"
 	com "github.com/bali-nebula/go-type-compiler/v3/compiler"
 	fra "github.com/craterdog/go-component-framework/v7"
@@ -185,12 +184,8 @@ func TypeCompilerClass() TypeCompilerClassLike {
 	return com.TypeCompilerClass()
 }
 
-func TypeCompiler(
-	repository rep.DocumentRepositoryLike,
-) TypeCompilerLike {
-	return TypeCompilerClass().TypeCompiler(
-		repository,
-	)
+func TypeCompiler() TypeCompilerLike {
+	return TypeCompilerClass().TypeCompiler()
 }
 
 // GLOBAL FUNCTIONS

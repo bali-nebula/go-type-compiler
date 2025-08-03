@@ -30,6 +30,7 @@ package compiler
 
 import (
 	not "github.com/bali-nebula/go-document-notation/v3"
+	fra "github.com/craterdog/go-component-framework/v7"
 )
 
 // TYPE DECLARATIONS
@@ -37,6 +38,24 @@ import (
 // FUNCTIONAL DECLARATIONS
 
 // CLASS DECLARATIONS
+
+/*
+ContextClassLike is a class interface that declares the complete set of
+class constructors, constants and functions that must be supported by each
+concrete context-like class.
+*/
+type ContextClassLike interface {
+	// Constructor Methods
+	Context(
+		labelPrefix string,
+		labels fra.CatalogLike[string, string],
+		statement not.StatementLike,
+		statementNumber uint,
+		statementCount uint,
+		blockNumber uint,
+		blockCount uint,
+	) ContextLike
+}
 
 /*
 TypeCompilerClassLike is a class interface that declares the complete set of
@@ -49,6 +68,25 @@ type TypeCompilerClassLike interface {
 }
 
 // INSTANCE DECLARATIONS
+
+/*
+ContextLike is an instance interface that declares the complete set of
+principal, attribute and aspect methods that must be supported by each instance
+of a concrete type-compiler-like class.
+*/
+type ContextLike interface {
+	// Principal Methods
+	GetClass() ContextClassLike
+
+	// Attribute Methods
+	GetLabelPrefix() string
+	GetLabels() fra.CatalogLike[string, string]
+	GetStatement() not.StatementLike
+	GetStatementNumber() uint
+	GetStatementCount() uint
+	GetBlockNumber() uint
+	GetBlockCount() uint
+}
 
 /*
 TypeCompilerLike is an instance interface that declares the complete set of

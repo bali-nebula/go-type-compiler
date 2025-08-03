@@ -221,7 +221,7 @@ func (v *methodAssembler_) PreprocessPush(
 	case lan.LiteralLike:
 		modifier = Literal
 		var literal = source.GetQuoted()
-		literal = literal[3 : len(literal)-3] // Remove the delimiters.
+		literal = literal[1 : len(literal)-1] // Remove the delimiters.
 		literal = not.FormatDocument(not.ParseSource(literal))
 		literal = literal[:len(literal)-1] // Remove the trailing newline.
 		var index = v.literals_.GetIndex(literal)

@@ -13,10 +13,12 @@
 package compiler
 
 import (
-	lan "github.com/bali-nebula/go-assembly-language/v3"
 	not "github.com/bali-nebula/go-document-notation/v3"
 	ass "github.com/bali-nebula/go-type-compiler/v3/assembler"
 	fra "github.com/craterdog/go-component-framework/v7"
+	uti "github.com/craterdog/go-missing-utilities/v7"
+	stc "strconv"
+	sts "strings"
 )
 
 // CLASS INTERFACE
@@ -64,156 +66,12 @@ func (v *typeCompiler_) CompileType(
 
 // Methodical Methods
 
-func (v *typeCompiler_) ProcessAngle(
-	angle string,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessBinary(
-	binary string,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessBoolean(
-	boolean string,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessBytecode(
-	bytecode string,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessComment(
-	comment string,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessDelimiter(
-	delimiter string,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessDuration(
-	duration string,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessGlyph(
-	glyph string,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessIdentifier(
-	identifier string,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessMoment(
-	moment string,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessName(
-	name string,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessNarrative(
-	narrative string,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessNewline(
-	newline string,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessNote(
-	note string,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessNumber(
-	number string,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessPattern(
-	pattern string,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessPercentage(
-	percentage string,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessProbability(
-	probability string,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessQuote(
-	quote string,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessResource(
-	resource string,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessSpace(
-	space string,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessSymbol(
-	symbol string,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessTag(
-	tag string,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessVersion(
-	version string,
-) {
-	// TBD - Add the method implementation.
-}
-
 func (v *typeCompiler_) PreprocessAcceptClause(
 	acceptClause not.AcceptClauseLike,
 	index_ uint,
 	count_ uint,
 ) {
-	// TBD - Add the method implementation.
+	v.appendNote("Save the message to be accepted.")
 }
 
 func (v *typeCompiler_) PostprocessAcceptClause(
@@ -221,137 +79,17 @@ func (v *typeCompiler_) PostprocessAcceptClause(
 	index_ uint,
 	count_ uint,
 ) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessAcceptClauseSlot(
-	acceptClause not.AcceptClauseLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) PreprocessActionInduction(
-	actionInduction not.ActionInductionLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) PostprocessActionInduction(
-	actionInduction not.ActionInductionLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessActionInductionSlot(
-	actionInduction not.ActionInductionLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) PreprocessAnnotation(
-	annotation not.AnnotationLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) PostprocessAnnotation(
-	annotation not.AnnotationLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessAnnotationSlot(
-	annotation not.AnnotationLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) PreprocessArgument(
-	argument not.ArgumentLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) PostprocessArgument(
-	argument not.ArgumentLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessArgumentSlot(
-	argument not.ArgumentLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) PreprocessArithmeticOperator(
-	arithmeticOperator not.ArithmeticOperatorLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) PostprocessArithmeticOperator(
-	arithmeticOperator not.ArithmeticOperatorLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessArithmeticOperatorSlot(
-	arithmeticOperator not.ArithmeticOperatorLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) PreprocessAssignment(
-	assignment not.AssignmentLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) PostprocessAssignment(
-	assignment not.AssignmentLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessAssignmentSlot(
-	assignment not.AssignmentLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) PreprocessAssociation(
-	association not.AssociationLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
+	var message = v.createVariable("message")
+	v.appendSave("VARIABLE", message)
+	v.appendNote("Extract and save the name of the message bag.")
+	v.appendLoad("VARIABLE", message)
+	v.appendPush("LITERAL", "$bag")
+	v.appendCall("$attribute", 2)
+	var bag = v.createVariable("bag")
+	v.appendSave("VARIABLE", bag)
+	v.appendNote("Drop the message from the named message bag.")
+	v.appendLoad("VARIABLE", message)
+	v.appendDrop("MESSAGE", bag)
 }
 
 func (v *typeCompiler_) PostprocessAssociation(
@@ -359,37 +97,8 @@ func (v *typeCompiler_) PostprocessAssociation(
 	index_ uint,
 	count_ uint,
 ) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessAssociationSlot(
-	association not.AssociationLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) PreprocessAtLevel(
-	atLevel not.AtLevelLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) PostprocessAtLevel(
-	atLevel not.AtLevelLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessAtLevelSlot(
-	atLevel not.AtLevelLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
+	// The catalog, key and value of the association are already on the stack.
+	v.appendCall("$setAttribute", 3) // setAttribute(catalog, key, value)
 }
 
 func (v *typeCompiler_) PreprocessAttributes(
@@ -397,68 +106,8 @@ func (v *typeCompiler_) PreprocessAttributes(
 	index_ uint,
 	count_ uint,
 ) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) PostprocessAttributes(
-	attributes not.AttributesLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessAttributesSlot(
-	attributes not.AttributesLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) PreprocessBag(
-	bag not.BagLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) PostprocessBag(
-	bag not.BagLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessBagSlot(
-	bag not.BagLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) PreprocessBra(
-	bra not.BraLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) PostprocessBra(
-	bra not.BraLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessBraSlot(
-	bra not.BraLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
+	v.appendNote("Place a catalog of the attributes on the stack.")
+	v.appendCall("$catalog", 0)
 }
 
 func (v *typeCompiler_) PreprocessBreakClause(
@@ -466,22 +115,19 @@ func (v *typeCompiler_) PreprocessBreakClause(
 	index_ uint,
 	count_ uint,
 ) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) PostprocessBreakClause(
-	breakClause not.BreakClauseLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessBreakClauseSlot(
-	breakClause not.BreakClauseLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
+	var iterator = v.context_.GetIterator()
+	iterator.ToEnd()
+	for iterator.HasPrevious() {
+		var context = iterator.GetPrevious()
+		var loopLabel = context.GetLabels().GetValue("$loopLabel")
+		if uti.IsDefined(loopLabel) {
+			var doneLabel = context.GetLabels().GetValue("$doneLabel")
+			v.appendJump(doneLabel, "")
+			return
+		}
+	}
+	var message = "A break statement was found with no enclosing loop."
+	panic(message)
 }
 
 func (v *typeCompiler_) PreprocessCheckoutClause(
@@ -490,6 +136,10 @@ func (v *typeCompiler_) PreprocessCheckoutClause(
 	count_ uint,
 ) {
 	// TBD - Add the method implementation.
+	v.setLabel("")
+	v.appendSkip()
+	v.appendPull("")
+	v.appendSend("", "", false)
 }
 
 func (v *typeCompiler_) PostprocessCheckoutClause(
@@ -548,29 +198,6 @@ func (v *typeCompiler_) PostprocessCollection(
 
 func (v *typeCompiler_) ProcessCollectionSlot(
 	collection not.CollectionLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) PreprocessComparisonOperator(
-	comparisonOperator not.ComparisonOperatorLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) PostprocessComparisonOperator(
-	comparisonOperator not.ComparisonOperatorLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessComparisonOperatorSlot(
-	comparisonOperator not.ComparisonOperatorLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
@@ -650,7 +277,7 @@ func (v *typeCompiler_) PreprocessDiscardClause(
 	index_ uint,
 	count_ uint,
 ) {
-	// TBD - Add the method implementation.
+	v.appendNote("Save the citation to the document.")
 }
 
 func (v *typeCompiler_) PostprocessDiscardClause(
@@ -658,14 +285,10 @@ func (v *typeCompiler_) PostprocessDiscardClause(
 	index_ uint,
 	count_ uint,
 ) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessDiscardClauseSlot(
-	discardClause not.DiscardClauseLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
+	var citation = v.createVariable("citation")
+	v.appendSave("VARIABLE", citation)
+	v.appendNote("Drop the cited document from the repository.")
+	v.appendDrop("DRAFT", citation)
 }
 
 func (v *typeCompiler_) PreprocessDoClause(
@@ -704,14 +327,22 @@ func (v *typeCompiler_) PostprocessDocument(
 	index_ uint,
 	count_ uint,
 ) {
-	// TBD - Add the method implementation.
+	// The component, parameters and note are already on the stack.
+	v.appendCall("$document", 3)
 }
 
 func (v *typeCompiler_) ProcessDocumentSlot(
 	document not.DocumentLike,
 	slot_ uint,
 ) {
-	// TBD - Add the method implementation.
+	var parameters = document.GetOptionalParameters()
+	var note = document.GetOptionalNote()
+	switch {
+	case uti.IsUndefined(parameters):
+		v.appendPush("LITERAL", "none")
+	case uti.IsUndefined(note):
+		v.appendPush("LITERAL", "none")
+	}
 }
 
 func (v *typeCompiler_) PreprocessDraft(
@@ -1105,73 +736,29 @@ func (v *typeCompiler_) ProcessItemsSlot(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessKet(
-	ket not.KetLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) PostprocessKet(
-	ket not.KetLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessKetSlot(
-	ket not.KetLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) PreprocessLetClause(
-	letClause not.LetClauseLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
 func (v *typeCompiler_) PostprocessLetClause(
 	letClause not.LetClauseLike,
 	index_ uint,
 	count_ uint,
 ) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessLetClauseSlot(
-	letClause not.LetClauseLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) PreprocessLexicalOperator(
-	lexicalOperator not.LexicalOperatorLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) PostprocessLexicalOperator(
-	lexicalOperator not.LexicalOperatorLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessLexicalOperatorSlot(
-	lexicalOperator not.LexicalOperatorLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
+	// At this point, the recipient and expression are already on the stack.
+	var assignment = letClause.GetAssignment()
+	switch assignment.GetAny().(string) {
+	case ":=":
+		v.appendCall("$assign", 2)
+	case "?=":
+		v.appendCall("$default", 2)
+	case "+=":
+		v.appendCall("$sum", 2)
+	case "-=":
+		v.appendCall("$difference", 2)
+	case "*=":
+		v.appendCall("$product", 2)
+	case "/=":
+		v.appendCall("$quotient", 2)
+	case "&=":
+		v.appendCall("$chain", 2)
+	}
 }
 
 func (v *typeCompiler_) PreprocessLine(
@@ -1215,29 +802,6 @@ func (v *typeCompiler_) PostprocessLogical(
 
 func (v *typeCompiler_) ProcessLogicalSlot(
 	logical not.LogicalLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) PreprocessLogicalOperator(
-	logicalOperator not.LogicalOperatorLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) PostprocessLogicalOperator(
-	logicalOperator not.LogicalOperatorLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessLogicalOperatorSlot(
-	logicalOperator not.LogicalOperatorLike,
 	slot_ uint,
 ) {
 	// TBD - Add the method implementation.
@@ -1478,7 +1042,8 @@ func (v *typeCompiler_) PreprocessParameters(
 	index_ uint,
 	count_ uint,
 ) {
-	// TBD - Add the method implementation.
+	v.appendNote("Place a catalog of the parameters on the stack.")
+	v.appendCall("$catalog", 0)
 }
 
 func (v *typeCompiler_) PostprocessParameters(
@@ -1542,27 +1107,59 @@ func (v *typeCompiler_) ProcessPrecedenceSlot(
 	// TBD - Add the method implementation.
 }
 
-func (v *typeCompiler_) PreprocessPredicate(
-	predicate not.PredicateLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
 func (v *typeCompiler_) PostprocessPredicate(
 	predicate not.PredicateLike,
 	index_ uint,
 	count_ uint,
 ) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessPredicateSlot(
-	predicate not.PredicateLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
+	// At this point, the two operands are already on the stack.
+	var operation = predicate.GetOperation()
+	switch actual := operation.GetAny().(type) {
+	case not.LexicalOperatorLike:
+		switch actual.GetAny().(string) {
+		case "&":
+			v.appendCall("$chain", 2)
+		}
+	case not.LogicalOperatorLike:
+		switch actual.GetAny().(string) {
+		case "and":
+			v.appendCall("$and", 2)
+		case "san":
+			v.appendCall("$san", 2)
+		case "ior":
+			v.appendCall("$ior", 2)
+		case "xor":
+			v.appendCall("$xor", 2)
+		}
+	case not.ArithmeticOperatorLike:
+		switch actual.GetAny().(string) {
+		case "+":
+			v.appendCall("$sum", 2)
+		case "-":
+			v.appendCall("$difference", 2)
+		case "*":
+			v.appendCall("$product", 2)
+		case "/":
+			v.appendCall("$quotient", 2)
+		case "%":
+			v.appendCall("$remainder", 2)
+		case "^":
+			v.appendCall("$exponential", 2)
+		}
+	case not.ComparisonOperatorLike:
+		switch actual.GetAny().(string) {
+		case "<":
+			v.appendCall("$isLess", 2)
+		case "=":
+			v.appendCall("$areEqual", 2)
+		case ">":
+			v.appendCall("$isMore", 2)
+		case "is":
+			v.appendCall("$areSame", 2)
+		case "matches":
+			v.appendCall("$doesMatch", 2)
+		}
+	}
 }
 
 func (v *typeCompiler_) PreprocessPrimitive(
@@ -1570,7 +1167,15 @@ func (v *typeCompiler_) PreprocessPrimitive(
 	index_ uint,
 	count_ uint,
 ) {
-	// TBD - Add the method implementation.
+	var literal string
+	switch actual := primitive.GetAny().(type) {
+	case not.ElementLike:
+		literal = actual.GetAny().(string)
+	case not.StringLike:
+		literal = actual.GetAny().(string)
+	}
+	literal = "`<\n    " + literal + "\n>`"
+	v.appendPush("LITERAL", literal)
 }
 
 func (v *typeCompiler_) PostprocessPrimitive(
@@ -2053,22 +1658,8 @@ func (v *typeCompiler_) PreprocessValue(
 	index_ uint,
 	count_ uint,
 ) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) PostprocessValue(
-	value not.ValueLike,
-	index_ uint,
-	count_ uint,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessValueSlot(
-	value not.ValueLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
+	var identifier = value.GetIdentifier()
+	v.appendLoad("VARIABLE", identifier)
 }
 
 func (v *typeCompiler_) PreprocessVariable(
@@ -2144,6 +1735,107 @@ func (v *typeCompiler_) ProcessWithClauseSlot(
 
 // Private Methods
 
+func (v *typeCompiler_) appendNote(
+	note string,
+) {
+	if uti.IsDefined(v.label_) {
+		v.assembly_.WriteString("\n" + v.label_ + ":" + "\n")
+		v.label_ = ""
+	}
+	var instruction = "NOTE --" + note
+	v.assembly_.WriteString(instruction + "\n")
+}
+
+func (v *typeCompiler_) appendSkip() {
+	var instruction = "SKIP"
+	v.assembly_.WriteString(instruction + "\n")
+}
+
+func (v *typeCompiler_) appendJump(
+	label string,
+	modifier string,
+) {
+	var instruction = "JUMP TO " + label
+	if uti.IsDefined(modifier) {
+		instruction += " " + modifier
+	}
+	v.assembly_.WriteString(instruction + "\n")
+}
+
+func (v *typeCompiler_) appendPush(
+	modifier string,
+	value string,
+) {
+	if modifier == "LITERAL" {
+		value = "`" + value + "`"
+	}
+	var instruction = "PUSH " + modifier + " " + value
+	v.assembly_.WriteString(instruction + "\n")
+}
+
+func (v *typeCompiler_) appendPull(
+	modifier string,
+) {
+	var instruction = "PULL " + modifier
+	v.assembly_.WriteString(instruction + "\n")
+}
+
+func (v *typeCompiler_) appendLoad(
+	modifier string,
+	symbol string,
+) {
+	v.variables_.AddValue(symbol)
+	var instruction = "LOAD " + modifier + " " + symbol
+	v.assembly_.WriteString(instruction + "\n")
+}
+
+func (v *typeCompiler_) appendSave(
+	modifier string,
+	symbol string,
+) {
+	v.variables_.AddValue(symbol)
+	var instruction = "SAVE " + modifier + " " + symbol
+	v.assembly_.WriteString(instruction + "\n")
+}
+
+func (v *typeCompiler_) appendDrop(
+	modifier string,
+	symbol string,
+) {
+	v.variables_.AddValue(symbol)
+	var instruction = "DROP " + modifier + " " + symbol
+	v.assembly_.WriteString(instruction + "\n")
+}
+
+func (v *typeCompiler_) appendCall(
+	intrinsic string,
+	arguments uint8,
+) {
+	var instruction = "CALL " + intrinsic
+	switch arguments {
+	case 0:
+	case 1:
+		instruction += " WITH 1 ARGUMENT"
+	case 2:
+		instruction += " WITH 2 ARGUMENTS"
+	case 3:
+		instruction += " WITH 3 ARGUMENTS"
+	}
+	v.assembly_.WriteString(instruction + "\n")
+}
+
+func (v *typeCompiler_) appendSend(
+	message string,
+	destination string,
+	arguments bool,
+) {
+	var instruction = "SEND " + message + " TO " + destination
+	if arguments {
+		instruction += " WITH ARGUMENTS"
+	}
+	v.assembly_.WriteString(instruction + "\n")
+}
+
 func (v *typeCompiler_) assembleMethods(
 	type_ not.DocumentLike,
 ) {
@@ -2157,13 +1849,22 @@ func (v *typeCompiler_) assembleMethods(
 	}
 }
 
+func (v *typeCompiler_) createVariable(
+	variable string,
+) string {
+	v.counter_++
+	return "$" + variable + "-" + stc.Itoa(int(v.counter_))
+}
+
 func (v *typeCompiler_) compileMethod(
 	method not.DocumentLike,
 ) {
+	v.counter_ = 1
+	v.context_ = fra.Stack[ContextLike]()
 	v.arguments_ = fra.Catalog[string, not.DocumentLike]()
 	v.variables_ = fra.Set[string]()
 	v.messages_ = fra.Set[string]()
-	v.instructions_ = fra.List[lan.InstructionLike]()
+	v.assembly_.Reset()
 	not.Visitor(v).VisitDocument(method)
 }
 
@@ -2192,16 +1893,28 @@ func (v *typeCompiler_) getAssociations(
 	return associations
 }
 
+func (v *typeCompiler_) setLabel(
+	label string,
+) {
+	if uti.IsDefined(v.label_) {
+		v.appendSkip()
+	}
+	v.label_ = label
+}
+
 // Instance Structure
 
 type typeCompiler_ struct {
 	// Declare the instance attributes.
-	literals_     fra.SetLike[string]
-	constants_    fra.SetLike[string]
-	arguments_    fra.CatalogLike[string, not.DocumentLike]
-	variables_    fra.SetLike[string]
-	messages_     fra.SetLike[string]
-	instructions_ fra.ListLike[lan.InstructionLike]
+	literals_  fra.SetLike[string]
+	constants_ fra.SetLike[string]
+	context_   fra.StackLike[ContextLike]
+	arguments_ fra.CatalogLike[string, not.DocumentLike]
+	variables_ fra.SetLike[string]
+	messages_  fra.SetLike[string]
+	assembly_  sts.Builder
+	counter_   uint16
+	label_     string
 
 	// Declare the inherited aspects.
 	not.Methodical

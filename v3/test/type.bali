@@ -18,13 +18,14 @@
                 2.Push:
                 NOTE --Pushes a value onto a stack.
                 PUSH HANDLER 6.Drop
-                PUSH LITERAL `>
+                PUSH LITERAL `none`
+                PUSH LITERAL `
                     {
                         let $foo := bar
                         let $bar := baz
                         let $baz := foo
                     }($bar: 5)
-                <`
+                `
                 PUSH CONSTANT $pi
                 PUSH ARGUMENT $target
                 
@@ -71,19 +72,19 @@
                 SEND $setAttribute TO CONTRACT WITH ARGUMENTS
             <"
             $bytecode: '>
-                :0000:0006:080a:100e:1812:2016:2801:3001:3801:4000:5000:5800
-                :4800:7803:6802:6005:7001:9803:8802:8005:9001:b803:a802:a005
-                :b004:c057:c82a:d082:d863:f001:f804:e002:e803
+                :0000:0006:080b:100f:1813:2017:2801:2802:3001:3801:4000:5000
+                :5800:4800:7803:6802:6005:7001:9803:8802:8005:9001:b803:a802
+                :a005:b004:c057:c82a:d082:d863:f001:f804:e002:e803
             <'
             $addresses: [
                 "1.Jump": 2
                 "2.Push": 6
-                "3.Pull": 10
-                "4.Load": 14
-                "5.Save": 18
-                "6.Drop": 22
-                "7.Call": 26
-                "8.Send": 30
+                "3.Pull": 11
+                "4.Load": 15
+                "5.Save": 19
+                "6.Drop": 23
+                "7.Call": 27
+                "8.Send": 31
             ]
             $arguments: [$target]
             $variables: [
@@ -102,6 +103,7 @@
         ]
     ]
     $literals: [
+        none
         {
             let $foo := bar
             let $bar := baz
