@@ -30,43 +30,27 @@ func ContextClass() ContextClassLike {
 
 func (c *contextClass_) Context(
 	labelPrefix string,
-	labels fra.CatalogLike[string, string],
-	statement not.StatementLike,
-	statementNumber uint,
 	statementCount uint,
-	blockNumber uint,
-	blockCount uint,
+	currentStatement not.StatementLike,
 ) ContextLike {
 	if uti.IsUndefined(labelPrefix) {
 		panic("The \"labelPrefix\" attribute is required by this class.")
 	}
-	if uti.IsUndefined(labels) {
-		panic("The \"labels\" attribute is required by this class.")
-	}
-	if uti.IsUndefined(statement) {
-		panic("The \"statement\" attribute is required by this class.")
-	}
-	if uti.IsUndefined(statementNumber) {
-		panic("The \"statementNumber\" attribute is required by this class.")
-	}
 	if uti.IsUndefined(statementCount) {
 		panic("The \"statementCount\" attribute is required by this class.")
 	}
-	if uti.IsUndefined(blockNumber) {
-		panic("The \"blockNumber\" attribute is required by this class.")
-	}
-	if uti.IsUndefined(blockCount) {
-		panic("The \"blockCount\" attribute is required by this class.")
+	if uti.IsUndefined(currentStatement) {
+		panic("The \"currentStatement\" attribute is required by this class.")
 	}
 	var instance = &context_{
 		// Initialize the instance attributes.
-		labelPrefix_: labelPrefix,
-		labels_: labels,
-		statement_: statement,
-		statementNumber_: statementNumber,
-		statementCount_: statementCount,
-		blockNumber_: blockNumber,
-		blockCount_: blockCount,
+		labelPrefix_:      labelPrefix,
+		labels_:           fra.Catalog[string, string](),
+		currentStatement_: currentStatement,
+		statementNumber_:  1,
+		statementCount_:   statementCount,
+		blockNumber_:      1,
+		blockCount_:       c.countBlocks(currentStatement),
 	}
 	return instance
 }
@@ -83,18 +67,43 @@ func (v *context_) GetClass() ContextClassLike {
 	return contextClass()
 }
 
+func (v *context_) SetLabel(
+	name string,
+	label string,
+) {
+	v.labels_.SetValue(name, label)
+}
+
+func (v *context_) GetLabel(
+	name string,
+) string {
+	return v.labels_.GetValue(name)
+}
+
+func (v *context_) IncrementStatementNumber() {
+	v.statementNumber_++
+}
+
+func (v *context_) IncrementBlockNumber() {
+	v.blockNumber_++
+}
+
 // Attribute Methods
 
 func (v *context_) GetLabelPrefix() string {
 	return v.labelPrefix_
 }
 
-func (v *context_) GetLabels() fra.CatalogLike[string, string] {
-	return v.labels_
+func (v *context_) GetCurrentStatement() not.StatementLike {
+	return v.currentStatement_
 }
 
-func (v *context_) GetStatement() not.StatementLike {
-	return v.statement_
+func (v *context_) SetCurrentStatement(
+	currentStatement not.StatementLike,
+) {
+	v.currentStatement_ = currentStatement
+	v.blockNumber_ = 1
+	v.blockCount_ = contextClass().countBlocks(currentStatement)
 }
 
 func (v *context_) GetStatementNumber() uint {
@@ -117,17 +126,23 @@ func (v *context_) GetBlockCount() uint {
 
 // Private Methods
 
+func (c *contextClass_) countBlocks(
+	statement not.StatementLike,
+) uint {
+	return 0
+}
+
 // Instance Structure
 
 type context_ struct {
 	// Declare the instance attributes.
-	labelPrefix_ string
-	labels_ fra.CatalogLike[string, string]
-	statement_ not.StatementLike
-	statementNumber_ uint
-	statementCount_ uint
-	blockNumber_ uint
-	blockCount_ uint
+	labelPrefix_      string
+	labels_           fra.CatalogLike[string, string]
+	currentStatement_ not.StatementLike
+	statementNumber_  uint
+	statementCount_   uint
+	blockNumber_      uint
+	blockCount_       uint
 }
 
 // Class Structure

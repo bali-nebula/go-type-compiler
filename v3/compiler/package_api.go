@@ -30,7 +30,6 @@ package compiler
 
 import (
 	not "github.com/bali-nebula/go-document-notation/v3"
-	fra "github.com/craterdog/go-component-framework/v7"
 )
 
 // TYPE DECLARATIONS
@@ -48,12 +47,8 @@ type ContextClassLike interface {
 	// Constructor Methods
 	Context(
 		labelPrefix string,
-		labels fra.CatalogLike[string, string],
-		statement not.StatementLike,
-		statementNumber uint,
 		statementCount uint,
-		blockNumber uint,
-		blockCount uint,
+		currentStatement not.StatementLike,
 	) ContextLike
 }
 
@@ -77,11 +72,22 @@ of a concrete type-compiler-like class.
 type ContextLike interface {
 	// Principal Methods
 	GetClass() ContextClassLike
+	SetLabel(
+		name string,
+		label string,
+	)
+	GetLabel(
+		name string,
+	) string
+	IncrementStatementNumber()
+	IncrementBlockNumber()
 
 	// Attribute Methods
 	GetLabelPrefix() string
-	GetLabels() fra.CatalogLike[string, string]
-	GetStatement() not.StatementLike
+	GetCurrentStatement() not.StatementLike
+	SetCurrentStatement(
+		statement not.StatementLike,
+	)
 	GetStatementNumber() uint
 	GetStatementCount() uint
 	GetBlockNumber() uint

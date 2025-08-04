@@ -119,9 +119,9 @@ func (v *typeCompiler_) PreprocessBreakClause(
 	iterator.ToEnd()
 	for iterator.HasPrevious() {
 		var context = iterator.GetPrevious()
-		var loopLabel = context.GetLabels().GetValue("$loopLabel")
+		var loopLabel = context.GetLabel("$loopLabel")
 		if uti.IsDefined(loopLabel) {
-			var doneLabel = context.GetLabels().GetValue("$doneLabel")
+			var doneLabel = context.GetLabel("$doneLabel")
 			v.appendJump(doneLabel, "")
 			return
 		}
@@ -140,6 +140,7 @@ func (v *typeCompiler_) PreprocessCheckoutClause(
 	v.appendSkip()
 	v.appendPull("")
 	v.appendSend("", "", false)
+	v.pushContext(nil)
 }
 
 func (v *typeCompiler_) PostprocessCheckoutClause(
@@ -1891,6 +1892,29 @@ func (v *typeCompiler_) getAssociations(
 	var attributes = collection.GetAny().(not.AttributesLike)
 	var associations = attributes.GetAssociations()
 	return associations
+}
+
+func (v *typeCompiler_) pushContext(
+	procedure not.ProcedureLike,
+) {
+	var labelPrefix string
+	var statementCount = uint(procedure.GetLines().GetSize())
+	if statementCount > 0 {
+		var parent = v.context_.RemoveLast()
+		v.context_.AddValue(parent) // HACK until GetLast() is supported.
+		labelPrefix = parent.GetLabelPrefix()
+		labelPrefix += stc.Itoa(int(parent.GetStatementNumber())) + "."
+		labelPrefix += stc.Itoa(int(parent.GetBlockNumber())) + "."
+		parent.IncrementBlockNumber()
+	}
+	var currentStatement not.StatementLike
+
+	var context = ContextClass().Context(
+		labelPrefix,
+		statementCount,
+		currentStatement,
+	)
+	v.context_.AddValue(context)
 }
 
 func (v *typeCompiler_) setLabel(
