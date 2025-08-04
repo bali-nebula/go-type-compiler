@@ -16,6 +16,7 @@ import (
 	not "github.com/bali-nebula/go-document-notation/v3"
 	fra "github.com/craterdog/go-component-framework/v7"
 	uti "github.com/craterdog/go-missing-utilities/v7"
+	stc "strconv"
 )
 
 // CLASS INTERFACE
@@ -44,14 +45,11 @@ func (c *contextClass_) Context(
 	}
 	var instance = &context_{
 		// Initialize the instance attributes.
-		labelPrefix_:      labelPrefix,
-		labels_:           fra.Catalog[string, string](),
-		currentStatement_: currentStatement,
-		statementNumber_:  1,
-		statementCount_:   statementCount,
-		blockNumber_:      1,
-		blockCount_:       c.countBlocks(currentStatement),
+		labelPrefix_:     labelPrefix,
+		statementNumber_: 1,
+		statementCount_:  statementCount,
 	}
+	instance.SetCurrentStatement(currentStatement)
 	return instance
 }
 
@@ -104,6 +102,75 @@ func (v *context_) SetCurrentStatement(
 	v.currentStatement_ = currentStatement
 	v.blockNumber_ = 1
 	v.blockCount_ = contextClass().countBlocks(currentStatement)
+	v.labels_ = fra.Catalog[string, string]()
+	var prefix = v.labelPrefix_ + stc.Itoa(int(v.statementNumber_)) + "."
+	var clause string
+	switch main := currentStatement.GetMainClause().GetAny().(type) {
+	case not.FlowControlLike:
+		switch main.GetAny().(type) {
+		case not.IfClauseLike:
+			clause = "If"
+		case not.SelectClauseLike:
+			clause = "Select"
+		case not.WhileClauseLike:
+			clause = "While"
+		case not.WithClauseLike:
+			clause = "With"
+		case not.ContinueClauseLike:
+			clause = "Continue"
+		case not.BreakClauseLike:
+			clause = "Break"
+		case not.ReturnClauseLike:
+			clause = "Return"
+		case not.ThrowClauseLike:
+			clause = "Throw"
+		}
+	case not.ActionInductionLike:
+		switch main.GetAny().(type) {
+		case not.DoClauseLike:
+			clause = "Do"
+		case not.LetClauseLike:
+			clause = "Let"
+		}
+	case not.MessageHandlingLike:
+		switch main.GetAny().(type) {
+		case not.PostClauseLike:
+			clause = "Post"
+		case not.RetrieveClauseLike:
+			clause = "Retrieve"
+		case not.AcceptClauseLike:
+			clause = "Accept"
+		case not.RejectClauseLike:
+			clause = "Reject"
+		case not.PublishClauseLike:
+			clause = "Publish"
+		}
+	case not.RepositoryAccessLike:
+		switch main.GetAny().(type) {
+		case not.CheckoutClauseLike:
+			clause = "Checkout"
+		case not.SaveClauseLike:
+			clause = "Save"
+		case not.DiscardClauseLike:
+			clause = "Discard"
+		case not.NotarizeClauseLike:
+			clause = "Notarize"
+		}
+	}
+	var startLabel = prefix + clause + "Statement"
+	v.labels_.SetValue("$startLabel", startLabel)
+	if v.blockCount_ > 0 {
+		var doneLabel = prefix + clause + "StatementDone"
+		v.labels_.SetValue("$doneLabel", doneLabel)
+	}
+	if uti.IsDefined(currentStatement.GetOptionalOnClause()) {
+		var handlerLabel = prefix + clause + "StatementHandler"
+		v.labels_.SetValue("$handlerLabel", handlerLabel)
+		var failureLabel = prefix + clause + "StatementFailed"
+		v.labels_.SetValue("$failureLabel", failureLabel)
+		var successLabel = prefix + clause + "StatementSucceeded"
+		v.labels_.SetValue("$successLabel", successLabel)
+	}
 }
 
 func (v *context_) GetStatementNumber() uint {
