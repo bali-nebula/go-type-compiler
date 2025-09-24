@@ -66,12 +66,14 @@ func (v *typeCompiler_) CompileType(
 
 // Methodical Methods
 
-func (v *typeCompiler_) PreprocessAcceptClause(
-	acceptClause not.AcceptClauseLike,
-	index_ uint,
-	count_ uint,
+func (v *typeCompiler_) ProcessAcceptClauseSlot(
+	checkoutClause not.CheckoutClauseLike,
+	slot_ uint,
 ) {
-	v.appendNote("Save the message to be accepted.")
+	switch slot_ {
+	case 1:
+		v.appendNote("Retrieve the message to be accepted.")
+	}
 }
 
 func (v *typeCompiler_) PostprocessAcceptClause(
@@ -84,7 +86,7 @@ func (v *typeCompiler_) PostprocessAcceptClause(
 	v.appendNote("Extract and save the name of the message bag.")
 	v.appendLoad("VARIABLE", message)
 	v.appendPush("LITERAL", "$bag")
-	v.appendCall("$attribute", 2)
+	v.appendCall("$getAttribute", 2) // getAttribute(message, "$bag")
 	var bag = v.createVariable("bag")
 	v.appendSave("VARIABLE", bag)
 	v.appendNote("Drop the message from the named message bag.")
@@ -97,28 +99,29 @@ func (v *typeCompiler_) PostprocessAssociation(
 	index_ uint,
 	count_ uint,
 ) {
-	// The catalog, key and value of the association are already on the stack.
-	v.appendCall("$setAttribute", 3) // setAttribute(catalog, key, value)
+	// The key and value of the association are already on the stack.
+	v.appendCall("$association", 2) // association(key, value)
 }
 
-func (v *typeCompiler_) PreprocessAttributes(
+func (v *typeCompiler_) ProcessAttributesSlot(
 	attributes not.AttributesLike,
-	index_ uint,
-	count_ uint,
+	slot_ uint,
 ) {
-	v.appendNote("Place a catalog of the attributes on the stack.")
-	v.appendCall("$catalog", 0)
+	switch slot {
+	case 1:
+		v.appendNote("Place a catalog of attributes on the stack.")
+		v.appendCall("$catalog", 0) // catalog()
+	}
 }
 
-func (v *typeCompiler_) PreprocessBreakClause(
+func (v *typeCompiler_) PostprocessBreakClause(
 	breakClause not.BreakClauseLike,
 	index_ uint,
 	count_ uint,
 ) {
 	var iterator = v.context_.GetIterator()
-	iterator.ToEnd()
-	for iterator.HasPrevious() {
-		var context = iterator.GetPrevious()
+	for iterator.HasNext() {
+		var context = iterator.GetNext()
 		var loopLabel = context.GetLabel("$loopLabel")
 		if uti.IsDefined(loopLabel) {
 			var doneLabel = context.GetLabel("$doneLabel")
@@ -130,17 +133,22 @@ func (v *typeCompiler_) PreprocessBreakClause(
 	panic(message)
 }
 
-func (v *typeCompiler_) PreprocessCheckoutClause(
+func (v *typeCompiler_) ProcessCheckoutClauseSlot(
 	checkoutClause not.CheckoutClauseLike,
-	index_ uint,
-	count_ uint,
+	slot_ uint,
 ) {
-	// TBD - Add the method implementation.
-	v.setLabel("")
-	v.appendSkip()
-	v.appendPull("")
-	v.appendSend("", "", false)
-	v.pushContext(nil)
+	switch slot_ {
+	case 1:
+		v.appendNote("Determine the recipient of the draft document.")
+	case 2:
+		v.appendNote("Determine the version level to be incremented.")
+	case 3:
+		var atLevel = checkoutClause.GetOptionalAtLevel()
+		if uti.IsUndefined(atLevel) {
+			v.appendPush("LITERAL", "0")
+		}
+		v.appendNote("Determine the citation to the contract to be checked out.")
+	}
 }
 
 func (v *typeCompiler_) PostprocessCheckoutClause(
@@ -148,14 +156,31 @@ func (v *typeCompiler_) PostprocessCheckoutClause(
 	index_ uint,
 	count_ uint,
 ) {
-	// TBD - Add the method implementation.
-}
-
-func (v *typeCompiler_) ProcessCheckoutClauseSlot(
-	checkoutClause not.CheckoutClauseLike,
-	slot_ uint,
-) {
-	// TBD - Add the method implementation.
+	var citation = v.createVariable("citation")
+	v.appendSave("VARIABLE", citation)
+	v.appendNote("Save a draft copy of the named contract from the repository.")
+	v.appendLoad("CONTRACT", citation)
+	v.appendPush("LITERAL", "$draft")
+	v.appendCall("$attribute", 2) // attribute(contract, "$draft")
+	v.appendCall("$duplicate", 1) // duplicate(draft)
+	var draft = v.createVariable("draft")
+	v.appendSave("VARIABLE", draft)
+	v.appendLoad("VARIABLE", draft)
+	v.appendNote("Determine the next version of the draft document.")
+	v.appendCall("$parameters", 1) // parameters(draft)
+	v.appendPush("LITERAL", "$version")
+	v.appendCall("$attribute", 2)   // attribute(parameters, "$version")
+	v.appendCall("$nextVersion", 2) // nextVersion(version, level)
+	var version = v.createVariable("version")
+	v.appendSave("VARIABLE", version)
+	v.appendNote("Set the new version for the draft document.")
+	v.appendLoad("VARIABLE", draft)
+	v.appendPush("LITERAL", "$version")
+	v.appendLoad("VARIABLE", version)
+	v.appendCall("$setParameter", 3) // setParameter(draft, "$version", version)
+	v.appendLoad("VARIABLE", draft)
+	var recipient = checkoutClause.GetRecipient()
+	v.setRecipient(recipient)
 }
 
 func (v *typeCompiler_) PreprocessCited(
@@ -164,6 +189,7 @@ func (v *typeCompiler_) PreprocessCited(
 	count_ uint,
 ) {
 	// TBD - Add the method implementation.
+	v.appendPull("")
 }
 
 func (v *typeCompiler_) PostprocessCited(
@@ -559,6 +585,7 @@ func (v *typeCompiler_) PreprocessIfClause(
 	count_ uint,
 ) {
 	// TBD - Add the method implementation.
+	v.setLabel("")
 }
 
 func (v *typeCompiler_) PostprocessIfClause(
@@ -883,6 +910,7 @@ func (v *typeCompiler_) PreprocessMessage(
 	count_ uint,
 ) {
 	// TBD - Add the method implementation.
+	v.appendSend("", "", false)
 }
 
 func (v *typeCompiler_) PostprocessMessage(
@@ -1043,7 +1071,7 @@ func (v *typeCompiler_) PreprocessParameters(
 	index_ uint,
 	count_ uint,
 ) {
-	v.appendNote("Place a catalog of the parameters on the stack.")
+	v.appendNote("Place a catalog of parameters on the stack.")
 	v.appendCall("$catalog", 0)
 }
 
@@ -1200,6 +1228,7 @@ func (v *typeCompiler_) PreprocessProcedure(
 	count_ uint,
 ) {
 	// TBD - Add the method implementation.
+	v.pushContext(nil)
 }
 
 func (v *typeCompiler_) PostprocessProcedure(
@@ -1924,6 +1953,32 @@ func (v *typeCompiler_) setLabel(
 		v.appendSkip()
 	}
 	v.label_ = label
+}
+
+func (v *typeCompiler_) setRecipient(
+	recipient not.RecipientLike,
+) {
+	/*
+	switch actual := recipient.GetAny().(type) {
+	case not.VariableLike:
+		var symbol = actual.GetSymbol()
+		v.appendSave("VARIABLE", symbol)
+	case not.SubcomponentLike:
+		var identifier = actual.GetIdentifier()
+		v.appendLoad("VARIABLE", identifier)
+		var indexes = actual.GetIndexes()
+		var iterator = indexes.GetIterator()
+		if iterator.GetSize() > 1 {
+			for iterator.HasNext() {
+				var index = iterator.GetNext()
+	
+				v.appendCall("$getAttribute", 2) // getAttribute(component, index)
+			}
+			return
+		}
+		v.appendCall("$setAttribute", 3) // setAttribute(component, index, value)
+	}
+	*/
 }
 
 // Instance Structure
