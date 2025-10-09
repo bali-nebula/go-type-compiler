@@ -1,15 +1,16 @@
 <img src="https://craterdog.com/images/CraterDog.png" width="50%">
 
-### _\* \* \* NOTICE \* \* \*_
-_This project is still under development and is for reference purposes only. If
-you are interested in this project or have suggestions on how to improve it feel
-free to contact us at [craterdog@gmail.com](mailto:craterdog@gmail.com)._
+## Go Type Compiler
 
 ### Overview
 This project implements a compiler and assembler that can compile types defined
 using
 [Bali Document Notation™](https://github.com/bali-nebula/go-bali-documents/wiki)
 (or "Bali" for short).
+
+⚠️  This project is still under development and is for reference purposes only. If
+you are interested in this project or have suggestions on how to improve it feel
+free to contact us at [craterdog@gmail.com](mailto:craterdog@gmail.com).
 
 ### Quick Links
 For more information on this project click on the following links:
