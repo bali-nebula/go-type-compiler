@@ -34,7 +34,6 @@ import (
 	not "github.com/bali-nebula/go-document-notation/v3"
 	ass "github.com/bali-nebula/go-type-compiler/v3/assembler"
 	com "github.com/bali-nebula/go-type-compiler/v3/compiler"
-	fra "github.com/craterdog/go-component-framework/v7"
 )
 
 // TYPE ALIASES
@@ -123,7 +122,7 @@ func BytecodeClass() BytecodeClassLike {
 }
 
 func Bytecode(
-	instructions fra.Sequential[ass.InstructionLike],
+	instructions com.Sequential[ass.InstructionLike],
 ) BytecodeLike {
 	return BytecodeClass().Bytecode(
 		instructions,
@@ -163,7 +162,7 @@ func InstructionFromInteger(
 }
 
 func FormatInstructions(
-	instructions fra.Sequential[InstructionLike],
+	instructions com.Sequential[InstructionLike],
 ) string {
 	return InstructionClass().FormatInstructions(instructions)
 }

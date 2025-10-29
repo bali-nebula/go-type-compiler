@@ -15,8 +15,8 @@ package compiler
 import (
 	not "github.com/bali-nebula/go-document-notation/v3"
 	ass "github.com/bali-nebula/go-type-compiler/v3/assembler"
-	fra "github.com/craterdog/go-component-framework/v7"
-	uti "github.com/craterdog/go-missing-utilities/v7"
+	com "github.com/craterdog/go-essential-composites/v8"
+	uti "github.com/craterdog/go-essential-utilities/v8"
 	stc "strconv"
 	sts "strings"
 )
@@ -34,8 +34,8 @@ func TypeCompilerClass() TypeCompilerClassLike {
 func (c *typeCompilerClass_) TypeCompiler() TypeCompilerLike {
 	var instance = &typeCompiler_{
 		// Initialize the instance attributes.
-		literals_:  fra.Set[string](),
-		constants_: fra.Set[string](),
+		literals_:  com.Set[string](),
+		constants_: com.Set[string](),
 
 		// Initialize the inherited aspects.
 		Methodical: not.Processor(),
@@ -1890,10 +1890,10 @@ func (v *typeCompiler_) compileMethod(
 	method not.DocumentLike,
 ) {
 	v.counter_ = 1
-	v.context_ = fra.Stack[ContextLike]()
-	v.arguments_ = fra.Catalog[string, not.DocumentLike]()
-	v.variables_ = fra.Set[string]()
-	v.messages_ = fra.Set[string]()
+	v.context_ = com.Stack[ContextLike]()
+	v.arguments_ = com.Catalog[string, not.DocumentLike]()
+	v.variables_ = com.Set[string]()
+	v.messages_ = com.Set[string]()
 	v.assembly_.Reset()
 	not.Visitor(v).VisitDocument(method)
 }
@@ -1913,7 +1913,7 @@ func (v *typeCompiler_) compileMethods(
 func (v *typeCompiler_) getAssociations(
 	type_ not.DocumentLike,
 	symbol string,
-) fra.Sequential[not.AssociationLike] {
+) com.Sequential[not.AssociationLike] {
 	var primitive = not.Primitive(not.Element(symbol))
 	var document = not.GetAttribute(type_, primitive)
 	var component = document.GetComponent()
@@ -1985,12 +1985,12 @@ func (v *typeCompiler_) setRecipient(
 
 type typeCompiler_ struct {
 	// Declare the instance attributes.
-	literals_  fra.SetLike[string]
-	constants_ fra.SetLike[string]
-	context_   fra.StackLike[ContextLike]
-	arguments_ fra.CatalogLike[string, not.DocumentLike]
-	variables_ fra.SetLike[string]
-	messages_  fra.SetLike[string]
+	literals_  com.SetLike[string]
+	constants_ com.SetLike[string]
+	context_   com.StackLike[ContextLike]
+	arguments_ com.CatalogLike[string, not.DocumentLike]
+	variables_ com.SetLike[string]
+	messages_  com.SetLike[string]
 	assembly_  sts.Builder
 	counter_   uint16
 	label_     string

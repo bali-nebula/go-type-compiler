@@ -15,8 +15,8 @@ package assembler
 import (
 	lan "github.com/bali-nebula/go-assembly-language/v3"
 	not "github.com/bali-nebula/go-document-notation/v3"
-	fra "github.com/craterdog/go-component-framework/v7"
-	uti "github.com/craterdog/go-missing-utilities/v7"
+	com "github.com/craterdog/go-essential-composites/v8"
+	uti "github.com/craterdog/go-essential-utilities/v8"
 	stc "strconv"
 )
 
@@ -306,8 +306,8 @@ func (v *methodAssembler_) PreprocessSkip(
 func (c *methodAssemblerClass_) extractItems(
 	document not.DocumentLike,
 	symbol string,
-) fra.SetLike[string] {
-	var items = fra.Set[string]()
+) com.SetLike[string] {
+	var items = com.Set[string]()
 	var primitive = not.Primitive(not.Element(symbol))
 	document = not.GetAttribute(document, primitive)
 	switch component := document.GetComponent().GetAny().(type) {
@@ -330,8 +330,8 @@ func (c *methodAssemblerClass_) extractItems(
 func (c *methodAssemblerClass_) extractKeys(
 	document not.DocumentLike,
 	symbol string,
-) fra.SetLike[string] {
-	var keys = fra.Set[string]()
+) com.SetLike[string] {
+	var keys = com.Set[string]()
 	var primitive = not.Primitive(not.Element(symbol))
 	document = not.GetAttribute(document, primitive)
 	switch component := document.GetComponent().GetAny().(type) {
@@ -361,9 +361,9 @@ func (v *methodAssembler_) assembleBytecode(
 }
 
 func (v *methodAssembler_) extractAddresses(
-	instructions fra.Sequential[lan.InstructionLike],
-) fra.CatalogLike[string, uint16] {
-	var addresses = fra.Catalog[string, uint16]()
+	instructions com.Sequential[lan.InstructionLike],
+) com.CatalogLike[string, uint16] {
+	var addresses = com.Catalog[string, uint16]()
 	var address uint16 = 1
 	var iterator = instructions.GetIterator()
 	for iterator.HasNext() {
@@ -399,7 +399,7 @@ func (v *methodAssembler_) extractAttributes(
 	method not.DocumentLike,
 ) {
 	var class = methodAssemblerClass()
-	v.instructions_ = fra.List[InstructionLike]()
+	v.instructions_ = com.List[InstructionLike]()
 	v.arguments_ = class.extractItems(method, "$arguments")
 	v.variables_ = class.extractItems(method, "$variables")
 	v.messages_ = class.extractItems(method, "$messages")
@@ -419,7 +419,7 @@ func (v *methodAssembler_) setAddresses(
 	method not.DocumentLike,
 ) {
 	// Add the label addresses to the method.
-	var associations = fra.List[not.AssociationLike]()
+	var associations = com.List[not.AssociationLike]()
 	var iterator = v.addresses_.GetIterator()
 	for iterator.HasNext() {
 		var association = iterator.GetNext()
@@ -441,13 +441,13 @@ func (v *methodAssembler_) setAddresses(
 
 type methodAssembler_ struct {
 	// Declare the instance attributes.
-	literals_     fra.SetLike[string]
-	constants_    fra.SetLike[string]
-	arguments_    fra.SetLike[string]
-	variables_    fra.SetLike[string]
-	messages_     fra.SetLike[string]
-	addresses_    fra.CatalogLike[string, uint16]
-	instructions_ fra.ListLike[InstructionLike]
+	literals_     com.SetLike[string]
+	constants_    com.SetLike[string]
+	arguments_    com.SetLike[string]
+	variables_    com.SetLike[string]
+	messages_     com.SetLike[string]
+	addresses_    com.CatalogLike[string, uint16]
+	instructions_ com.ListLike[InstructionLike]
 
 	// Declare the inherited aspects.
 	lan.Methodical
@@ -457,7 +457,7 @@ type methodAssembler_ struct {
 
 type methodAssemblerClass_ struct {
 	// Declare the class constants.
-	intrinsics_ fra.SetLike[string]
+	intrinsics_ com.SetLike[string]
 }
 
 // Class Reference
@@ -468,7 +468,7 @@ func methodAssemblerClass() *methodAssemblerClass_ {
 
 var methodAssemblerClassReference_ = &methodAssemblerClass_{
 	// Initialize the class constants.
-	intrinsics_: fra.SetFromArray[string](
+	intrinsics_: com.SetFromArray[string](
 		[]string{
 			"$invalid",
 			"$addItem",

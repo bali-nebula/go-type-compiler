@@ -14,8 +14,8 @@ package compiler
 
 import (
 	not "github.com/bali-nebula/go-document-notation/v3"
-	fra "github.com/craterdog/go-component-framework/v7"
-	uti "github.com/craterdog/go-missing-utilities/v7"
+	com "github.com/craterdog/go-essential-composites/v8"
+	uti "github.com/craterdog/go-essential-utilities/v8"
 	stc "strconv"
 )
 
@@ -102,7 +102,7 @@ func (v *context_) SetCurrentStatement(
 	v.currentStatement_ = currentStatement
 	v.blockNumber_ = 1
 	v.blockCount_ = contextClass().countBlocks(currentStatement)
-	v.labels_ = fra.Catalog[string, string]()
+	v.labels_ = com.Catalog[string, string]()
 	var prefix = v.labelPrefix_ + stc.Itoa(int(v.statementNumber_)) + "."
 	var clause string
 	switch main := currentStatement.GetMainClause().GetAny().(type) {
@@ -204,7 +204,7 @@ func (c *contextClass_) countBlocks(
 type context_ struct {
 	// Declare the instance attributes.
 	labelPrefix_      string
-	labels_           fra.CatalogLike[string, string]
+	labels_           com.CatalogLike[string, string]
 	currentStatement_ not.StatementLike
 	statementNumber_  uint
 	statementCount_   uint

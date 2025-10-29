@@ -31,7 +31,7 @@ package assembler
 import (
 	lan "github.com/bali-nebula/go-assembly-language/v3"
 	not "github.com/bali-nebula/go-document-notation/v3"
-	fra "github.com/craterdog/go-component-framework/v7"
+	com "github.com/craterdog/go-essential-composites/v8"
 )
 
 // TYPE DECLARATIONS
@@ -111,7 +111,7 @@ concrete bytecode-like class.
 type BytecodeClassLike interface {
 	// Constructor Methods
 	Bytecode(
-		instructions fra.Sequential[InstructionLike],
+		instructions com.Sequential[InstructionLike],
 	) BytecodeLike
 	BytecodeFromString(
 		source string,
@@ -141,7 +141,7 @@ type InstructionClassLike interface {
 
 	// Function Methods
 	FormatInstructions(
-		instructions fra.Sequential[InstructionLike],
+		instructions com.Sequential[InstructionLike],
 	) string
 }
 
@@ -170,10 +170,10 @@ type BytecodeLike interface {
 	AsString() string
 
 	// Attribute Methods
-	GetInstructions() fra.Sequential[InstructionLike]
+	GetInstructions() com.Sequential[InstructionLike]
 
 	// Aspect Interfaces
-	fra.Sequential[InstructionLike]
+	com.Sequential[InstructionLike]
 }
 
 /*

@@ -14,8 +14,8 @@ package assembler
 
 import (
 	fmt "fmt"
-	fra "github.com/craterdog/go-component-framework/v7"
-	uti "github.com/craterdog/go-missing-utilities/v7"
+	com "github.com/craterdog/go-essential-composites/v8"
+	uti "github.com/craterdog/go-essential-utilities/v8"
 	sts "strings"
 )
 
@@ -65,7 +65,7 @@ func (c *instructionClass_) OperandMask() uint16 {
 // Function Methods
 
 func (c *instructionClass_) FormatInstructions(
-	instructions fra.Sequential[InstructionLike],
+	instructions com.Sequential[InstructionLike],
 ) string {
 	var result sts.Builder
 	result.WriteString(

@@ -14,8 +14,8 @@ package assembler
 
 import (
 	fmt "fmt"
-	fra "github.com/craterdog/go-component-framework/v7"
-	uti "github.com/craterdog/go-missing-utilities/v7"
+	com "github.com/craterdog/go-essential-composites/v8"
+	uti "github.com/craterdog/go-essential-utilities/v8"
 	mat "math"
 	reg "regexp"
 	stc "strconv"
@@ -33,7 +33,7 @@ func BytecodeClass() BytecodeClassLike {
 // Constructor Methods
 
 func (c *bytecodeClass_) Bytecode(
-	instructions fra.Sequential[InstructionLike],
+	instructions com.Sequential[InstructionLike],
 ) BytecodeLike {
 	if uti.IsUndefined(instructions) {
 		panic("The \"instructions\" attribute is required by this class.")
@@ -61,7 +61,7 @@ func (c *bytecodeClass_) BytecodeFromString(
 	base16 = sts.ReplaceAll(base16, "\n", "") // Remove all newlines.
 	base16 = sts.ReplaceAll(base16, " ", "")  // Remove all spaces.
 	var strings = sts.Split(base16, ":")[1:]  // Extract the instructions.
-	var instructions = fra.List[InstructionLike]()
+	var instructions = com.List[InstructionLike]()
 	for _, hex := range strings {
 		var integer, _ = stc.ParseUint(hex, 16, 16)
 		var instruction = InstructionClass().InstructionFromInteger(uint16(integer))
@@ -99,7 +99,7 @@ func (v *bytecode_) AsString() string {
 
 // Attribute Methods
 
-func (v *bytecode_) GetInstructions() fra.Sequential[InstructionLike] {
+func (v *bytecode_) GetInstructions() com.Sequential[InstructionLike] {
 	return v.instructions_
 }
 
@@ -117,7 +117,7 @@ func (v *bytecode_) AsArray() []InstructionLike {
 	return v.instructions_.AsArray()
 }
 
-func (v *bytecode_) GetIterator() fra.IteratorLike[InstructionLike] {
+func (v *bytecode_) GetIterator() com.Ratcheted[InstructionLike] {
 	return v.instructions_.GetIterator()
 }
 
@@ -129,7 +129,7 @@ func (v *bytecode_) GetIterator() fra.IteratorLike[InstructionLike] {
 
 type bytecode_ struct {
 	// Declare the instance attributes.
-	instructions_ fra.Sequential[InstructionLike]
+	instructions_ com.Sequential[InstructionLike]
 }
 
 // Class Structure
