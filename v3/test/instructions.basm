@@ -1,0 +1,71 @@
+NOTE ! Skips to the next instruction.
+SKIP
+
+1.Jump:
+NOTE ! Jumps to a new address (conditionally or unconditionally).
+JUMP TO 2.Push
+JUMP TO 3.Pull ON EMPTY
+JUMP TO 4.Load ON NONE
+JUMP TO 5.Save ON FALSE
+
+2.Push:
+NOTE ! Pushes a value onto a stack.
+PUSH LITERAL `
+    ">
+        This is a literal text string
+        containing an \` and spanning multiple lines.
+    <"
+`
+PUSH LITERAL `
+    {
+        $foo := bar
+        $bar := baz
+        $baz := foo
+    }($bar: 5)
+`
+PUSH LITERAL `none`
+PUSH CONSTANT $constant
+PUSH ARGUMENT $argument
+PUSH HANDLER 6.Drop
+
+3.Pull:
+NOTE ! Pulls the top value from a stack.
+PULL COMPONENT
+PULL RESULT
+PULL EXCEPTION
+PULL HANDLER
+
+4.Load:
+NOTE ! Loads a value from the environment onto a stack.
+LOAD DRAFT $citation
+LOAD DOCUMENT $name
+LOAD MESSAGE $bag
+LOAD VARIABLE $variable
+
+5.Save:
+NOTE ! Saves the top value from a stack into the environment.
+SAVE DRAFT $citation
+SAVE DOCUMENT $name
+SAVE MESSAGE $bag
+SAVE VARIABLE $variable
+
+6.Drop:
+NOTE ! Drops a value from the environment.
+DROP DRAFT $citation
+DROP DOCUMENT $name
+DROP MESSAGE $message
+DROP VARIABLE $variable
+
+7.Call:
+NOTE ! Calls an intrinsic function with 0 to 3 arguments.
+CALL $now
+CALL $factorial WITH 1 ARGUMENT
+CALL $sum WITH 2 ARGUMENTS
+CALL $range WITH 3 ARGUMENTS
+
+8.Send:
+NOTE ! Sends a message to a target component with optional arguments.
+SEND $getAncestry TO COMPONENT
+SEND $setParameter TO COMPONENT WITH ARGUMENTS
+SEND $getKeys TO DOCUMENT
+SEND $setAttribute TO DOCUMENT WITH ARGUMENTS

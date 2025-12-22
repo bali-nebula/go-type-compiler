@@ -29,187 +29,97 @@ on interfaces, not on each other.
 package assembler
 
 import (
-	lan "github.com/bali-nebula/go-assembly-language/v3"
-	not "github.com/bali-nebula/go-document-notation/v3"
+	ins "github.com/bali-nebula/go-bali-instructions/v3"
 	com "github.com/craterdog/go-essential-composites/v8"
 )
 
 // TYPE DECLARATIONS
-
-/*
-Operation is a constrained type representing the possible BVM operations.
-*/
-type Operation uint16
-
-const (
-	Jump Operation = 0b0000000000000000
-	Push Operation = 0b0010000000000000
-	Pull Operation = 0b0100000000000000
-	Load Operation = 0b0110000000000000
-	Save Operation = 0b1000000000000000
-	Drop Operation = 0b1010000000000000
-	Call Operation = 0b1100000000000000
-	Send Operation = 0b1110000000000000
-)
-
-/*
-Modifier is a constrained type representing the possible BVM modifiers.
-*/
-type Modifier uint16
-
-const (
-	// Jump Operation
-	OnAny   Modifier = 0b0000000000000000
-	OnEmpty Modifier = 0b0000100000000000
-	OnNone  Modifier = 0b0001000000000000
-	OnFalse Modifier = 0b0001100000000000
-
-	// Push Operation
-	Handler  Modifier = 0b0000000000000000
-	Literal  Modifier = 0b0000100000000000
-	Constant Modifier = 0b0001000000000000
-	Argument Modifier = 0b0001100000000000
-
-	// Pull Operation
-	// Handler is defined above.
-	Exception Modifier = 0b0000100000000000
-	Component Modifier = 0b0001000000000000
-	Result    Modifier = 0b0001100000000000
-
-	// Load, Save and Drop Operations
-	Contract Modifier = 0b0000000000000000
-	Draft    Modifier = 0b0000100000000000
-	Message  Modifier = 0b0001000000000000
-	Variable Modifier = 0b0001100000000000
-
-	// Call Operation
-	With0Arguments Modifier = 0b0000000000000000
-	With1Argument  Modifier = 0b0000100000000000
-	With2Arguments Modifier = 0b0001000000000000
-	With3Arguments Modifier = 0b0001100000000000
-
-	// Send Operation
-	// Contract and Component are defined above.
-	ContractWithArguments  Modifier = 0b0000100000000000
-	ComponentWithArguments Modifier = 0b0001100000000000
-)
-
-/*
-Operand is a constrained type representing the possible BVM operands.
-*/
-type Operand uint16
 
 // FUNCTIONAL DECLARATIONS
 
 // CLASS DECLARATIONS
 
 /*
-BytecodeClassLike is a class interface that declares the complete set of
+AnalyzerClassLike is a class interface that declares the complete set of
 class constructors, constants and functions that must be supported by each
-concrete bytecode-like class.
+concrete analyzer-like class.
 */
-type BytecodeClassLike interface {
+type AnalyzerClassLike interface {
 	// Constructor Methods
-	Bytecode(
-		instructions com.Sequential[InstructionLike],
-	) BytecodeLike
-	BytecodeFromString(
-		source string,
-	) BytecodeLike
+	Analyzer(
+		literals com.Accessible[string],
+		constants com.Accessible[string],
+		method ins.AssemblyLike,
+	) AnalyzerLike
 }
 
 /*
-InstructionClassLike is a class interface that declares the complete set of
+AssemblerClassLike is a class interface that declares the complete set of
 class constructors, constants and functions that must be supported by each
-concrete instruction-like class.
+concrete assembler-like class.
 */
-type InstructionClassLike interface {
+type AssemblerClassLike interface {
 	// Constructor Methods
-	Instruction(
-		operation Operation,
-		modifier Modifier,
-		operand Operand,
-	) InstructionLike
-	InstructionFromInteger(
-		integer uint16,
-	) InstructionLike
-
-	// Constant Methods
-	OperationMask() uint16
-	ModifierMask() uint16
-	OperandMask() uint16
+	Assembler() AssemblerLike
 
 	// Function Methods
 	FormatInstructions(
-		instructions com.Sequential[InstructionLike],
+		instructions com.Sequential[uint16],
 	) string
-}
-
-/*
-MethodAssemblerClassLike is a class interface that declares the complete set of
-class constructors, constants and functions that must be supported by each
-concrete method-assembler-like class.
-*/
-type MethodAssemblerClassLike interface {
-	// Constructor Methods
-	MethodAssembler(
-		type_ not.DocumentLike,
-	) MethodAssemblerLike
 }
 
 // INSTANCE DECLARATIONS
 
 /*
-BytecodeLike is an instance interface that declares the complete set of
+AnalyzerLike is an instance interface that declares the complete set of
 principal, attribute and aspect methods that must be supported by each instance
-of a concrete bytecode-like class.
+of a concrete analyzer-like class.
 */
-type BytecodeLike interface {
+type AnalyzerLike interface {
 	// Principal Methods
-	GetClass() BytecodeClassLike
-	AsString() string
-
-	// Attribute Methods
-	GetInstructions() com.Sequential[InstructionLike]
+	GetClass() AnalyzerClassLike
+	LookupLiteral(
+		literal string,
+	) uint16
+	LookupConstant(
+		constant string,
+	) uint16
+	LookupArgument(
+		argument string,
+	) uint16
+	LookupVariable(
+		variable string,
+	) uint16
+	LookupIntrinsic(
+		intrinsic string,
+	) uint16
+	LookupMessage(
+		message string,
+	) uint16
+	LookupAddress(
+		label string,
+	) uint16
 
 	// Aspect Interfaces
-	com.Sequential[InstructionLike]
+	ins.Methodical
 }
 
 /*
-InstructionLike is an instance interface that declares the complete set of
+AssemblerLike is an instance interface that declares the complete set of
 principal, attribute and aspect methods that must be supported by each instance
-of a concrete instruction-like class.
+of a concrete assembler-like class.
 */
-type InstructionLike interface {
+type AssemblerLike interface {
 	// Principal Methods
-	GetClass() InstructionClassLike
-	AsIntrinsic() uint16
-	AsString() string
-	OperationAsString() string
-	ModifierAsString() string
-	OperandAsString() string
-
-	// Attribute Methods
-	GetOperation() Operation
-	GetModifier() Modifier
-	GetOperand() Operand
-}
-
-/*
-MethodAssemblerLike is an instance interface that declares the complete set of
-principal, attribute and aspect methods that must be supported by each instance
-of a concrete method-assembler-like class.
-*/
-type MethodAssemblerLike interface {
-	// Principal Methods
-	GetClass() MethodAssemblerClassLike
+	GetClass() AssemblerClassLike
 	AssembleMethod(
-		method not.DocumentLike,
-	)
+		literals com.Accessible[string],
+		constants com.Accessible[string],
+		assembly ins.AssemblyLike,
+	) com.Sequential[uint16]
 
 	// Aspect Interfaces
-	lan.Methodical
+	ins.Methodical
 }
 
 // ASPECT DECLARATIONS

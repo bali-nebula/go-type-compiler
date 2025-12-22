@@ -14,8 +14,10 @@ package module_test
 
 import (
 	fmt "fmt"
-	not "github.com/bali-nebula/go-document-notation/v3"
-	com "github.com/bali-nebula/go-type-compiler/v3"
+	ins "github.com/bali-nebula/go-bali-instructions/v3"
+	typ "github.com/bali-nebula/go-type-compiler/v3"
+	com "github.com/craterdog/go-essential-composites/v8"
+	pri "github.com/craterdog/go-essential-primitives/v8"
 	uti "github.com/craterdog/go-essential-utilities/v8"
 	ass "github.com/stretchr/testify/assert"
 	tes "testing"
@@ -23,56 +25,35 @@ import (
 
 const directory = "./test/"
 
-func TestFormattingBytecode(t *tes.T) {
-	var instructions = fra.List[com.InstructionLike]()
-	var instruction = com.Instruction(0, 0, 0) // SKIP instruction.
-	instructions.AppendValue(instruction)
-	var operation uint16
-	var modifier uint16
-	var operand uint16 = 100
-	for operation = 0; operation < 8; operation++ {
-		for modifier = 0; modifier < 4; modifier++ {
-			if operation == 2 {
-				// The PULL instruction has no operand.
-				instruction = com.Instruction(
-					com.Operation(operation<<13),
-					com.Modifier(modifier<<11),
-					0,
-				)
-			} else {
-				instruction = com.Instruction(
-					com.Operation(operation<<13),
-					com.Modifier(modifier<<11),
-					com.Operand(operand),
-				)
-			}
-			instructions.AppendValue(instruction)
-			operand++
-		}
-	}
-	ass.Equal(t, 33, int(instructions.GetSize()))
-	var _ = com.Bytecode(instructions)
-	var formatted = com.FormatInstructions(instructions)
-	var filename = directory + "instructions.txt"
-	uti.WriteFile(filename, formatted)
-}
+var literals = com.SetFromArray[string]([]string{
+	"`none`",
+	"`" + `
+    ">
+        This is a literal text string
+        containing an ` + "\\`" + ` and spanning multiple lines.
+    <"
+` + "`",
+	"`" + `
+    {
+        $foo := bar
+        $bar := baz
+        $baz := foo
+    }($bar: 5)
+` + "`",
+})
+
+var constants = com.SetFromArray[string]([]string{
+	"$constant",
+})
 
 func TestMethodAssembler(t *tes.T) {
-	var filename = directory + "type.bali"
+	var filename = directory + "instructions.basm"
 	var source = uti.ReadFile(filename)
-	var type_ = not.ParseSource(source)
-	var key1 = not.Primitive(not.Element("$methods"))
-	var key2 = not.Primitive(not.Element("$example"))
-	var method = not.GetAttribute(type_, key1, key2)
-	var assembler = com.MethodAssembler(type_)
-	assembler.AssembleMethod(method)
-	source = not.FormatDocument(type_)
-	uti.WriteFile(filename, source)
-	var key = not.Primitive(not.Element("$bytecode"))
-	var document = not.GetAttribute(method, key)
-	var component = document.GetComponent()
-	source = component.GetAny().(not.StringLike).GetAny().(string)
-	var bytecode = com.BytecodeFromString(source)
-	var instructions = bytecode.GetInstructions()
-	fmt.Println(com.FormatInstructions(instructions))
+	ass.True(t, len(source) > 0)
+	var assembly = ins.ParseAssembly(source)
+	var assembler = typ.Assembler()
+	var instructions = assembler.AssembleMethod(literals, constants, assembly)
+	fmt.Println(typ.AssemblerClass().FormatInstructions(instructions))
+	var bytecode = pri.Bytecode(instructions.AsArray())
+	fmt.Printf("Bytecode: %s\n", bytecode)
 }

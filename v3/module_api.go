@@ -31,9 +31,9 @@ For detailed documentation on this entire module refer to the wiki:
 package module
 
 import (
-	not "github.com/bali-nebula/go-document-notation/v3"
+	ins "github.com/bali-nebula/go-bali-instructions/v3"
 	ass "github.com/bali-nebula/go-type-compiler/v3/assembler"
-	com "github.com/bali-nebula/go-type-compiler/v3/compiler"
+	com "github.com/craterdog/go-essential-composites/v8"
 )
 
 // TYPE ALIASES
@@ -41,150 +41,41 @@ import (
 // Assembler
 
 type (
-	Operation = ass.Operation
-	Modifier  = ass.Modifier
-	Operand   = ass.Operand
-)
-
-const (
-	// Operations
-	Jump = ass.Jump
-	Push = ass.Push
-	Pull = ass.Pull
-	Load = ass.Load
-	Save = ass.Save
-	Drop = ass.Drop
-	Call = ass.Call
-	Send = ass.Send
-
-	// Jump Modifiers
-	OnAny   = ass.OnAny
-	OnEmpty = ass.OnEmpty
-	OnNone  = ass.OnNone
-	OnFalse = ass.OnFalse
-
-	// Push Modifiers
-	Handler  = ass.Handler
-	Literal  = ass.Literal
-	Constant = ass.Constant
-	Argument = ass.Argument
-
-	// Pull Modifiers
-	Exception = ass.Exception
-	Component = ass.Component
-	Result    = ass.Result
-
-	// Load, Save and Drop Modifiers
-	Contract = ass.Contract
-	Draft    = ass.Draft
-	Message  = ass.Message
-	Variable = ass.Variable
-
-	// Call Modifiers
-	With0Arguments = ass.With0Arguments
-	With1Argument  = ass.With1Argument
-	With2Arguments = ass.With2Arguments
-	With3Arguments = ass.With3Arguments
-
-	// Send Modifiers
-	ComponentWithArguments = ass.ComponentWithArguments
-	ContractWithArguments  = ass.ContractWithArguments
+	AnalyzerClassLike  = ass.AnalyzerClassLike
+	AssemblerClassLike = ass.AssemblerClassLike
 )
 
 type (
-	BytecodeClassLike        = ass.BytecodeClassLike
-	InstructionClassLike     = ass.InstructionClassLike
-	MethodAssemblerClassLike = ass.MethodAssemblerClassLike
-)
-
-type (
-	BytecodeLike        = ass.BytecodeLike
-	InstructionLike     = ass.InstructionLike
-	MethodAssemblerLike = ass.MethodAssemblerLike
-)
-
-// Compiler
-
-type (
-	TypeCompilerClassLike = com.TypeCompilerClassLike
-)
-
-type (
-	TypeCompilerLike = com.TypeCompilerLike
+	AnalyzerLike  = ass.AnalyzerLike
+	AssemblerLike = ass.AssemblerLike
 )
 
 // CLASS ACCESSORS
 
 // Assembler
 
-func BytecodeClass() BytecodeClassLike {
-	return ass.BytecodeClass()
+func AnalyzerClass() AnalyzerClassLike {
+	return ass.AnalyzerClass()
 }
 
-func Bytecode(
-	instructions com.Sequential[ass.InstructionLike],
-) BytecodeLike {
-	return BytecodeClass().Bytecode(
-		instructions,
+func Analyzer(
+	literals com.Accessible[string],
+	constants com.Accessible[string],
+	method ins.AssemblyLike,
+) AnalyzerLike {
+	return AnalyzerClass().Analyzer(
+		literals,
+		constants,
+		method,
 	)
 }
 
-func BytecodeFromString(
-	source string,
-) BytecodeLike {
-	return BytecodeClass().BytecodeFromString(
-		source,
-	)
+func AssemblerClass() AssemblerClassLike {
+	return ass.AssemblerClass()
 }
 
-func InstructionClass() InstructionClassLike {
-	return ass.InstructionClass()
-}
-
-func Instruction(
-	operation ass.Operation,
-	modifier ass.Modifier,
-	operand ass.Operand,
-) InstructionLike {
-	return InstructionClass().Instruction(
-		operation,
-		modifier,
-		operand,
-	)
-}
-
-func InstructionFromInteger(
-	integer uint16,
-) InstructionLike {
-	return InstructionClass().InstructionFromInteger(
-		integer,
-	)
-}
-
-func FormatInstructions(
-	instructions com.Sequential[InstructionLike],
-) string {
-	return InstructionClass().FormatInstructions(instructions)
-}
-
-func MethodAssemblerClass() MethodAssemblerClassLike {
-	return ass.MethodAssemblerClass()
-}
-
-func MethodAssembler(
-	type_ not.DocumentLike,
-) MethodAssemblerLike {
-	return MethodAssemblerClass().MethodAssembler(type_)
-}
-
-// Compiler
-
-func TypeCompilerClass() TypeCompilerClassLike {
-	return com.TypeCompilerClass()
-}
-
-func TypeCompiler() TypeCompilerLike {
-	return TypeCompilerClass().TypeCompiler()
+func Assembler() AssemblerLike {
+	return AssemblerClass().Assembler()
 }
 
 // GLOBAL FUNCTIONS
