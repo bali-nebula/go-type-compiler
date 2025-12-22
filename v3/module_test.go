@@ -13,7 +13,6 @@
 package module_test
 
 import (
-	fmt "fmt"
 	ins "github.com/bali-nebula/go-bali-instructions/v3"
 	typ "github.com/bali-nebula/go-type-compiler/v3"
 	com "github.com/craterdog/go-essential-composites/v8"
@@ -53,7 +52,10 @@ func TestMethodAssembler(t *tes.T) {
 	var assembly = ins.ParseAssembly(source)
 	var assembler = typ.Assembler()
 	var instructions = assembler.AssembleMethod(literals, constants, assembly)
-	fmt.Println(typ.AssemblerClass().FormatInstructions(instructions))
+	var formatted = typ.AssemblerClass().FormatInstructions(instructions)
+	filename = directory + "instructions.dbug"
+	uti.WriteFile(filename, formatted)
 	var bytecode = pri.Bytecode(instructions.AsArray())
-	fmt.Printf("Bytecode: %s\n", bytecode)
+	filename = directory + "bytecode.dbug"
+	uti.WriteFile(filename, bytecode.AsSource())
 }
