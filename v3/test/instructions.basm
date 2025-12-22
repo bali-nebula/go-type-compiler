@@ -37,24 +37,24 @@ PULL HANDLER
 
 4.Load:
 NOTE ! Loads a value from the environment onto a stack.
+LOAD VARIABLE $variable
 LOAD DRAFT $citation
 LOAD DOCUMENT $name
 LOAD MESSAGE $bag
-LOAD VARIABLE $variable
 
 5.Save:
 NOTE ! Saves the top value from a stack into the environment.
+SAVE VARIABLE $variable
 SAVE DRAFT $citation
 SAVE DOCUMENT $name
 SAVE MESSAGE $bag
-SAVE VARIABLE $variable
 
 6.Drop:
 NOTE ! Drops a value from the environment.
+DROP VARIABLE $variable
 DROP DRAFT $citation
 DROP DOCUMENT $name
 DROP MESSAGE $message
-DROP VARIABLE $variable
 
 7.Call:
 NOTE ! Calls an intrinsic function with 0 to 3 arguments.

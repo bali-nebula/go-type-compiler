@@ -17,18 +17,18 @@
 │ [x00d]: │ x4800 │ 2 1      0  │ PULL RESULT                           │
 │ [x00e]: │ x5000 │ 2 2      0  │ PULL EXCEPTION                        │
 │ [x00f]: │ x5800 │ 2 3      0  │ PULL HANDLER                          │
-│ [x010]: │ x6802 │ 3 1      2  │ LOAD DRAFT 2                          │
-│ [x011]: │ x7004 │ 3 2      4  │ LOAD DOCUMENT 4                       │
-│ [x012]: │ x7801 │ 3 3      1  │ LOAD MESSAGE 1                        │
-│ [x013]: │ x6005 │ 3 0      5  │ LOAD VARIABLE 5                       │
-│ [x014]: │ x8802 │ 4 1      2  │ SAVE DRAFT 2                          │
-│ [x015]: │ x9004 │ 4 2      4  │ SAVE DOCUMENT 4                       │
-│ [x016]: │ x9801 │ 4 3      1  │ SAVE MESSAGE 1                        │
-│ [x017]: │ x8005 │ 4 0      5  │ SAVE VARIABLE 5                       │
-│ [x018]: │ xa802 │ 5 1      2  │ DROP DRAFT 2                          │
-│ [x019]: │ xb004 │ 5 2      4  │ DROP DOCUMENT 4                       │
-│ [x01a]: │ xb803 │ 5 3      3  │ DROP MESSAGE 3                        │
-│ [x01b]: │ xa005 │ 5 0      5  │ DROP VARIABLE 5                       │
+│ [x010]: │ x6005 │ 3 0      5  │ LOAD VARIABLE 5                       │
+│ [x011]: │ x6802 │ 3 1      2  │ LOAD DRAFT 2                          │
+│ [x012]: │ x7004 │ 3 2      4  │ LOAD DOCUMENT 4                       │
+│ [x013]: │ x7801 │ 3 3      1  │ LOAD MESSAGE 1                        │
+│ [x014]: │ x8005 │ 4 0      5  │ SAVE VARIABLE 5                       │
+│ [x015]: │ x8802 │ 4 1      2  │ SAVE DRAFT 2                          │
+│ [x016]: │ x9004 │ 4 2      4  │ SAVE DOCUMENT 4                       │
+│ [x017]: │ x9801 │ 4 3      1  │ SAVE MESSAGE 1                        │
+│ [x018]: │ xa005 │ 5 0      5  │ DROP VARIABLE 5                       │
+│ [x019]: │ xa802 │ 5 1      2  │ DROP DRAFT 2                          │
+│ [x01a]: │ xb004 │ 5 2      4  │ DROP DOCUMENT 4                       │
+│ [x01b]: │ xb803 │ 5 3      3  │ DROP MESSAGE 3                        │
 │ [x01c]: │ xc057 │ 6 0     87  │ CALL 87                               │
 │ [x01d]: │ xc82a │ 6 1     42  │ CALL 42 WITH 1 ARGUMENT               │
 │ [x01e]: │ xd082 │ 6 2    130  │ CALL 130 WITH 2 ARGUMENTS             │
