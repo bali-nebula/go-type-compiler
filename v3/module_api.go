@@ -61,7 +61,7 @@ func AnalyzerClass() AnalyzerClassLike {
 func Analyzer(
 	literals com.Accessible[string],
 	constants com.Accessible[string],
-	method ins.AssemblyLike,
+	method ins.MethodLike,
 ) AnalyzerLike {
 	return AnalyzerClass().Analyzer(
 		literals,

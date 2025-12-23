@@ -49,7 +49,7 @@ type AnalyzerClassLike interface {
 	Analyzer(
 		literals com.Accessible[string],
 		constants com.Accessible[string],
-		method ins.AssemblyLike,
+		method ins.MethodLike,
 	) AnalyzerLike
 }
 
@@ -115,7 +115,7 @@ type AssemblerLike interface {
 	AssembleMethod(
 		literals com.Accessible[string],
 		constants com.Accessible[string],
-		assembly ins.AssemblyLike,
+		method ins.MethodLike,
 	) com.Sequential[uint16]
 
 	// Aspect Interfaces

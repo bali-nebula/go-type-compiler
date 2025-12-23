@@ -49,9 +49,9 @@ func TestMethodAssembler(t *tes.T) {
 	var filename = directory + "instructions.basm"
 	var source = uti.ReadFile(filename)
 	ass.True(t, len(source) > 0)
-	var assembly = ins.ParseAssembly(source)
+	var method = ins.ParseMethod(source)
 	var assembler = typ.Assembler()
-	var instructions = assembler.AssembleMethod(literals, constants, assembly)
+	var instructions = assembler.AssembleMethod(literals, constants, method)
 	var formatted = typ.AssemblerClass().FormatInstructions(instructions)
 	filename = directory + "instructions.dbug"
 	uti.WriteFile(filename, formatted)

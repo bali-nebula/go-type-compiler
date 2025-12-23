@@ -1,11 +1,7 @@
-github.com/bali-nebula/go-assembly-language/v3 v3.32.0 h1:ev3S16ibBe1rJM1TXvSP54AMtRIASCQthknmgsPoh6A=
-github.com/bali-nebula/go-assembly-language/v3 v3.32.0/go.mod h1:vxhNrrrdTqU5ZUKfkI5nUvPYGNOl4uFufr/7VdovAcY=
-github.com/bali-nebula/go-bali-documents/v3 v3.53.0 h1:nKyOMZ7n7dq0CbkrzukNXllkOE9ZBG6sQJP+/j0YlmE=
-github.com/bali-nebula/go-bali-documents/v3 v3.53.0/go.mod h1:sMO42tbSpLUo4ZKzoxGS6NF1sbNVV/6S8qlSnEdKhh8=
-github.com/bali-nebula/go-bali-instructions/v3 v3.0.0 h1:7sal0sCz/dgW+Hx9mZyba6Xx5P9nxgvKAD5fNzf7Nls=
-github.com/bali-nebula/go-bali-instructions/v3 v3.0.0/go.mod h1:FNdr0KV9wIT6hCSghcZhriGX6GmcEGtDrFIlkRnIT4Q=
-github.com/bali-nebula/go-document-notation/v3 v3.46.0 h1:xFSb9Sa6SHydWhAL/0HOzV6aLl9xCxMGqi32nCFX2RY=
-github.com/bali-nebula/go-document-notation/v3 v3.46.0/go.mod h1:qFYSGwpH80H0q0zKJlhT6VNpm8a/226rLeVyzm26oFI=
+github.com/bali-nebula/go-assembly-language/v3 v3.33.0 h1:u/j2eRWPzmGWUqiEpMKLoAC11pMs5A8X9pAh3PqWIgI=
+github.com/bali-nebula/go-assembly-language/v3 v3.33.0/go.mod h1:vxhNrrrdTqU5ZUKfkI5nUvPYGNOl4uFufr/7VdovAcY=
+github.com/bali-nebula/go-bali-instructions/v3 v3.1.0 h1:gLo2RDpHyFzRnw8gPFjEQcmzkeUXVEfNBs1cvvkkqmc=
+github.com/bali-nebula/go-bali-instructions/v3 v3.1.0/go.mod h1:3zOPxMZ7rYx3/qXMJrNSip/dBX/Ui9WulcVzTPGHjAM=
 github.com/craterdog/go-essential-composites/v8 v8.4.0 h1:4LJ5l43hS2EWlzfKGnPwyOupwieG6RDJRjWxevf5Xz8=
 github.com/craterdog/go-essential-composites/v8 v8.4.0/go.mod h1:4cAwDcu9lG8tTbsFth8A7HdLOEEYuQ3QdbNtZDTyNZg=
 github.com/craterdog/go-essential-primitives/v8 v8.6.0 h1:DXcNhE1ZtTy5ycO2tWUk2+g8828wdsM0D/WEQ3ULby0=

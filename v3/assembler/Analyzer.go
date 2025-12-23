@@ -32,7 +32,7 @@ func AnalyzerClass() AnalyzerClassLike {
 func (c *analyzerClass_) Analyzer(
 	literals com.Accessible[string],
 	constants com.Accessible[string],
-	method ins.AssemblyLike,
+	method ins.MethodLike,
 ) AnalyzerLike {
 	if uti.IsUndefined(literals) {
 		panic("The \"literals\" attribute is required by this class.")
@@ -52,7 +52,7 @@ func (c *analyzerClass_) Analyzer(
 		// Initialize the inherited aspects.
 		Methodical: ins.Processor(),
 	}
-	ins.VisitorClass().Visitor(instance).VisitAssembly(method)
+	ins.VisitorClass().Visitor(instance).VisitMethod(method)
 	return instance
 }
 
@@ -121,35 +121,6 @@ func (v *analyzer_) PreprocessArgument(
 ) {
 	var symbol = argument.GetSymbol()
 	v.arguments_.AddValue(symbol)
-}
-
-func (v *analyzer_) PreprocessAssembly(
-	assembly ins.AssemblyLike,
-	index_ uint,
-	count_ uint,
-) {
-	var address uint16
-	var instructions = assembly.GetInstructions().GetIterator()
-	for instructions.HasNext() {
-		address++
-		var instruction = instructions.GetNext()
-		var prefix = instruction.GetOptionalPrefix()
-		if uti.IsDefined(prefix) {
-			var label = prefix.GetLabel()
-			if v.addresses_.GetValue(label) > 0 {
-				var message = fmt.Sprintf(
-					"Found a duplicate prefix label: %s",
-					label,
-				)
-				panic(message)
-			}
-			v.addresses_.SetValue(label, address)
-		}
-		switch instruction.GetAction().(type) {
-		case ins.NoteLike:
-			address--
-		}
-	}
 }
 
 func (v *analyzer_) PreprocessCall(
@@ -243,6 +214,35 @@ func (v *analyzer_) PreprocessLoad(
 ) {
 	var symbol = load.GetSymbol()
 	v.variables_.AddValue(symbol)
+}
+
+func (v *analyzer_) PreprocessMethod(
+	method ins.MethodLike,
+	index_ uint,
+	count_ uint,
+) {
+	var address uint16
+	var instructions = method.GetInstructions().GetIterator()
+	for instructions.HasNext() {
+		address++
+		var instruction = instructions.GetNext()
+		var prefix = instruction.GetOptionalPrefix()
+		if uti.IsDefined(prefix) {
+			var label = prefix.GetLabel()
+			if v.addresses_.GetValue(label) > 0 {
+				var message = fmt.Sprintf(
+					"Found a duplicate prefix label: %s",
+					label,
+				)
+				panic(message)
+			}
+			v.addresses_.SetValue(label, address)
+		}
+		switch instruction.GetAction().(type) {
+		case ins.NoteLike:
+			address--
+		}
+	}
 }
 
 func (v *analyzer_) PreprocessSave(

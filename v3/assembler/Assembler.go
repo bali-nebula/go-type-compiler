@@ -93,7 +93,7 @@ func (v *assembler_) GetClass() AssemblerClassLike {
 func (v *assembler_) AssembleMethod(
 	literals com.Accessible[string],
 	constants com.Accessible[string],
-	method ins.AssemblyLike,
+	method ins.MethodLike,
 ) com.Sequential[uint16] {
 	if uti.IsUndefined(literals) {
 		panic("The \"literals\" attribute is required by this class.")
@@ -106,7 +106,7 @@ func (v *assembler_) AssembleMethod(
 	}
 	v.analyzer_ = AnalyzerClass().Analyzer(literals, constants, method)
 	v.instructions_ = com.List[uint16]()
-	ins.VisitorClass().Visitor(v).VisitAssembly(method)
+	ins.VisitorClass().Visitor(v).VisitMethod(method)
 	return v.instructions_
 }
 
