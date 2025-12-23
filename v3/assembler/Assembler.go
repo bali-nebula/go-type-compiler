@@ -48,15 +48,16 @@ func (c *assemblerClass_) FormatInstructions(
 	instructions com.Sequential[uint16],
 ) string {
 	var result sts.Builder
-	result.WriteString(`
+	var header = `
 ┌─────────┬───────┬─────────────┬───────────────────────────────────────┐
 │ Address │  Hex  │ Instruction │               Mnemonic                │
 ├─────────┼───────┼─────────────┼───────────────────────────────────────┤
-`)
+`
+	result.WriteString(header[1:])
 	var iterator = instructions.GetIterator()
 	for iterator.HasNext() {
 		var instruction = iterator.GetNext()
-		var address = fmt.Sprintf("│ [x%03x]", iterator.GetSlot())
+		var address = fmt.Sprintf("[x%03x]", iterator.GetSlot())
 		var bytes = fmt.Sprintf("x%04x", instruction)
 		var operation = (c.operation_ & instruction) >> 13
 		var modifier = (c.modifier_ & instruction) >> 11
@@ -68,7 +69,7 @@ func (c *assemblerClass_) FormatInstructions(
 		var bytecode = fmt.Sprintf("%d %d  %s", operation, modifier, operandAsString)
 		var description = c.generateDescription(operation, modifier, operandAsString)
 		var line = fmt.Sprintf(
-			"%s: │ %s │ %s │ %s │\n",
+			"│ %s: │ %s │ %s │ %s │\n",
 			address,
 			bytes,
 			bytecode,
@@ -76,9 +77,10 @@ func (c *assemblerClass_) FormatInstructions(
 		)
 		result.WriteString(line)
 	}
-	result.WriteString(
-		`└─────────┴───────┴─────────────┴───────────────────────────────────────┘`,
-	)
+	var footer = `
+└─────────┴───────┴─────────────┴───────────────────────────────────────┘
+`
+result.WriteString(footer[1:])
 	return result.String()
 }
 
