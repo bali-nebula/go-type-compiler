@@ -11,8 +11,8 @@
 */
 
 /*
-Package "assembler" provides an implementation of an assembler that can be used
-to assemble compiled methods into bytecode for the Bali Virtual Machine™.
+Package "compiler" provides an implementation of a compiler that can be used
+to compile the methods defined in a type document.
 
 For detailed documentation on this package refer to the wiki:
   - https://github.com/bali-nebula/go-type-compiler/wiki
@@ -26,11 +26,13 @@ be developed and used seamlessly since the interface declarations only depend on
 other interfaces and intrinsic types—and the class implementations only depend
 on interfaces, not on each other.
 */
-package assembler
+package compiler
 
 import (
+	doc "github.com/bali-nebula/go-bali-documents/v3"
 	ins "github.com/bali-nebula/go-bali-instructions/v3"
 	com "github.com/craterdog/go-essential-composites/v8"
+	pri "github.com/craterdog/go-essential-primitives/v8"
 )
 
 // TYPE DECLARATIONS
@@ -47,9 +49,7 @@ concrete analyzer-like class.
 type AnalyzerClassLike interface {
 	// Constructor Methods
 	Analyzer(
-		literals com.Accessible[string],
-		constants com.Accessible[string],
-		method ins.MethodLike,
+		document doc.DocumentLike,
 	) AnalyzerLike
 }
 

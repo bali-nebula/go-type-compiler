@@ -1,6 +1,6 @@
 /*
 ................................................................................
-.    Copyright (c) 2009-2026 Crater Dog Technologies™.  All Rights Reserved.   .
+.    Copyright (c) 2009-2026 Crater Dog Technologies.  All Rights Reserved.    .
 ................................................................................
 .  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.               .
 .                                                                              .
@@ -11,8 +11,8 @@
 */
 
 /*
-Package "assembler" provides an implementation of an assembler that can be used
-to assemble compiled methods into bytecode for the Bali Virtual Machine™.
+Package "compiler" provides an implementation of a compiler that can be used to
+compile types defined using Bali Document Notation™.
 
 For detailed documentation on this package refer to the wiki:
   - https://github.com/bali-nebula/go-type-compiler/wiki
@@ -26,11 +26,10 @@ be developed and used seamlessly since the interface declarations only depend on
 other interfaces and intrinsic types—and the class implementations only depend
 on interfaces, not on each other.
 */
-package assembler
+package compiler
 
 import (
-	ins "github.com/bali-nebula/go-bali-instructions/v3"
-	com "github.com/craterdog/go-essential-composites/v8"
+	not "github.com/bali-nebula/go-document-notation/v3"
 )
 
 // TYPE DECLARATIONS
@@ -40,86 +39,75 @@ import (
 // CLASS DECLARATIONS
 
 /*
-AnalyzerClassLike is a class interface that declares the complete set of
+ContextClassLike is a class interface that declares the complete set of
 class constructors, constants and functions that must be supported by each
-concrete analyzer-like class.
+concrete context-like class.
 */
-type AnalyzerClassLike interface {
+type ContextClassLike interface {
 	// Constructor Methods
-	Analyzer(
-		literals com.Accessible[string],
-		constants com.Accessible[string],
-		method ins.MethodLike,
-	) AnalyzerLike
+	Context(
+		labelPrefix string,
+		statementCount uint,
+		currentStatement not.StatementLike,
+	) ContextLike
 }
 
 /*
-AssemblerClassLike is a class interface that declares the complete set of
+TypeCompilerClassLike is a class interface that declares the complete set of
 class constructors, constants and functions that must be supported by each
-concrete assembler-like class.
+concrete type-compiler-like class.
 */
-type AssemblerClassLike interface {
+type TypeCompilerClassLike interface {
 	// Constructor Methods
-	Assembler() AssemblerLike
-
-	// Function Methods
-	FormatInstructions(
-		instructions com.Sequential[uint16],
-	) string
+	TypeCompiler() TypeCompilerLike
 }
 
 // INSTANCE DECLARATIONS
 
 /*
-AnalyzerLike is an instance interface that declares the complete set of
+ContextLike is an instance interface that declares the complete set of
 principal, attribute and aspect methods that must be supported by each instance
-of a concrete analyzer-like class.
+of a concrete type-compiler-like class.
 */
-type AnalyzerLike interface {
+type ContextLike interface {
 	// Principal Methods
-	GetClass() AnalyzerClassLike
-	LookupLiteral(
-		literal string,
-	) uint16
-	LookupConstant(
-		constant string,
-	) uint16
-	LookupArgument(
-		argument string,
-	) uint16
-	LookupVariable(
-		variable string,
-	) uint16
-	LookupIntrinsic(
-		intrinsic string,
-	) uint16
-	LookupMessage(
-		message string,
-	) uint16
-	LookupAddress(
+	GetClass() ContextClassLike
+	SetLabel(
+		name string,
 		label string,
-	) uint16
+	)
+	GetLabel(
+		name string,
+	) string
+	IncrementStatementNumber()
+	IncrementBlockNumber()
 
-	// Aspect Interfaces
-	ins.Methodical
+	// Attribute Methods
+	GetLabelPrefix() string
+	GetCurrentStatement() not.StatementLike
+	SetCurrentStatement(
+		statement not.StatementLike,
+	)
+	GetStatementNumber() uint
+	GetStatementCount() uint
+	GetBlockNumber() uint
+	GetBlockCount() uint
 }
 
 /*
-AssemblerLike is an instance interface that declares the complete set of
+TypeCompilerLike is an instance interface that declares the complete set of
 principal, attribute and aspect methods that must be supported by each instance
-of a concrete assembler-like class.
+of a concrete type-compiler-like class.
 */
-type AssemblerLike interface {
+type TypeCompilerLike interface {
 	// Principal Methods
-	GetClass() AssemblerClassLike
-	AssembleMethod(
-		literals com.Accessible[string],
-		constants com.Accessible[string],
-		method ins.MethodLike,
-	) com.Sequential[uint16]
+	GetClass() TypeCompilerClassLike
+	CompileType(
+		type_ not.DocumentLike,
+	)
 
 	// Aspect Interfaces
-	ins.Methodical
+	not.Methodical
 }
 
 // ASPECT DECLARATIONS
