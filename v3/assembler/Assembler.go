@@ -80,7 +80,7 @@ func (c *assemblerClass_) FormatInstructions(
 	var footer = `
 └─────────┴───────┴─────────────┴───────────────────────────────────────┘
 `
-result.WriteString(footer[1:])
+	result.WriteString(footer[1:])
 	return result.String()
 }
 

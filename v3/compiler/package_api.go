@@ -32,7 +32,6 @@ import (
 	doc "github.com/bali-nebula/go-bali-documents/v3"
 	ins "github.com/bali-nebula/go-bali-instructions/v3"
 	com "github.com/craterdog/go-essential-composites/v8"
-	pri "github.com/craterdog/go-essential-primitives/v8"
 )
 
 // TYPE DECLARATIONS
