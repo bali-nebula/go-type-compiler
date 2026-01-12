@@ -3,7 +3,7 @@ module github.com/bali-nebula/go-type-compiler/v3
 go 1.25
 
 require (
-	github.com/bali-nebula/go-bali-documents/v3 v3.64.0
+	github.com/bali-nebula/go-bali-documents/v3 v3.65.0
 	github.com/bali-nebula/go-bali-instructions/v3 v3.2.0
 	github.com/craterdog/go-essential-composites/v8 v8.5.0
 	github.com/craterdog/go-essential-primitives/v8 v8.7.0
@@ -13,7 +13,7 @@ require (
 
 require (
 	github.com/bali-nebula/go-assembly-language/v3 v3.34.0 // indirect
-	github.com/bali-nebula/go-document-notation/v3 v3.62.0 // indirect
+	github.com/bali-nebula/go-document-notation/v3 v3.63.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
